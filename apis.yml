@@ -1,0 +1,159 @@
+name: Ariba APIs
+description: SAP Ariba provides cloud-based procurement and supply chain collaboration solutions. These APIs enable integration with Ariba's procurement, sourcing, contract management, and supplier management capabilities.
+image: https://www.ariba.com/ariba-logo.png
+url: https://developer.ariba.com
+created: '2024'
+modified: '2024'
+specificationVersion: '0.18'
+apis:
+- name: Ariba Network API
+  description: Enables suppliers and buyers to exchange business documents and collaborate on the Ariba Network
+  image: https://www.ariba.com/ariba-network-logo.png
+  humanURL: https://developer.ariba.com/api/network
+  baseURL: https://api.ariba.com/v2/network
+  tags:
+  - Procurement
+  - Supply Chain
+  - B2B
+  - EDI
+  - Invoicing
+  properties:
+  - type: Documentation
+    url: https://developer.ariba.com/api/network/docs
+  - type: OpenAPI
+    url: https://developer.ariba.com/api/network/openapi.json
+  - type: Authentication
+    url: https://developer.ariba.com/api/network/authentication
+  - type: Sandbox
+    url: https://sandbox.api.ariba.com/v2/network
+- name: Ariba Procurement API
+  description: Access procurement data including requisitions, purchase orders, receipts, and payment information
+  image: https://www.ariba.com/ariba-procurement-logo.png
+  humanURL: https://developer.ariba.com/api/procurement
+  baseURL: https://api.ariba.com/v2/procurement
+  tags:
+  - Procurement
+  - Purchase Orders
+  - Requisitions
+  - Spend Management
+  properties:
+  - type: Documentation
+    url: https://developer.ariba.com/api/procurement/docs
+  - type: OpenAPI
+    url: https://developer.ariba.com/api/procurement/openapi.json
+  - type: Authentication
+    url: https://developer.ariba.com/api/procurement/authentication
+  - type: Sandbox
+    url: https://sandbox.api.ariba.com/v2/procurement
+- name: Ariba Sourcing API
+  description: Manage sourcing projects, events, bids, and supplier responses for strategic sourcing activities
+  image: https://www.ariba.com/ariba-sourcing-logo.png
+  humanURL: https://developer.ariba.com/api/sourcing
+  baseURL: https://api.ariba.com/v2/sourcing
+  tags:
+  - Sourcing
+  - RFx
+  - Auctions
+  - Supplier Management
+  properties:
+  - type: Documentation
+    url: https://developer.ariba.com/api/sourcing/docs
+  - type: OpenAPI
+    url: https://developer.ariba.com/api/sourcing/openapi.json
+  - type: Authentication
+    url: https://developer.ariba.com/api/sourcing/authentication
+  - type: Sandbox
+    url: https://sandbox.api.ariba.com/v2/sourcing
+- name: Ariba Contracts API
+  description: Create, manage, and track contracts and contract workspaces throughout the contract lifecycle
+  image: https://www.ariba.com/ariba-contracts-logo.png
+  humanURL: https://developer.ariba.com/api/contracts
+  baseURL: https://api.ariba.com/v2/contracts
+  tags:
+  - Contracts
+  - Contract Management
+  - CLM
+  - Compliance
+  properties:
+  - type: Documentation
+    url: https://developer.ariba.com/api/contracts/docs
+  - type: OpenAPI
+    url: https://developer.ariba.com/api/contracts/openapi.json
+  - type: Authentication
+    url: https://developer.ariba.com/api/contracts/authentication
+  - type: Sandbox
+    url: https://sandbox.api.ariba.com/v2/contracts
+- name: Ariba Supplier API
+  description: Access and manage supplier information, qualifications, performance data, and risk assessments
+  image: https://www.ariba.com/ariba-supplier-logo.png
+  humanURL: https://developer.ariba.com/api/supplier
+  baseURL: https://api.ariba.com/v2/supplier
+  tags:
+  - Supplier Management
+  - Supplier Information
+  - Risk Management
+  - Performance
+  properties:
+  - type: Documentation
+    url: https://developer.ariba.com/api/supplier/docs
+  - type: OpenAPI
+    url: https://developer.ariba.com/api/supplier/openapi.json
+  - type: Authentication
+    url: https://developer.ariba.com/api/supplier/authentication
+  - type: Sandbox
+    url: https://sandbox.api.ariba.com/v2/supplier
+- name: Ariba Analytics API
+  description: Extract and analyze spend data, procurement metrics, and business intelligence from Ariba solutions
+  image: https://www.ariba.com/ariba-analytics-logo.png
+  humanURL: https://developer.ariba.com/api/analytics
+  baseURL: https://api.ariba.com/v2/analytics
+  tags:
+  - Analytics
+  - Reporting
+  - Spend Analysis
+  - Business Intelligence
+  properties:
+  - type: Documentation
+    url: https://developer.ariba.com/api/analytics/docs
+  - type: OpenAPI
+    url: https://developer.ariba.com/api/analytics/openapi.json
+  - type: Authentication
+    url: https://developer.ariba.com/api/analytics/authentication
+  - type: Sandbox
+    url: https://sandbox.api.ariba.com/v2/analytics
+common:
+- type: Getting Started
+  url: https://developer.ariba.com/getting-started
+- type: Authentication
+  url: https://developer.ariba.com/authentication
+- type: API Console
+  url: https://developer.ariba.com/console
+- type: SDKs
+  url: https://developer.ariba.com/sdks
+- type: Support
+  url: https://developer.ariba.com/support
+- type: Status
+  url: https://status.ariba.com
+- type: Terms of Service
+  url: https://www.ariba.com/terms
+- type: Privacy Policy
+  url: https://www.ariba.com/privacy
+- type: Rate Limits
+  url: https://developer.ariba.com/rate-limits
+- type: Webhooks
+  url: https://developer.ariba.com/webhooks
+- type: Change Log
+  url: https://developer.ariba.com/changelog
+maintainers:
+- FN: SAP Ariba Developer Relations
+  email: developer@ariba.com
+  url: https://developer.ariba.com
+tags:
+- Procurement
+- Supply Chain
+- B2B
+- Enterprise
+- SAP
+- Sourcing
+- Contracts
+- Suppliers
