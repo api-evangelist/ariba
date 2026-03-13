@@ -3,7 +3,7 @@ description: SAP Ariba provides cloud-based procurement and supply chain collabo
 image: https://www.ariba.com/ariba-logo.png
 url: https://developer.ariba.com
 created: '2024'
-modified: '2024'
+modified: '2026-03-03'
 specificationVersion: '0.18'
 apis:
 - name: Ariba Network API
@@ -121,6 +121,783 @@ apis:
     url: https://developer.ariba.com/api/analytics/authentication
   - type: Sandbox
     url: https://sandbox.api.ariba.com/v2/analytics
+- name: Operational Reporting API for Procurement
+  description: Provides synchronous and asynchronous access to operational procurement data including requisitions, purchase orders, receipts, and invoices for reporting and analytics purposes.
+  humanURL: https://help.sap.com/docs/ariba-apis/operational-reporting-api-for-procurement/operational-reporting-api-for-procurement
+  tags:
+  - Reporting
+  - Procurement
+  - Operational Data
+  - Requisitions
+  - Purchase Orders
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis/operational-reporting-api-for-procurement/operational-reporting-api-for-procurement
+- name: Operational Reporting API for Strategic Sourcing
+  description: Enables extraction of operational sourcing data including sourcing projects, events, bids, and awards for reporting and business intelligence.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Reporting
+  - Strategic Sourcing
+  - Operational Data
+  - Events
+  - Bids
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Analytical Reporting API for Strategic and Operational Procurement
+  description: Enables client applications to extract reportable data from reporting facts and dimensions for strategic procurement and operational procurement analytics.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Analytics
+  - Reporting
+  - Strategic Procurement
+  - Operational Procurement
+  - Business Intelligence
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Supplier Data API with Pagination
+  description: Retrieves supplier data from SAP Ariba Supplier Lifecycle and Performance including supplier names, addresses, registration, qualification, preferred statuses, and questionnaire details with pagination support.
+  humanURL: https://help.sap.com/docs/ariba-apis/supplier-data-api-with-pagination/about-supplier-data-api-with-pagination
+  tags:
+  - Suppliers
+  - Supplier Data
+  - Pagination
+  - Supplier Lifecycle
+  - Performance
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis/supplier-data-api-with-pagination/about-supplier-data-api-with-pagination
+- name: Supplier Data API
+  description: Provides access to supplier data from SAP Ariba Supplier Lifecycle and Performance or SAP Ariba Supplier Information and Performance Management solutions.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Suppliers
+  - Supplier Data
+  - Supplier Lifecycle
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Supplier Data Extraction API
+  description: Extracts supplier information and data for integration with external systems and reporting tools.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Suppliers
+  - Data Extraction
+  - Integration
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Supplier Information API
+  description: Provides access to detailed supplier information including company profiles, certifications, and classifications.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Suppliers
+  - Supplier Information
+  - Profiles
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Supplier Invite API
+  description: Enables programmatic invitation of suppliers to register and participate on the SAP Ariba platform.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Suppliers
+  - Invitations
+  - Onboarding
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Ariba Network Supplier Profile API
+  description: Manages supplier profile information on the Ariba Network including company details, capabilities, and certifications.
+  humanURL: https://api.sap.com/api/supplier_management/overview
+  tags:
+  - Suppliers
+  - Profiles
+  - Ariba Network
+  - Certifications
+  properties:
+  - type: Documentation
+    url: https://api.sap.com/api/supplier_management/overview
+- name: Contract Workspace Management APIs
+  description: Enables creation and modification of procurement contract workspaces and their header information, as well as creation and retrieval of contract terms and contract requests.
+  humanURL: https://help.sap.com/docs/ariba-apis/contract-workspace-management-apis/contract-workspace-management-apis
+  tags:
+  - Contracts
+  - Contract Workspaces
+  - Contract Terms
+  - Contract Requests
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis/contract-workspace-management-apis/contract-workspace-management-apis
+- name: Contract Workspace Retrieval API
+  description: Retrieves contract workspace data and metadata for reporting and integration purposes.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Contracts
+  - Contract Workspaces
+  - Data Retrieval
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Contract Terms Management API
+  description: Manages contract terms including creation, modification, and retrieval of contract term details within contract workspaces.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Contracts
+  - Contract Terms
+  - Management
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Contract Compliance API
+  description: Provides access to contract compliance data to monitor and ensure adherence to contract terms and conditions.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Contracts
+  - Compliance
+  - Monitoring
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Document Approval API
+  description: Retrieves information about invoice and requisition changes and pending approvables in SAP Ariba for workflow automation.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Approvals
+  - Invoices
+  - Requisitions
+  - Workflow
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Ariba Network Purchase Orders API
+  description: Manages purchase order documents on the Ariba Network for buyers and suppliers including creation, retrieval, and status tracking.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Purchase Orders
+  - Ariba Network
+  - Buyers
+  - Suppliers
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Purchase Orders Supplier API
+  description: Enables suppliers to manage and respond to purchase orders received through the Ariba Network.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Purchase Orders
+  - Suppliers
+  - Order Management
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Order Change Requests API for Buyers
+  description: Allows buyers to create and manage purchase order change requests on the Ariba Network.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Purchase Orders
+  - Change Requests
+  - Buyers
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Order Change Requests API for Suppliers
+  description: Allows suppliers to create and manage purchase order change requests on the Ariba Network.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Purchase Orders
+  - Change Requests
+  - Suppliers
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Ariba Network Invoice Header Data Extraction API
+  description: Extracts invoice header data from the Ariba Network for reporting, reconciliation, and integration with financial systems.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Invoices
+  - Data Extraction
+  - Ariba Network
+  - Finance
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Ship Notice API for Buyers
+  description: Enables buyers to retrieve and manage advance ship notices (ASNs) received from suppliers on the Ariba Network.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Ship Notices
+  - ASN
+  - Buyers
+  - Logistics
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Ship Notice API for Suppliers
+  description: Enables suppliers to create and manage advance ship notices (ASNs) for orders on the Ariba Network.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Ship Notices
+  - ASN
+  - Suppliers
+  - Logistics
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Sourcing Project Management API
+  description: Manages sourcing projects including creation, configuration, and lifecycle management of sourcing events.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Sourcing
+  - Project Management
+  - Events
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Surrogate Bid API
+  description: Enables submission of surrogate bids on behalf of suppliers in sourcing events.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Sourcing
+  - Bidding
+  - Suppliers
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Discovery RFx Publication TO External Marketplace API
+  description: Publishes RFx events from SAP Ariba to external marketplaces for broader supplier participation.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Discovery
+  - RFx
+  - Marketplace
+  - Supplier Participation
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Discovery RFx Publication FROM External Marketplace API
+  description: Publishes RFx events from an external marketplace into SAP Ariba Discovery for sourcing activities.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Discovery
+  - RFx
+  - Marketplace
+  - Sourcing
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: External Approval API for Sourcing and Supplier Management
+  description: Integrates external approval workflows with SAP Ariba sourcing and supplier management processes.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Approvals
+  - Sourcing
+  - Supplier Management
+  - Workflow
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Flow Extension API
+  description: Enriches processes and documents including purchase orders, invoices, ASNs, order confirmations, and receipts in Ariba Network with external data.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Integration
+  - Extensions
+  - Ariba Network
+  - Workflow
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: SAP Ariba Catalog Content API
+  description: Manages catalog content including creation, updates, and maintenance of product and service catalogs.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Catalogs
+  - Content Management
+  - Products
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Catalog Connectivity Service API
+  description: Enables connectivity to external catalog systems for punchout and roundtrip catalog integration.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Catalogs
+  - Punchout
+  - Integration
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Internal Catalogs Shop API
+  description: Provides access to internal catalog shopping functionality for procurement users to browse and select items.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Catalogs
+  - Shopping
+  - Procurement
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Public Catalogs Shop API
+  description: Provides access to public catalog shopping functionality for browsing and selecting items from public supplier catalogs.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Catalogs
+  - Shopping
+  - Public Catalogs
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Network Catalog Management API
+  description: Manages catalogs on the Ariba Network including catalog subscriptions, publishing, and lifecycle management.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Catalogs
+  - Ariba Network
+  - Catalog Management
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Content Lookup API
+  description: Looks up content data and references within SAP Ariba for integration and validation purposes.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Content
+  - Lookup
+  - Integration
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Create Procurement Workspace API
+  description: Enables programmatic creation of procurement workspaces for managing procurement projects and activities.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Procurement
+  - Workspaces
+  - Project Management
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Dynamic Lookup Table API
+  description: Manages dynamic lookup tables used for validation, mapping, and custom data references in procurement workflows.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Lookup Tables
+  - Configuration
+  - Data Management
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Risk Exposure API
+  description: Provides access to supplier risk exposure data including risk scores, assessments, and risk indicators.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Risk Management
+  - Suppliers
+  - Risk Exposure
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Risk Category Information API for Supplier Risk Exposure
+  description: Retrieves risk category information used to classify and assess supplier risk exposure levels.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Risk Management
+  - Risk Categories
+  - Suppliers
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Supplier Risk Engagements API
+  description: Manages supplier risk engagement processes including risk assessments and mitigation activities.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Risk Management
+  - Suppliers
+  - Engagements
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Engagement Risk Assessment External Response Import API
+  description: Imports external risk assessment responses into SAP Ariba for supplier risk engagement evaluations.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Risk Management
+  - Assessments
+  - External Data
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Finding and Event Collaboration Integration API for Supplier Risk
+  description: Integrates finding and event collaboration data for supplier risk management across systems.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Risk Management
+  - Collaboration
+  - Suppliers
+  - Events
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Pricing API for Product Sourcing Price Information
+  description: Extracts pricing data for product sourcing including price benchmarks and market pricing information.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Pricing
+  - Sourcing
+  - Products
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Audit Search API
+  description: Provides audit trail search capabilities for tracking changes and actions across SAP Ariba processes.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Audit
+  - Compliance
+  - Tracking
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Master Data Retrieval API for Procurement
+  description: Retrieves master data used in operational procurement processes including commodity codes, units of measure, and accounting information.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Master Data
+  - Procurement
+  - Data Retrieval
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Master Data Retrieval API for Sourcing
+  description: Retrieves master data used in strategic sourcing processes including commodity codes, regions, and organizational structures.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Master Data
+  - Sourcing
+  - Data Retrieval
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Master Data Integration Job Status API for Operational Procurement
+  description: Monitors the status of master data integration jobs for operational procurement data synchronization.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Master Data
+  - Integration
+  - Job Status
+  - Procurement
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Proof of Service API for Buyers
+  description: Enables buyers to manage proof of service documents for service-based procurement and receipt confirmations.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Proof of Service
+  - Buyers
+  - Services
+  - Receipts
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Proof of Service API for Suppliers
+  description: Enables suppliers to submit and manage proof of service documents for service delivery confirmation.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Proof of Service
+  - Suppliers
+  - Services
+  - Delivery
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Asset Management API
+  description: Manages asset-related data within SAP Ariba for tracking and maintaining procurement-related assets.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Assets
+  - Management
+  - Procurement
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Bill of Materials Import API
+  description: Imports bill of materials data into SAP Ariba for use in sourcing projects and procurement activities.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Bill of Materials
+  - Import
+  - Sourcing
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Materials and BOM Tag Management API
+  description: Manages material classifications and bill of materials tags for organizing and categorizing procurement items.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Materials
+  - Bill of Materials
+  - Tags
+  - Classification
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Item Volume Import API
+  description: Imports item volume data into SAP Ariba for sourcing analysis and demand aggregation.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Items
+  - Volume
+  - Import
+  - Sourcing
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Product Hierarchy Management API
+  description: Manages product category hierarchies used for organizing and classifying procurement items and spend categories.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Products
+  - Hierarchy
+  - Categories
+  - Classification
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: User Qualification API
+  description: Manages user qualifications and permissions within SAP Ariba for access control and role management.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Users
+  - Qualifications
+  - Access Control
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: SAP Ariba Custom Forms API
+  description: Enables creation and management of custom forms for extending procurement and sourcing processes with additional data capture.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Custom Forms
+  - Extensions
+  - Procurement
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: SAP Ariba SCIM API
+  description: Implements the System for Cross-domain Identity Management standard for user provisioning and identity management in SAP Ariba.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Identity Management
+  - SCIM
+  - User Provisioning
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Event Management API
+  description: Manages events and event-driven processes within SAP Ariba for tracking procurement and sourcing activities.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Events
+  - Management
+  - Tracking
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Integration Event Monitoring Query API for Procurement
+  description: Queries integration event data for monitoring and troubleshooting procurement integration processes.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Integration
+  - Monitoring
+  - Events
+  - Procurement
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Integration Monitoring API for Procurement
+  description: Monitors integration processes and data flows for procurement operations between SAP Ariba and connected systems.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Integration
+  - Monitoring
+  - Procurement
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Integration Monitoring API for Strategic Sourcing
+  description: Monitors integration processes and data flows for strategic sourcing operations between SAP Ariba and connected systems.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Integration
+  - Monitoring
+  - Strategic Sourcing
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Transaction Monitoring API
+  description: Monitors transaction processing status and details across SAP Ariba procurement and sourcing workflows.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Transactions
+  - Monitoring
+  - Workflow
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Asynchronous Requests Management API
+  description: Manages asynchronous API request jobs including submission, status tracking, and result retrieval for long-running operations.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Asynchronous
+  - Job Management
+  - Integration
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Configuration Parameter Review API
+  description: Reviews and retrieves configuration parameters for SAP Ariba solutions to support administration and integration.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Configuration
+  - Administration
+  - Parameters
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Data Replication Status for Multi-ERP Configurations
+  description: Monitors data replication status across multi-ERP configurations connected to SAP Ariba.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Data Replication
+  - Multi-ERP
+  - Integration
+  - Monitoring
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Trading Partner Profile Certification API
+  description: Manages trading partner profile certifications on the Ariba Network for partner validation and compliance.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Trading Partners
+  - Certification
+  - Ariba Network
+  - Compliance
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Cost Breakdown Data Extraction API
+  description: Extracts cost breakdown and cost analysis data from sourcing events and projects for spend visibility.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Cost Analysis
+  - Data Extraction
+  - Sourcing
+  - Spend
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: NDA Data Export API
+  description: Exports non-disclosure agreement data from SAP Ariba for compliance tracking and legal management.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - NDA
+  - Data Export
+  - Compliance
+  - Legal
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Public Procurement Notices Export API
+  description: Exports public procurement notices for publishing tender opportunities to external portals and regulatory systems.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Public Procurement
+  - Notices
+  - Tenders
+  - Export
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Guided Buying Functional Documents API
+  description: Manages functional documents within the SAP Ariba Guided Buying experience for streamlined procurement.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Guided Buying
+  - Documents
+  - Procurement
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Planning Collaboration Buyer API
+  description: Enables buyers to manage planning collaboration processes including demand forecasts and supply plans with trading partners.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Planning
+  - Collaboration
+  - Buyers
+  - Supply Chain
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Planning Collaboration Supplier API
+  description: Enables suppliers to participate in planning collaboration processes including responding to demand forecasts and sharing supply commitments.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Planning
+  - Collaboration
+  - Suppliers
+  - Supply Chain
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: Project Document Management API
+  description: Manages project documents within SAP Ariba sourcing and procurement projects including upload, retrieval, and version control.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - Documents
+  - Project Management
+  - Version Control
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: ETendering Notice Management API
+  description: Manages electronic tendering notices for public sector and regulated procurement processes.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - eTendering
+  - Notices
+  - Public Sector
+  - Procurement
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: SAP Build Work Zone CDM Content API for Sourcing
+  description: Provides content delivery and management for SAP Build Work Zone integration with SAP Ariba sourcing capabilities.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - SAP Build Work Zone
+  - Content
+  - Sourcing
+  - Integration
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+- name: SAP Build Work Zone CDM Content API for Procurement
+  description: Provides content delivery and management for SAP Build Work Zone integration with SAP Ariba procurement capabilities.
+  humanURL: https://help.sap.com/docs/ariba-apis
+  tags:
+  - SAP Build Work Zone
+  - Content
+  - Procurement
+  - Integration
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
 common:
 - type: Getting Started
   url: https://developer.ariba.com/getting-started
@@ -144,10 +921,38 @@ common:
   url: https://developer.ariba.com/webhooks
 - type: Change Log
   url: https://developer.ariba.com/changelog
+- type: SAP Business Accelerator Hub
+  url: https://api.sap.com/products/SAPAriba
+- type: SAP Ariba Open APIs Package
+  url: https://api.sap.com/package/SAPAribaOpenAPIs/overview
+- type: SAP Ariba REST APIs
+  url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+- type: SAP Ariba API Documentation
+  url: https://api.sap.com/package/SAPAribaOpenAPIs/documents
+- type: SAP Help Portal - API Reference
+  url: https://help.sap.com/docs/ariba-apis
+- type: Developer Portal Help
+  url: https://help.sap.com/docs/ariba-apis/help-for-sap-ariba-developer-portal/help-for-sap-ariba-developer-portal
+- type: Quick Start Guide
+  url: https://help.sap.com/docs/ariba-apis/help-for-sap-ariba-developer-portal/sap-ariba-developer-portal-quick-start-guide-for-developers
+- type: SAP Ariba Web Services (SOAP)
+  url: https://api.sap.com/package/SAPAribaWebServices
+- type: SAP Community
+  url: https://community.sap.com/t5/c-khhcw49343/SAP+Ariba+Procurement/pd-p/73554900100700001921
+- type: GitHub Samples
+  url: https://github.com/SAP-samples/ariba-extensibility-samples
+- type: Blog
+  url: https://community.sap.com/t5/spend-management-blog-posts-by-sap/sap-ariba-api-faq-and-best-practice-on-developer-portal-and-gateway/ba-p/13512565
+- type: Central Invoice Management
+  url: https://api.sap.com/package/CentralInvoiceManagement
+- type: Contracts Integration
+  url: https://api.sap.com/package/SAPAribaContractsIntegration
+- type: Procurement Planning
+  url: https://api.sap.com/package/ProcurementPlanning/overview
 maintainers:
-- FN: SAP Ariba Developer Relations
-  email: developer@ariba.com
-  url: https://developer.ariba.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+  url: https://apievangelist.com
 tags:
 - Procurement
 - Supply Chain
@@ -157,3 +962,10 @@ tags:
 - Sourcing
 - Contracts
 - Suppliers
+- Invoicing
+- Catalog Management
+- Risk Management
+- Spend Analysis
+- Supplier Lifecycle
+- Integration
+- Compliance
