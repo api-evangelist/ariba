@@ -3,7 +3,7 @@ description: SAP Ariba provides cloud-based procurement and supply chain collabo
 image: https://www.ariba.com/ariba-logo.png
 url: https://developer.ariba.com
 created: '2024'
-modified: '2026-03-03'
+modified: '2026-04-18'
 specificationVersion: '0.18'
 apis:
   - name: Ariba Network API
@@ -908,27 +908,27 @@ apis:
       - type: Documentation
         url: https://help.sap.com/docs/ariba-apis
 common:
-  - type: Getting Started
+  - type: GettingStarted
     url: https://developer.ariba.com/getting-started
   - type: Authentication
     url: https://developer.ariba.com/authentication
-  - type: API Console
+  - type: Console
     url: https://developer.ariba.com/console
-  - type: SDKs
+  - type: SDK
     url: https://developer.ariba.com/sdks
   - type: Support
     url: https://developer.ariba.com/support
-  - type: Status
+  - type: StatusPage
     url: https://status.ariba.com
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://www.ariba.com/terms
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://www.ariba.com/privacy
-  - type: Rate Limits
+  - type: RateLimits
     url: https://developer.ariba.com/rate-limits
   - type: Webhooks
     url: https://developer.ariba.com/webhooks
-  - type: Change Log
+  - type: ChangeLog
     url: https://developer.ariba.com/changelog
   - type: SAP Business Accelerator Hub
     url: https://api.sap.com/products/SAPAriba
@@ -942,13 +942,13 @@ common:
     url: https://help.sap.com/docs/ariba-apis
   - type: Developer Portal Help
     url: https://help.sap.com/docs/ariba-apis/help-for-sap-ariba-developer-portal/help-for-sap-ariba-developer-portal
-  - type: Quick Start Guide
+  - type: Quickstart
     url: https://help.sap.com/docs/ariba-apis/help-for-sap-ariba-developer-portal/sap-ariba-developer-portal-quick-start-guide-for-developers
   - type: SAP Ariba Web Services (SOAP)
     url: https://api.sap.com/package/SAPAribaWebServices
   - type: SAP Community
     url: https://community.sap.com/t5/c-khhcw49343/SAP+Ariba+Procurement/pd-p/73554900100700001921
-  - type: GitHub Samples
+  - type: CodeExamples
     url: https://github.com/SAP-samples/ariba-extensibility-samples
   - type: Blog
     url: https://community.sap.com/t5/spend-management-blog-posts-by-sap/sap-ariba-api-faq-and-best-practice-on-developer-portal-and-gateway/ba-p/13512565
@@ -958,6 +958,34 @@ common:
     url: https://api.sap.com/package/SAPAribaContractsIntegration
   - type: Procurement Planning
     url: https://api.sap.com/package/ProcurementPlanning/overview
+  - type: Features
+    data:
+      - Cloud-based procurement and sourcing
+      - Supplier lifecycle and performance management
+      - Contract workspace and compliance management
+      - Ariba Network B2B document exchange
+      - Spend analytics and business intelligence
+      - Catalog management and punchout
+      - Risk assessment and monitoring
+      - Planning collaboration for supply chain
+  - type: UseCases
+    data:
+      - Procurement workflow automation
+      - Supplier onboarding and qualification
+      - Contract lifecycle management
+      - Spend analysis and visibility
+      - Purchase order and invoice processing
+      - Strategic sourcing and e-tendering
+  - type: Integrations
+    data:
+      - SAP S/4HANA
+      - SAP ERP Central Component
+      - SAP Business Technology Platform
+      - SAP Build Work Zone
+      - SAP Integration Suite
+      - Oracle ERP
+      - Microsoft Dynamics
+      - Coupa
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
