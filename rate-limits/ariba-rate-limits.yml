@@ -1,0 +1,495 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Ariba
+providerId: ariba
+created: '2026-05-04'
+modified: '2026-05-04'
+tags:
+  - B2B
+  - Catalog Management
+  - Compliance
+  - Contracts
+  - Enterprise
+  - Integration
+  - Invoicing
+  - Procurement
+  - Risk Management
+  - SAP
+  - Sourcing
+  - Spend Analysis
+  - Supplier Lifecycle
+  - Suppliers
+  - Supply Chain
+  - Rate Limiting
+  - Quotas
+  - Throttling
+description: Machine-readable rate limit definitions for the Ariba API surface. Captures per-tier quotas,
+  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
+  with published provider limits.
+headers:
+  limit: X-RateLimit-Limit
+  remaining: X-RateLimit-Remaining
+  reset: X-RateLimit-Reset
+  retryAfter: Retry-After
+  policy: RateLimit-Policy
+responseCodes:
+  throttled: 429
+  quotaExceeded: 429
+  serviceUnavailable: 503
+limits:
+  - tier: free
+    name: Free Tier Default
+    scope: api-key
+    metric: requests_per_minute
+    limit: 10
+    burst: 20
+    timeFrame: minute
+    applies:
+      - Ariba Network API
+      - Ariba Procurement API
+      - Ariba Sourcing API
+      - Ariba Contracts API
+      - Ariba Supplier API
+      - Ariba Analytics API
+      - Operational Reporting API for Procurement
+      - Operational Reporting API for Strategic Sourcing
+      - Analytical Reporting API for Strategic and Operational Procurement
+      - Supplier Data API with Pagination
+      - Supplier Data API
+      - Supplier Data Extraction API
+      - Supplier Information API
+      - Supplier Invite API
+      - Ariba Network Supplier Profile API
+      - Contract Workspace Management APIs
+      - Contract Workspace Retrieval API
+      - Contract Terms Management API
+      - Contract Compliance API
+      - Document Approval API
+      - Ariba Network Purchase Orders API
+      - Purchase Orders Supplier API
+      - Order Change Requests API for Buyers
+      - Order Change Requests API for Suppliers
+      - Ariba Network Invoice Header Data Extraction API
+      - Ship Notice API for Buyers
+      - Ship Notice API for Suppliers
+      - Sourcing Project Management API
+      - Surrogate Bid API
+      - Discovery RFx Publication TO External Marketplace API
+      - Discovery RFx Publication FROM External Marketplace API
+      - External Approval API for Sourcing and Supplier Management
+      - Flow Extension API
+      - SAP Ariba Catalog Content API
+      - Catalog Connectivity Service API
+      - Internal Catalogs Shop API
+      - Public Catalogs Shop API
+      - Network Catalog Management API
+      - Content Lookup API
+      - Create Procurement Workspace API
+      - Dynamic Lookup Table API
+      - Risk Exposure API
+      - Risk Category Information API for Supplier Risk Exposure
+      - Supplier Risk Engagements API
+      - Engagement Risk Assessment External Response Import API
+      - Finding and Event Collaboration Integration API for Supplier Risk
+      - Pricing API for Product Sourcing Price Information
+      - Audit Search API
+      - Master Data Retrieval API for Procurement
+      - Master Data Retrieval API for Sourcing
+      - Master Data Integration Job Status API for Operational Procurement
+      - Proof of Service API for Buyers
+      - Proof of Service API for Suppliers
+      - Asset Management API
+      - Bill of Materials Import API
+      - Materials and BOM Tag Management API
+      - Item Volume Import API
+      - Product Hierarchy Management API
+      - User Qualification API
+      - SAP Ariba Custom Forms API
+      - SAP Ariba SCIM API
+      - Event Management API
+      - Integration Event Monitoring Query API for Procurement
+      - Integration Monitoring API for Procurement
+      - Integration Monitoring API for Strategic Sourcing
+      - Transaction Monitoring API
+      - Asynchronous Requests Management API
+      - Configuration Parameter Review API
+      - Data Replication Status for Multi-ERP Configurations
+      - Trading Partner Profile Certification API
+      - Cost Breakdown Data Extraction API
+      - NDA Data Export API
+      - Public Procurement Notices Export API
+      - Guided Buying Functional Documents API
+      - Planning Collaboration Buyer API
+      - Planning Collaboration Supplier API
+      - Project Document Management API
+      - ETendering Notice Management API
+      - SAP Build Work Zone CDM Content API for Sourcing
+      - SAP Build Work Zone CDM Content API for Procurement
+  - tier: free
+    name: Free Tier Monthly Quota
+    scope: api-key
+    metric: requests_per_month
+    limit: 1000
+    timeFrame: month
+    applies:
+      - Ariba Network API
+      - Ariba Procurement API
+      - Ariba Sourcing API
+      - Ariba Contracts API
+      - Ariba Supplier API
+      - Ariba Analytics API
+      - Operational Reporting API for Procurement
+      - Operational Reporting API for Strategic Sourcing
+      - Analytical Reporting API for Strategic and Operational Procurement
+      - Supplier Data API with Pagination
+      - Supplier Data API
+      - Supplier Data Extraction API
+      - Supplier Information API
+      - Supplier Invite API
+      - Ariba Network Supplier Profile API
+      - Contract Workspace Management APIs
+      - Contract Workspace Retrieval API
+      - Contract Terms Management API
+      - Contract Compliance API
+      - Document Approval API
+      - Ariba Network Purchase Orders API
+      - Purchase Orders Supplier API
+      - Order Change Requests API for Buyers
+      - Order Change Requests API for Suppliers
+      - Ariba Network Invoice Header Data Extraction API
+      - Ship Notice API for Buyers
+      - Ship Notice API for Suppliers
+      - Sourcing Project Management API
+      - Surrogate Bid API
+      - Discovery RFx Publication TO External Marketplace API
+      - Discovery RFx Publication FROM External Marketplace API
+      - External Approval API for Sourcing and Supplier Management
+      - Flow Extension API
+      - SAP Ariba Catalog Content API
+      - Catalog Connectivity Service API
+      - Internal Catalogs Shop API
+      - Public Catalogs Shop API
+      - Network Catalog Management API
+      - Content Lookup API
+      - Create Procurement Workspace API
+      - Dynamic Lookup Table API
+      - Risk Exposure API
+      - Risk Category Information API for Supplier Risk Exposure
+      - Supplier Risk Engagements API
+      - Engagement Risk Assessment External Response Import API
+      - Finding and Event Collaboration Integration API for Supplier Risk
+      - Pricing API for Product Sourcing Price Information
+      - Audit Search API
+      - Master Data Retrieval API for Procurement
+      - Master Data Retrieval API for Sourcing
+      - Master Data Integration Job Status API for Operational Procurement
+      - Proof of Service API for Buyers
+      - Proof of Service API for Suppliers
+      - Asset Management API
+      - Bill of Materials Import API
+      - Materials and BOM Tag Management API
+      - Item Volume Import API
+      - Product Hierarchy Management API
+      - User Qualification API
+      - SAP Ariba Custom Forms API
+      - SAP Ariba SCIM API
+      - Event Management API
+      - Integration Event Monitoring Query API for Procurement
+      - Integration Monitoring API for Procurement
+      - Integration Monitoring API for Strategic Sourcing
+      - Transaction Monitoring API
+      - Asynchronous Requests Management API
+      - Configuration Parameter Review API
+      - Data Replication Status for Multi-ERP Configurations
+      - Trading Partner Profile Certification API
+      - Cost Breakdown Data Extraction API
+      - NDA Data Export API
+      - Public Procurement Notices Export API
+      - Guided Buying Functional Documents API
+      - Planning Collaboration Buyer API
+      - Planning Collaboration Supplier API
+      - Project Document Management API
+      - ETendering Notice Management API
+      - SAP Build Work Zone CDM Content API for Sourcing
+      - SAP Build Work Zone CDM Content API for Procurement
+  - tier: professional
+    name: Professional Tier Default
+    scope: api-key
+    metric: requests_per_minute
+    limit: 100
+    burst: 200
+    timeFrame: minute
+    applies:
+      - Ariba Network API
+      - Ariba Procurement API
+      - Ariba Sourcing API
+      - Ariba Contracts API
+      - Ariba Supplier API
+      - Ariba Analytics API
+      - Operational Reporting API for Procurement
+      - Operational Reporting API for Strategic Sourcing
+      - Analytical Reporting API for Strategic and Operational Procurement
+      - Supplier Data API with Pagination
+      - Supplier Data API
+      - Supplier Data Extraction API
+      - Supplier Information API
+      - Supplier Invite API
+      - Ariba Network Supplier Profile API
+      - Contract Workspace Management APIs
+      - Contract Workspace Retrieval API
+      - Contract Terms Management API
+      - Contract Compliance API
+      - Document Approval API
+      - Ariba Network Purchase Orders API
+      - Purchase Orders Supplier API
+      - Order Change Requests API for Buyers
+      - Order Change Requests API for Suppliers
+      - Ariba Network Invoice Header Data Extraction API
+      - Ship Notice API for Buyers
+      - Ship Notice API for Suppliers
+      - Sourcing Project Management API
+      - Surrogate Bid API
+      - Discovery RFx Publication TO External Marketplace API
+      - Discovery RFx Publication FROM External Marketplace API
+      - External Approval API for Sourcing and Supplier Management
+      - Flow Extension API
+      - SAP Ariba Catalog Content API
+      - Catalog Connectivity Service API
+      - Internal Catalogs Shop API
+      - Public Catalogs Shop API
+      - Network Catalog Management API
+      - Content Lookup API
+      - Create Procurement Workspace API
+      - Dynamic Lookup Table API
+      - Risk Exposure API
+      - Risk Category Information API for Supplier Risk Exposure
+      - Supplier Risk Engagements API
+      - Engagement Risk Assessment External Response Import API
+      - Finding and Event Collaboration Integration API for Supplier Risk
+      - Pricing API for Product Sourcing Price Information
+      - Audit Search API
+      - Master Data Retrieval API for Procurement
+      - Master Data Retrieval API for Sourcing
+      - Master Data Integration Job Status API for Operational Procurement
+      - Proof of Service API for Buyers
+      - Proof of Service API for Suppliers
+      - Asset Management API
+      - Bill of Materials Import API
+      - Materials and BOM Tag Management API
+      - Item Volume Import API
+      - Product Hierarchy Management API
+      - User Qualification API
+      - SAP Ariba Custom Forms API
+      - SAP Ariba SCIM API
+      - Event Management API
+      - Integration Event Monitoring Query API for Procurement
+      - Integration Monitoring API for Procurement
+      - Integration Monitoring API for Strategic Sourcing
+      - Transaction Monitoring API
+      - Asynchronous Requests Management API
+      - Configuration Parameter Review API
+      - Data Replication Status for Multi-ERP Configurations
+      - Trading Partner Profile Certification API
+      - Cost Breakdown Data Extraction API
+      - NDA Data Export API
+      - Public Procurement Notices Export API
+      - Guided Buying Functional Documents API
+      - Planning Collaboration Buyer API
+      - Planning Collaboration Supplier API
+      - Project Document Management API
+      - ETendering Notice Management API
+      - SAP Build Work Zone CDM Content API for Sourcing
+      - SAP Build Work Zone CDM Content API for Procurement
+  - tier: professional
+    name: Professional Tier Monthly Quota
+    scope: api-key
+    metric: requests_per_month
+    limit: 100000
+    timeFrame: month
+    applies:
+      - Ariba Network API
+      - Ariba Procurement API
+      - Ariba Sourcing API
+      - Ariba Contracts API
+      - Ariba Supplier API
+      - Ariba Analytics API
+      - Operational Reporting API for Procurement
+      - Operational Reporting API for Strategic Sourcing
+      - Analytical Reporting API for Strategic and Operational Procurement
+      - Supplier Data API with Pagination
+      - Supplier Data API
+      - Supplier Data Extraction API
+      - Supplier Information API
+      - Supplier Invite API
+      - Ariba Network Supplier Profile API
+      - Contract Workspace Management APIs
+      - Contract Workspace Retrieval API
+      - Contract Terms Management API
+      - Contract Compliance API
+      - Document Approval API
+      - Ariba Network Purchase Orders API
+      - Purchase Orders Supplier API
+      - Order Change Requests API for Buyers
+      - Order Change Requests API for Suppliers
+      - Ariba Network Invoice Header Data Extraction API
+      - Ship Notice API for Buyers
+      - Ship Notice API for Suppliers
+      - Sourcing Project Management API
+      - Surrogate Bid API
+      - Discovery RFx Publication TO External Marketplace API
+      - Discovery RFx Publication FROM External Marketplace API
+      - External Approval API for Sourcing and Supplier Management
+      - Flow Extension API
+      - SAP Ariba Catalog Content API
+      - Catalog Connectivity Service API
+      - Internal Catalogs Shop API
+      - Public Catalogs Shop API
+      - Network Catalog Management API
+      - Content Lookup API
+      - Create Procurement Workspace API
+      - Dynamic Lookup Table API
+      - Risk Exposure API
+      - Risk Category Information API for Supplier Risk Exposure
+      - Supplier Risk Engagements API
+      - Engagement Risk Assessment External Response Import API
+      - Finding and Event Collaboration Integration API for Supplier Risk
+      - Pricing API for Product Sourcing Price Information
+      - Audit Search API
+      - Master Data Retrieval API for Procurement
+      - Master Data Retrieval API for Sourcing
+      - Master Data Integration Job Status API for Operational Procurement
+      - Proof of Service API for Buyers
+      - Proof of Service API for Suppliers
+      - Asset Management API
+      - Bill of Materials Import API
+      - Materials and BOM Tag Management API
+      - Item Volume Import API
+      - Product Hierarchy Management API
+      - User Qualification API
+      - SAP Ariba Custom Forms API
+      - SAP Ariba SCIM API
+      - Event Management API
+      - Integration Event Monitoring Query API for Procurement
+      - Integration Monitoring API for Procurement
+      - Integration Monitoring API for Strategic Sourcing
+      - Transaction Monitoring API
+      - Asynchronous Requests Management API
+      - Configuration Parameter Review API
+      - Data Replication Status for Multi-ERP Configurations
+      - Trading Partner Profile Certification API
+      - Cost Breakdown Data Extraction API
+      - NDA Data Export API
+      - Public Procurement Notices Export API
+      - Guided Buying Functional Documents API
+      - Planning Collaboration Buyer API
+      - Planning Collaboration Supplier API
+      - Project Document Management API
+      - ETendering Notice Management API
+      - SAP Build Work Zone CDM Content API for Sourcing
+      - SAP Build Work Zone CDM Content API for Procurement
+  - tier: enterprise
+    name: Enterprise Negotiated Limit
+    scope: contract
+    metric: requests_per_minute
+    limit: 1000
+    burst: 5000
+    timeFrame: minute
+    applies:
+      - Ariba Network API
+      - Ariba Procurement API
+      - Ariba Sourcing API
+      - Ariba Contracts API
+      - Ariba Supplier API
+      - Ariba Analytics API
+      - Operational Reporting API for Procurement
+      - Operational Reporting API for Strategic Sourcing
+      - Analytical Reporting API for Strategic and Operational Procurement
+      - Supplier Data API with Pagination
+      - Supplier Data API
+      - Supplier Data Extraction API
+      - Supplier Information API
+      - Supplier Invite API
+      - Ariba Network Supplier Profile API
+      - Contract Workspace Management APIs
+      - Contract Workspace Retrieval API
+      - Contract Terms Management API
+      - Contract Compliance API
+      - Document Approval API
+      - Ariba Network Purchase Orders API
+      - Purchase Orders Supplier API
+      - Order Change Requests API for Buyers
+      - Order Change Requests API for Suppliers
+      - Ariba Network Invoice Header Data Extraction API
+      - Ship Notice API for Buyers
+      - Ship Notice API for Suppliers
+      - Sourcing Project Management API
+      - Surrogate Bid API
+      - Discovery RFx Publication TO External Marketplace API
+      - Discovery RFx Publication FROM External Marketplace API
+      - External Approval API for Sourcing and Supplier Management
+      - Flow Extension API
+      - SAP Ariba Catalog Content API
+      - Catalog Connectivity Service API
+      - Internal Catalogs Shop API
+      - Public Catalogs Shop API
+      - Network Catalog Management API
+      - Content Lookup API
+      - Create Procurement Workspace API
+      - Dynamic Lookup Table API
+      - Risk Exposure API
+      - Risk Category Information API for Supplier Risk Exposure
+      - Supplier Risk Engagements API
+      - Engagement Risk Assessment External Response Import API
+      - Finding and Event Collaboration Integration API for Supplier Risk
+      - Pricing API for Product Sourcing Price Information
+      - Audit Search API
+      - Master Data Retrieval API for Procurement
+      - Master Data Retrieval API for Sourcing
+      - Master Data Integration Job Status API for Operational Procurement
+      - Proof of Service API for Buyers
+      - Proof of Service API for Suppliers
+      - Asset Management API
+      - Bill of Materials Import API
+      - Materials and BOM Tag Management API
+      - Item Volume Import API
+      - Product Hierarchy Management API
+      - User Qualification API
+      - SAP Ariba Custom Forms API
+      - SAP Ariba SCIM API
+      - Event Management API
+      - Integration Event Monitoring Query API for Procurement
+      - Integration Monitoring API for Procurement
+      - Integration Monitoring API for Strategic Sourcing
+      - Transaction Monitoring API
+      - Asynchronous Requests Management API
+      - Configuration Parameter Review API
+      - Data Replication Status for Multi-ERP Configurations
+      - Trading Partner Profile Certification API
+      - Cost Breakdown Data Extraction API
+      - NDA Data Export API
+      - Public Procurement Notices Export API
+      - Guided Buying Functional Documents API
+      - Planning Collaboration Buyer API
+      - Planning Collaboration Supplier API
+      - Project Document Management API
+      - ETendering Notice Management API
+      - SAP Build Work Zone CDM Content API for Sourcing
+      - SAP Build Work Zone CDM Content API for Procurement
+policies:
+  - name: Backoff Strategy
+    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
+      when present.
+  - name: Burst Handling
+    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
+      before throttling engages.
+  - name: Quota Reset
+    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
+      windows reset on a sliding-window basis.
+  - name: Fair Use
+    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
+      may be subject to fair-use throttling.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
