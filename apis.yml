@@ -908,6 +908,8 @@ apis:
       - type: Documentation
         url: https://help.sap.com/docs/ariba-apis
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/ariba
   - type: GettingStarted
     url: https://developer.ariba.com/getting-started
   - type: Authentication
