@@ -988,6 +988,8 @@ common:
       - Oracle ERP
       - Microsoft Dynamics
       - Coupa
+  - type: LLMsTxt
+    url: https://developer.ariba.com/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
