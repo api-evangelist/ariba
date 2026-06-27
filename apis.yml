@@ -916,7 +916,7 @@ common:
     url: https://developer.ariba.com/authentication
   - type: Console
     url: https://developer.ariba.com/console
-  - type: SDK
+  - type: SDKs
     url: https://developer.ariba.com/sdks
   - type: Support
     url: https://developer.ariba.com/support
@@ -944,7 +944,7 @@ common:
     url: https://help.sap.com/docs/ariba-apis
   - type: Developer Portal Help
     url: https://help.sap.com/docs/ariba-apis/help-for-sap-ariba-developer-portal/help-for-sap-ariba-developer-portal
-  - type: Quickstart
+  - type: GettingStarted
     url: https://help.sap.com/docs/ariba-apis/help-for-sap-ariba-developer-portal/sap-ariba-developer-portal-quick-start-guide-for-developers
   - type: SAP Ariba Web Services (SOAP)
     url: https://api.sap.com/package/SAPAribaWebServices
@@ -988,7 +988,7 @@ common:
       - Oracle ERP
       - Microsoft Dynamics
       - Coupa
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://developer.ariba.com/llms.txt
 maintainers:
   - FN: Kin Lane
