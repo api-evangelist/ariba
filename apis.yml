@@ -908,6 +908,10 @@ apis:
       - type: Documentation
         url: https://help.sap.com/docs/ariba-apis
 common:
+  - type: VulnerabilityDisclosure
+    url: security/ariba-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/ariba-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/ariba
   - type: GettingStarted
