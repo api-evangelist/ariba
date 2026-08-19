@@ -16,7 +16,7 @@ image: https://www.ariba.com/ariba-logo.png
 url: https://developer.ariba.com
 created: '2024'
 modified: '2026-04-18'
-specificationVersion: '0.18'
+specificationVersion: '0.23'
 apis:
   - name: Ariba Network API
     description: >-
