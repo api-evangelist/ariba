@@ -162,6 +162,12 @@ apis:
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
       - Bids
+      - Event
+      - Operational Data
+      - Reporting
+      - Strategic Sourcing
+    tags_raw:
+      - Bids
       - Events
       - Operational Data
       - Reporting
@@ -292,6 +298,11 @@ apis:
       - Approvals
       - Invoices
       - Requisitions
+      - Workflows
+    tags_raw:
+      - Approvals
+      - Invoices
+      - Requisitions
       - Workflow
     properties:
       - type: Documentation
@@ -374,6 +385,10 @@ apis:
     description: Manages sourcing projects including creation, configuration, and lifecycle management of sourcing events.
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
+      - Event
+      - Project Management
+      - Sourcing
+    tags_raw:
       - Events
       - Project Management
       - Sourcing
@@ -419,6 +434,11 @@ apis:
       - Approvals
       - Sourcing
       - Supplier Management
+      - Workflows
+    tags_raw:
+      - Approvals
+      - Sourcing
+      - Supplier Management
       - Workflow
     properties:
       - type: Documentation
@@ -430,6 +450,11 @@ apis:
       - Ariba Network
       - Extensions
       - Integration
+      - Workflows
+    tags_raw:
+      - Ariba Network
+      - Extensions
+      - Integration
       - Workflow
     properties:
       - type: Documentation
@@ -438,6 +463,10 @@ apis:
     description: Manages catalog content including creation, updates, and maintenance of product and service catalogs.
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
+      - Catalogs
+      - Content Management
+      - Product
+    tags_raw:
       - Catalogs
       - Content Management
       - Products
@@ -559,6 +588,11 @@ apis:
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
       - Collaboration
+      - Event
+      - Risk Management
+      - Suppliers
+    tags_raw:
+      - Collaboration
       - Events
       - Risk Management
       - Suppliers
@@ -569,6 +603,10 @@ apis:
     description: Extracts pricing data for product sourcing including price benchmarks and market pricing information.
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
+      - Pricing
+      - Product
+      - Sourcing
+    tags_raw:
       - Pricing
       - Products
       - Sourcing
@@ -671,6 +709,11 @@ apis:
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
       - Import
+      - Item
+      - Sourcing
+      - Volume
+    tags_raw:
+      - Import
       - Items
       - Sourcing
       - Volume
@@ -684,6 +727,11 @@ apis:
       - Categories
       - Classification
       - Hierarchy
+      - Product
+    tags_raw:
+      - Categories
+      - Classification
+      - Hierarchy
       - Products
     properties:
       - type: Documentation
@@ -692,6 +740,10 @@ apis:
     description: Manages user qualifications and permissions within SAP Ariba for access control and role management.
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
+      - Access Control
+      - Qualifications
+      - User
+    tags_raw:
       - Access Control
       - Qualifications
       - Users
@@ -722,6 +774,10 @@ apis:
     description: Manages events and event-driven processes within SAP Ariba for tracking procurement and sourcing activities.
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
+      - Event
+      - Management
+      - Tracking
+    tags_raw:
       - Events
       - Management
       - Tracking
@@ -732,6 +788,11 @@ apis:
     description: Queries integration event data for monitoring and troubleshooting procurement integration processes.
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
+      - Event
+      - Integration
+      - Monitoring
+      - Procurement
+    tags_raw:
       - Events
       - Integration
       - Monitoring
@@ -763,6 +824,10 @@ apis:
     description: Monitors transaction processing status and details across SAP Ariba procurement and sourcing workflows.
     humanURL: https://help.sap.com/docs/ariba-apis
     tags:
+      - Monitoring
+      - Transaction
+      - Workflows
+    tags_raw:
       - Monitoring
       - Transactions
       - Workflow
