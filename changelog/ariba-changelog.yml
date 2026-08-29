@@ -1,0 +1,100 @@
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/792a3139e5c04f0cbbcbbd404506bc04.html
+provider: Ariba
+providerId: ariba
+description: >-
+  Change history for the SAP Ariba API surface. SAP does not publish a single dated
+  API changelog feed. What it publishes instead is (a) a per-API "Version History"
+  page pinning each version's status to a numbered SAP Ariba release, and (b) the SAP
+  Business Accelerator Hub catalogue, whose OData endpoint returns a machine-readable
+  ModifiedAt timestamp per API artifact. Those two together are the changelog, and
+  both are anonymously readable. Recorded as a version-history changelog rather than
+  an entries feed, because that is what exists.
+scheme:
+  type: release-train
+  format: YYMM
+  description: >-
+    SAP Ariba ships on a numbered release train - 2602, 2502, 2408, 2306, 2208, 2202,
+    2111, 2102, 2008, 2002 - and API version status changes are stated as "as of
+    release <YYMM>".
+current_release_observed: '2602'
+machine_readable_feed:
+  url: "https://api.sap.com/odata/1.0/catalog.svc/ContentEntities.ContentPackages('SAPAribaOpenAPIs')/Artifacts?$format=json"
+  status: 200
+  auth: none
+  description: >-
+    Returns all 114 REST API artifacts in the SAP Ariba Open APIs package with Name,
+    DisplayName, Version, Description, State and a ModifiedAt epoch timestamp. This is
+    the closest thing SAP publishes to a machine-readable change feed for the surface,
+    and it needs no credentials. A sibling package, SAPAribaWebServices, returns 113
+    SOAP artifacts the same way.
+  note: >-
+    The artifact bodies themselves ($value) redirect to an SAP ID login, so the
+    catalogue is readable but the specs behind it are not.
+entries:
+  - version: v3
+    api: Risk Exposure API
+    release: SAP Ariba 2602
+    type: additions
+    breaking: false
+    highlights:
+      - v3 became Active; v2 and v1 are Deprecated as of SAP Ariba 2408.
+    source: https://help.sap.com/docs/ARIBA_APIS/2e493ebf33de4b2bb813c8de0fb9ed9b/06e8fcf958594ffb860647a4c6c8ea6d.html
+  - version: v3
+    api: Supplier Risk Engagements API
+    release: SAP Ariba 2602
+    type: additions
+    breaking: false
+    highlights:
+      - v3 became Active.
+    source: https://help.sap.com/docs/ARIBA_APIS/892703b130354abbb5013c3587a08cb2/85612de86c3d4da89c0196bbeb32d7a5.html
+  - version: V1
+    api: ETendering Notice Management API
+    release: 2502 (February 2025)
+    type: new-api
+    breaking: false
+    highlights:
+      - First release of the ETendering Notice Management API.
+    source: https://help.sap.com/docs/ARIBA_APIS/07b0bc9a0b28410e901bff8820efe62d/3d8453e2ec6140908fd936e13f1a3d05.html
+  - version: v4
+    api: SAP Ariba Custom Forms API
+    release: 2306 (June 2023)
+    type: breaking
+    breaking: true
+    highlights:
+      - v4 became Active; v3, v2 and v1 all moved to Deprecated in the same release.
+    source: https://help.sap.com/docs/ARIBA_APIS/1aaba5294b3e4663973fbcc33e8ea1ca/f069e5fcbd2f4f2b8c38a7560399089e.html
+  - version: '2.0'
+    api: Sourcing Project Management API
+    release: 2208 (August 2022)
+    type: breaking
+    breaking: true
+    highlights:
+      - 2.0 became Active; 1.0 Deprecated.
+    source: https://help.sap.com/docs/ARIBA_APIS/4f4056d3846a477d902603266522af43/360a8f86c7c94dfa98fdf00240307143.html
+  - version: v2
+    api: Event Management API
+    release: 2202 (February 2022), enhanced 2208
+    type: breaking
+    breaking: true
+    highlights:
+      - v2 became Active in 2202 and was Enhanced in 2208; v1 Deprecated.
+    source: https://help.sap.com/docs/ARIBA_APIS/0414af6b17164879920cf26608ae643d/8175368aca1c4b06a66f1586a92bb81e.html
+  - version: '4'
+    api: Supplier Data API with Pagination
+    release: 2008 (Q3 2020)
+    type: breaking
+    breaking: true
+    highlights:
+      - Version 4 became Active; 3 Deprecated in the same release; 2 Deprecated in 2002.
+      - The predecessor Questionnaires API was deprecated in 2002 (Q1 2020) and replaced by this API.
+    source: https://help.sap.com/docs/ARIBA_APIS/60ec8b8bb9344dbe8dcf15e2a1edc85b/54e59f9676014fe9a5b4a2b752a3e12e.html
+gaps:
+  - No dated, human-readable "what changed this release" feed for the API surface as a whole.
+  - No RSS/Atom or JSON changelog endpoint.
+  - Version-history tables state WHICH release changed a version but not WHAT changed inside it.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

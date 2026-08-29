@@ -1,0 +1,473 @@
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/ws_index.htm
+provider: Ariba
+providerId: ariba
+description: >-
+  Inventory of the SAP Ariba SOAP web-services surface. SAP publishes 144 web
+  services with per-service WSDL documentation rendered through wsdl-viewer.xsl on
+  help.sap.com, plus a 113-artifact catalogue on the SAP Business Accelerator Hub
+  (package SAPAribaWebServices). This is a genuinely large enterprise contract
+  surface that no OpenAPI in this repo would ever have surfaced.
+  IMPORTANT - no .wsdl file is saved here, and that is deliberate. The WSDL is
+  GENERATED PER CUSTOMER REALM: the endpoint shape is
+  https://s1.ariba.com/Sourcing/soap/{partition}/{ServiceName}?wsdl, and an
+  anonymous ?wsdl request returns HTTP 500 with
+  "The validation of the generated WSDL for partition prealm_4329 and event
+  SupplierProfileImport failed", which proves the generator is live but realm-scoped.
+  There is no realm-independent WSDL to fetch, so nothing is saved verbatim and no
+  WSDL contract pointer is emitted. Authoring one would be fabrication.
+endpoint_pattern: 'https://s1.ariba.com/{Solution}/soap/{partition}/{ServiceName}'
+wsdl_pattern: 'https://s1.ariba.com/{Solution}/soap/{partition}/{ServiceName}?wsdl'
+wsdl_anonymous_probe:
+  url: https://s1.ariba.com/Sourcing/soap/consulting-T/SupplierProfileImport?wsdl
+  status: 500
+  body: >-
+    The validation of the generated WSDL for partition prealm_4329 and event
+    SupplierProfileImport failed. Please check the logs for more info.
+  interpretation: WSDL generation endpoint is live but requires a valid customer partition.
+hub_catalogue:
+  url: "https://api.sap.com/odata/1.0/catalog.svc/ContentEntities.ContentPackages('SAPAribaWebServices')/Artifacts?$format=json"
+  status: 200
+  auth: none
+  artifact_count: 113
+  note: Metadata (name, display name, description, version, state) is anonymous; the artifact bodies redirect to SAP ID login.
+service_count: 144
+services:
+- service: AddUsersToGroup
+  title: Add Users to Group
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AddUsersToGroup.html
+- service: AdvancePaymentAsyncExport
+  title: Export Advance Payments Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AdvancePaymentAsyncExport.html
+- service: AdvancePaymentAsyncImportPull
+  title: Import Advance Payment ID Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AdvancePaymentAsyncImportPull.html
+- service: AdvancePaymentRealTimeExport
+  title: Export Advance Payments
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AdvancePaymentRealTimeExport.html
+- service: AdvancePaymentRemittancePull
+  title: Import Advance Payment Remittance
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AdvancePaymentRemittancePull.html
+- service: AssetRequisitionAsyncExport
+  title: Export Asset Requisition Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AssetRequisitionAsyncExport.html
+- service: AssetRequisitionAsyncImportPull
+  title: Import Asset Details Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AssetRequisitionAsyncImportPull.html
+- service: AwardDownload
+  title: Download RFx Awards
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AwardDownload.html
+- service: CancelAdvancePaymentAsyncExport
+  title: Export Cancel Advance Payments Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/CancelAdvancePaymentAsyncExport.html
+- service: CancelAdvancePaymentAsyncImport
+  title: Import Cancel Advance Payment Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/CancelAdvancePaymentAsyncImport.html
+- service: CancelAdvancePaymentRealTimeExport
+  title: Export Cancel Advance Payments
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/CancelAdvancePaymentRealTimeExport.html
+- service: CompanyCodePull
+  title: Import Company Codes
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/CompanyCodePull.html
+- service: ContractContentDocumentImport
+  title: Import Contract Line Items Document
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ContractContentDocumentImport.html
+- service: ContractContentXMLImport
+  title: Import CLID using XML
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ContractContentXMLImport.html
+- service: ContractHeaderExport
+  title: Download Contract Header Fields
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ContractHeaderExport.html
+- service: ContractRequestImport
+  title: Import Procurement Contract Request
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ContractRequestImport.html
+- service: ContractTermsDownload
+  title: Download Contract Terms
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ContractTermsDownload.html
+- service: ContractWorkspaceImport
+  title: Import Procurement Contract Workspace
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ContractWorkspaceImport.html
+- service: CostCenterPull
+  title: Import Cost Centers
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/CostCenterPull.html
+- service: DeleteOrganization
+  title: Remove Organizations
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DeleteOrganization.html
+- service: DeleteUser
+  title: Remove Users
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DeleteUser.html
+- service: DocumentDownload
+  title: Download Workspace Documents
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DocumentDownload.html
+- service: DocumentIdsDownload
+  title: Download Document IDs
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DocumentIdsDownload.html
+- service: DocumentImport
+  title: Import Document
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DocumentImport.html
+- service: DocumentStatusChangeNotification
+  title: DocumentStatusChangeNotification
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DocumentStatusChangeNotification.html
+- service: DocumentURLOutBound
+  title: DocumentURLOutBound
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DocumentURLOutBound.html
+- service: EventImport
+  title: Import Sourcing Event
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/EventImport.html
+- service: ExternalOrderCloseReopen
+  title: Import Service Orders from External System
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ExternalOrderCloseReopen.html
+- service: ExternalReceiptImport
+  title: Import Receipts from an External Application
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ExternalReceiptImport.html
+- service: ExternalReceiptImportAsync
+  title: Import Receipts from an External Application Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ExternalReceiptImportAsync.html
+- service: ExternalReqForApprovalImport
+  title: Export Service Requisition Status to External Systems
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ExternalReqForApprovalImport.html
+- service: FetchPurchaseOrder
+  title: Fetch Purchase Order Details
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/FetchPurchaseOrder.html
+- service: FormDocumentImport
+  title: Import Form Document
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/FormDocumentImport.html
+- service: GeneralLedgerPull
+  title: Import General Ledgers
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/GeneralLedgerPull.html
+- service: HybridContractStatusSync
+  title: Hybrid Contract Status Sync
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/HybridContractStatusSync.html
+- service: HybridContractWorkspaceStatusSync
+  title: Hybrid Contract Workspace Status Sync
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/HybridContractWorkspaceStatusSync.html
+- service: ImportExternalServiceSheetPull
+  title: Import Service Sheets from External System
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ImportExternalServiceSheetPull.html
+- service: InternalContractWorkspaceImport
+  title: Import Internal Contract Workspace
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/InternalContractWorkspaceImport.html
+- service: InvoiceReconciliationDeriveAccountingExport
+  title: Export Invoice Reconciliation Documents to External System to Add Funds Management Accounting
+    Information
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/InvoiceReconciliationDeriveAccountingExport.html
+- service: InvoiceReconciliationStatusPull
+  title: Invoice Reconciliation Status from external system
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/InvoiceReconciliationStatusPull.html
+- service: InvoiceStatusUpdateNotification
+  title: Import Invoice Status Update Notifications
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/InvoiceStatusUpdateNotification.html
+- service: KnowledgeProjectImport
+  title: Import Knowledge Project
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/KnowledgeProjectImport.html
+- service: LineItemsPOCloseImport
+  title: Import ERP Order line items Close/Reopen status
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/LineItemsPOCloseImport.html
+- service: LookupDocumentUpload
+  title: Import Lookup Table Document
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/LookupDocumentUpload.html
+- service: MaterialDocumentCreateConfirmation_Async
+  title: Import Material Document Create Confirmation
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/MaterialDocumentCreateConfirmation_Async.html
+- service: MaterialDocumentCreateRequest_Async
+  title: Export receipts to SAP S/4HANA
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/MaterialDocumentCreateRequest_Async.html
+- service: OrganizationExportWS
+  title: Export Organizations
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/OrganizationExportWS.html
+- service: OrganizationImport
+  title: Import Organizations
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/OrganizationImport.html
+- service: PaymentAsyncExport
+  title: Export Payment Requests Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PaymentAsyncExport.html
+- service: PaymentAsyncResponsePull
+  title: Import Payment Requests Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PaymentAsyncResponsePull.html
+- service: PaymentRealTimeExport
+  title: Export Payment Requests
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PaymentRealTimeExport.html
+- service: PaymentRealTimeExport_v2
+  title: Export Payment Requests with Advance Payments
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PaymentRealTimeExport_v2.html
+- service: ProcessContractRequestExternallyExport
+  title: Process Contract Request Externally
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ProcessContractRequestExternallyExport.html
+- service: ProcessIRExternallyExport
+  title: Process Invoice Reconciliation document Externally
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ProcessIRExternallyExport.html
+- service: ProcessInvoiceExternallyExport
+  title: Process Invoice Externally
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ProcessInvoiceExternallyExport.html
+- service: ProcessRequisitionExternallyExport
+  title: Process Requisition Externally
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ProcessRequisitionExternallyExport.html
+- service: PurchaseOrderAsyncExport
+  title: Export Purchase Orders Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderAsyncExport.html
+- service: PurchaseOrderAsyncImportPull
+  title: Import Purchase Order Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderAsyncImportPull.html
+- service: PurchaseOrderCancelAsyncExport
+  title: Export Cancel Purchase Orders Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderCancelAsyncExport.html
+- service: PurchaseOrderCancelAsyncResponsePull
+  title: Import Cancel Purchase Order Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderCancelAsyncResponsePull.html
+- service: PurchaseOrderCancelRealTimeExport
+  title: Export Cancel Purchase Order
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderCancelRealTimeExport.html
+- service: PurchaseOrderChangeAsyncExport
+  title: Export Change Purchase Orders Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderChangeAsyncExport.html
+- service: PurchaseOrderChangeAsyncResponsePull
+  title: Import Change Purchase Orders Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderChangeAsyncResponsePull.html
+- service: PurchaseOrderChangeRealTimeExport
+  title: Export Change Purchase Orders
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderChangeRealTimeExport.html
+- service: PurchaseOrderCloseStatusRealTimeExport
+  title: Export Purchase Order Close Status
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderCloseStatusRealTimeExport.html
+- service: PurchaseOrderERPHeaderStatusAsyncImport
+  title: Import Purchase Order ERP Header Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderERPHeaderStatusAsyncImport.html
+- service: PurchaseOrderERPHeaderStatusImport
+  title: Import Purchase Order Header Status
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderERPHeaderStatusImport.html
+- service: PurchaseOrderItemHistoryNotification
+  title: SAP S/4HANA Order/Receipt/Invoice Info
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderItemHistoryNotification.html
+- service: PurchaseOrderRealTimeExport
+  title: Export Purchase Orders
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderRealTimeExport.html
+- service: PurchaseOrderRequest
+  title: Export purchase orders to SAP S/4HANA
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderRequest.html
+- service: PurchaseOrderStatusNotificationMsg
+  title: Import Purchase Order Document References
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrderStatusNotificationMsg.html
+- service: PurchaseOrgPull
+  title: Import Purchase Organizations
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseOrgPull.html
+- service: PurchaseRequesitionStatusNotificationMsg
+  title: Import purchase requisition status updates from SAP S/4HANA for central procurement
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseRequesitionStatusNotificationMsg.html
+- service: PurchaseRequisitionReplicationNotification
+  title: Import Purchase Requisition Documents
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseRequisitionReplicationNotification.html
+- service: PurchaseRequisitionStatusNotificationMsg
+  title: Import Purchase Requisition Status Notification Messages
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseRequisitionStatusNotificationMsg.html
+- service: RFXAwardExport
+  title: Export RFx Awards
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RFXAwardExport.html
+- service: RFXAwardExportWS
+  title: Download RFx Awards with Filters
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RFXAwardExportWS.html
+- service: ReceiptAsyncExport
+  title: Export Receipts Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ReceiptAsyncExport.html
+- service: ReceiptAsyncImportPull
+  title: Import Receipt Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ReceiptAsyncImportPull.html
+- service: ReceiptRealTimeExport
+  title: Export Receipts
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ReceiptRealTimeExport.html
+- service: RemittanceImport
+  title: Import Remittance
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RemittanceImport.html
+- service: RemittanceImportAsync
+  title: Import Remittances Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RemittanceImportAsync.html
+- service: RemoveUsersFromGroup
+  title: Remove User from Group
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RemoveUsersFromGroup.html
+- service: RequisitionBudgetCheckExport
+  title: Export Requisitions for User-Initiated External Budget Check
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RequisitionBudgetCheckExport.html
+- service: RequisitionDeriveAccountingExport
+  title: Export Requisitions to Get the Accounting Information for Funds Management
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RequisitionDeriveAccountingExport.html
+- service: RequisitionImportPull
+  title: Import Requisition(s)
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RequisitionImportPull.html
+- service: RequisitionRealTimeBudgetExport
+  title: Export Submitted Requisitions for External Budget Check
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RequisitionRealTimeBudgetExport.html
+- service: RequisitionRealTimeRevertBudgetExport
+  title: Export Requisitions to External System to Revert Funds
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RequisitionRealTimeRevertBudgetExport.html
+- service: RequisitionRevertBudgetToEarlierVersionExport
+  title: RequisitionRevertBudgetToEarlierVersionExportDisplayName
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RequisitionRevertBudgetToEarlierVersionExport.html
+- service: ReservationAsyncExport
+  title: Export Reservation Request Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ReservationAsyncExport.html
+- service: ReservationAsyncImportPull
+  title: Import Reservation Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ReservationAsyncImportPull.html
+- service: ReservationDeleteAsyncExport
+  title: Export Reservation Deletion Request Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ReservationDeleteAsyncExport.html
+- service: ReservationDeleteAsyncImportPull
+  title: Import Reservation Deletion Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ReservationDeleteAsyncImportPull.html
+- service: SMExternalValidation
+  title: SMExternalValidation
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SMExternalValidation.html
+- service: SalesContractRequestImport
+  title: Import Sales Contract Request
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SalesContractRequestImport.html
+- service: SalesContractWorkspaceImport
+  title: Import Sales Contract Workspace
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SalesContractWorkspaceImport.html
+- service: ServiceSheetAsyncExport
+  title: Export Service Sheet Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ServiceSheetAsyncExport.html
+- service: ServiceSheetAsyncResponsePull
+  title: Import Service Sheet Response Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ServiceSheetAsyncResponsePull.html
+- service: ServiceSheetImportPull
+  title: Import Service Sheet Approval Status
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ServiceSheetImportPull.html
+- service: ServiceSheetRealTimeExport
+  title: Export Service Sheets to External System
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ServiceSheetRealTimeExport.html
+- service: ServiceSheetStatusAsyncExport
+  title: Export Service Sheet Status Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ServiceSheetStatusAsyncExport.html
+- service: ServiceSheetStatusAsyncResponsePull
+  title: Import Service Sheet Status Response Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ServiceSheetStatusAsyncResponsePull.html
+- service: ServiceSheetStatusRealTimeExport
+  title: Export Service Sheet Status
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ServiceSheetStatusRealTimeExport.html
+- service: SourcingProjectImport
+  title: Import Sourcing Project
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SourcingProjectImport.html
+- service: SupplierConsolidatedProfileExport
+  title: Export Simplified Supplier Profiles
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SupplierConsolidatedProfileExport.html
+- service: SupplierContactsProfileExport
+  title: Export Supplier User Profiles
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SupplierContactsProfileExport.html
+- service: SupplierInvoiceRequest
+  title: Export invoice reconciliation documents to SAP S/4HANA
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SupplierInvoiceRequest.html
+- service: SupplierProfileExport
+  title: Export Supplier Profiles
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SupplierProfileExport.html
+- service: SupplierProfileImport
+  title: Import Supplier Profiles
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SupplierProfileImport.html
+- service: SupplierPull
+  title: Import Suppliers
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SupplierPull.html
+- service: SupplierQuotationS4Request
+  title: Export Awards data to S4HANA
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/SupplierQuotationS4Request.html
+- service: TaxServiceExport
+  title: Tax API
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/TaxServiceExport.html
+- service: TransferOfOwnershipExport
+  title: TransferOfOwnershipExport
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/TransferOfOwnershipExport.html
+- service: UserImport
+  title: Import Users
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/UserImport.html
+- service: WSCatalogItemSearch
+  title: Catalog Item Search
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/WSCatalogItemSearch.html
+- service: WSContractTermsExport
+  title: Export Contract Terms
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/WSContractTermsExport.html
+- service: WSExternalContractPull
+  title: External Contract Information
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/WSExternalContractPull.html
+- service: WorkspaceIdExport
+  title: Export WorkspaceId
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/WorkspaceIdExport.html
+- service: PaymentExport_v2
+  title: Export Payment Requests with Receipts Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PaymentExport_v2.html
+- service: PaymentAsyncResponsePull_v2
+  title: Import Status of Payment Requests with Receipts Asynchronously
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PaymentAsyncResponsePull_v2.html
+- service: AdvancePaymentRemittanceAsyncPull
+  title: AdvancePaymentRemittanceAsyncPull.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AdvancePaymentRemittanceAsyncPull.html
+- service: AdvancePaymentRemittancePullWSDL
+  title: AdvancePaymentRemittancePullWSDL.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AdvancePaymentRemittancePullWSDL.html
+- service: AggregatedRequisitionRevertBudgetAsyncExport
+  title: AggregatedRequisitionRevertBudgetAsyncExport.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AggregatedRequisitionRevertBudgetAsyncExport.html
+- service: AggregatedRequisitionRevertBudgetAsyncImportPull
+  title: AggregatedRequisitionRevertBudgetAsyncImportPull.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/AggregatedRequisitionRevertBudgetAsyncImportPull.html
+- service: BankMasterData
+  title: BankMasterData.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/BankMasterData.html
+- service: ContractHeaderExportWSDL
+  title: ContractHeaderExportWSDL.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ContractHeaderExportWSDL.html
+- service: ContractTermsDownloadWSDL
+  title: ContractTermsDownloadWSDL.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ContractTermsDownloadWSDL.html
+- service: DocumentIdsDownloadWSDL
+  title: DocumentIdsDownloadWSDL.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DocumentIdsDownloadWSDL.html
+- service: DocumentStatusChangeNotificationWSDL
+  title: DocumentStatusChangeNotificationWSDL.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DocumentStatusChangeNotificationWSDL.html
+- service: DocumentURLOutBoundWSDL
+  title: DocumentURLOutBoundWSDL.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/DocumentURLOutBoundWSDL.html
+- service: ExpenseReportRealTimeExport
+  title: ExpenseReportRealTimeExport.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ExpenseReportRealTimeExport.html
+- service: ExportServiceSheetResponseAsync
+  title: ExportServiceSheetResponseAsync.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ExportServiceSheetResponseAsync.html
+- service: ExternalReqApprovalStatus
+  title: ExternalReqApprovalStatus.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ExternalReqApprovalStatus.html
+- service: ExternalServiceSheetImportAsync
+  title: ExternalServiceSheetImportAsync.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ExternalServiceSheetImportAsync.html
+- service: ProcessContractExternallyExport
+  title: ProcessContractExternallyExport.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/ProcessContractExternallyExport.html
+- service: PurchaseContractRequestExport
+  title: PurchaseContractRequestExport.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseContractRequestExport.html
+- service: PurchaseContractStatusUpdateRequestImport
+  title: PurchaseContractStatusUpdateRequestImport.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PurchaseContractStatusUpdateRequestImport.html
+- service: RFQConfirmationS4Request
+  title: RFQConfirmationS4Request.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RFQConfirmationS4Request.html
+- service: RequisitionAsyncImportPullStatusExport
+  title: RequisitionAsyncImportPullStatusExport.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RequisitionAsyncImportPullStatusExport.html
+- service: RequisitionCIGRealTimeBudgetExport
+  title: RequisitionCIGRealTimeBudgetExport.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RequisitionCIGRealTimeBudgetExport.html
+- service: RequisitionImportAsyncPull
+  title: RequisitionImportAsyncPull.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/RequisitionImportAsyncPull.html
+- service: S4HanaQuotationConfirmation
+  title: S4HanaQuotationConfirmation.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/S4HanaQuotationConfirmation.html
+- service: S4HanaRequestForQuotation
+  title: S4HanaRequestForQuotation.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/S4HanaRequestForQuotation.html
+- service: PaymentRealTimeExport_v3
+  title: Export Payment Requests with Advance Payments and Taxes.html
+  rendered_wsdl: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/HTML/PaymentRealTimeExport_v3.html
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

@@ -1,0 +1,64 @@
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/ed2fe54256804bef9a5e84cf4b3bf1cd.html
+provider: Ariba
+providerId: ariba
+description: >-
+  Test-environment posture for the SAP Ariba API surface. A real, separate test
+  environment exists for every API, plus an in-portal try-it console - but both the
+  test runtime URL and the console sit behind the developer-portal login, so an
+  anonymous integrator cannot reach them or even read the hostnames.
+sandbox:
+  exists: true
+  self_serve: false
+  anonymous_access: false
+  separate_environment: true
+  model: per-API test runtime URL + customer test realm
+  description: >-
+    SAP's "Browsing APIs on the SAP Ariba Developer Portal" page states that each API's
+    discovery page carries an "Environment Details" panel that "displays the public URI
+    prefixes for the testing and production environments for this API", and that the
+    Realm parameter should be set to a test realm (SAP's worked example uses
+    "mytestrealm"). The documented base pattern
+    https://openapi.ariba.com/api/{api-name}/v{n}/{environment} carries the environment
+    as a path segment, of which "prod" is the one SAP shows anonymously.
+  test_realm_example: mytestrealm
+  environment_segment:
+    production: prod
+    test: not published anonymously
+    note: >-
+      SAP shows /prod in every public example. The test segment is shown only on the
+      logged-in discovery page. NOT guessed here.
+console:
+  exists: true
+  url: https://developer.ariba.com/api/apis
+  anonymous: false
+  description: >-
+    The developer portal renders a Swagger UI try-it console per API (the portal bundle
+    ships swagger-ui and a "Download API spec" control that "downloads request and
+    response schemas in JSON format"). Both require a login; anonymous requests get the
+    Angular shell.
+  source: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/ed2fe54256804bef9a5e84cf4b3bf1cd.html
+test_flags:
+  - api: Event Management API
+    field: isTest
+    location: request body
+    description: >-
+      Sourcing events can be created as test events with an isTest flag, so a
+      rehearsal does not land in the live sourcing pipeline.
+    source: https://help.sap.com/docs/ARIBA_APIS/0414af6b17164879920cf26608ae643d/1949ee9bf6bc4025ab281c48a4b36f8a.html
+test_data:
+  published_fixtures: false
+  test_cards: n/a
+  note: >-
+    Not a payments-acceptance surface, so there are no test card numbers. SAP publishes
+    no downloadable fixture set or seeded test realm data anonymously - a test realm is
+    provisioned for the customer's own site and populated with the customer's own data.
+gaps:
+  - The test runtime URL is not published anonymously, so an evaluator cannot call anything before signing a contract.
+  - There is no shared public sandbox realm. Every test environment is customer-specific.
+  - The try-it console cannot be reached without an account, and account creation requires an existing SAP Ariba site.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

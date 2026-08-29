@@ -1,0 +1,49 @@
+generated: '2026-08-29'
+method: probed
+source: live probes 2026-08-29
+provider: Ariba
+providerId: ariba
+status: none-found
+description: >-
+  SAP publishes no Model Context Protocol server for the SAP Ariba API surface -
+  neither a hosted remote endpoint nor a distributed stdio package. No MCPServer
+  pointer is emitted in apis.yml, because emitting one would assert an agent surface
+  that does not exist.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+probes:
+  - url: https://mcp.ariba.com/mcp
+    status: NXDOMAIN
+  - url: https://developer.ariba.com/mcp
+    status: 200
+    result: Angular SPA shell (4,196 bytes) - the portal catch-all, not an MCP endpoint.
+  - url: https://api.sap.com/mcp
+    status: 200
+    result: SAP Business Accelerator Hub HTML login stub, not an MCP endpoint.
+  - registry: npm
+    query: https://registry.npmjs.org/-/v1/search?text=ariba
+    status: 200
+    result: >-
+      No SAP-published MCP package. The only MCP-adjacent hits are third-party
+      integration connectors - '@activepieces/piece-sap-ariba' and
+      '@scopieflows/app-sap-ariba' - neither of which is published by SAP.
+derivation_note: >-
+  No candidate tool list is derived here. The pipeline derives candidates from an
+  OpenAPI's operations, and SAP publishes none of Ariba's 114 OpenAPI documents
+  anonymously - every $value download and every api.sap.com overview page redirects to
+  an SAP ID login. Deriving tool names from documentation prose would produce a tool
+  list with no inputSchema and no verified operationIds, which is worse than nothing.
+  See catalog/ariba-api-catalog.yml for the real 114-API inventory a future MCP
+  derivation would draw on if SAP opened the specs.
+what_would_change_this:
+  - SAP serving any of the 114 SAPAribaOpenAPIs artifacts without an SAP ID login.
+  - SAP shipping an official MCP server for SAP Business Network or SAP Ariba.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

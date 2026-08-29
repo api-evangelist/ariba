@@ -1,497 +1,139 @@
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/962cc344f5e443ffaae9e8aaa15cf34e.html
+docs: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/962cc344f5e443ffaae9e8aaa15cf34e.html
 provider: Ariba
 providerId: ariba
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - B2B
-  - Catalog Management
-  - Compliance
-  - Contracts
-  - Enterprise
-  - Integration
-  - Invoicing
-  - Procurement
-  - Risk Management
-  - SAP
-  - Sourcing
-  - Spend Analysis
-  - Supplier Lifecycle
-  - Suppliers
-  - Supply Chain
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Ariba API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+description: >-
+  Published rate-limit behaviour for the SAP Ariba API gateway. REPLACES a
+  scaffold written by the 2026-05-04 bulk sweep that invented free/professional/
+  enterprise tiers with 10/100/1000 requests-per-minute and monthly quotas SAP has
+  never published. Every value below is transcribed from a cited SAP help page.
+  The important structural fact is that SAP does not publish one global limit: each
+  API carries its own per-second/minute/hour/day ceilings shown in the "Rate Limit
+  (Requests)" panel of that API's discovery page on the SAP Ariba Developer Portal,
+  which requires a login. A handful of limits leak into the public help set and are
+  captured here verbatim.
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit:
+    - X-RateLimit-Limit-second
+    - X-RateLimit-Limit-minute
+    - X-RateLimit-Limit-hour
+    - X-RateLimit-Limit-day
+  remaining:
+    - X-RateLimit-Remaining-second
+    - X-RateLimit-Remaining-minute
+    - X-RateLimit-Remaining-hour
+    - X-RateLimit-Remaining-day
+  last_call: LastCallMade
+  reset: null
+  retry_after: null
+  policy: null
+header_note: >-
+  SAP's own worked example - "X-RateLimit-Limit-minute: 3 and X-RateLimit-Remaining-minute: 2,
+  X-RateLimit-Limit-hour: 50 and X-RateLimit-Remaining-hour: 48, X-RateLimit-Limit-day: 300
+  and X-RateLimit-Remaining-day: 290, LastCallMade: July 10, 2024 23:00:01Z". Note the window
+  suffix on every header name: these are NOT the bare X-RateLimit-Limit / X-RateLimit-Remaining
+  pair most APIs use, and a client written against the common shape reads nothing. There is no
+  Retry-After and no reset timestamp - LastCallMade plus the four remaining counters are the
+  only runtime signal, so a client must compute its own backoff.
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  throttled_note: >-
+    "API calls made when rate limits have been exceeded result in the HTTP error 429
+    indicating that too many requests have been made."
+  gateway_timeout: 504
+limit_count: 11
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
+  - api: External Approval API for Sourcing and Supplier Management (v2)
+    scope: per-application
+    window: second
+    limit: 20
+    source: https://help.sap.com/docs/ARIBA_APIS/24f8a40d8b2c45aa9a69790744cc1e04/4e2f590f997b4f7a82249f4860d403f6.html
+  - api: External Approval API for Sourcing and Supplier Management (v2)
+    scope: per-application
+    window: minute
+    limit: 400
+    source: https://help.sap.com/docs/ARIBA_APIS/24f8a40d8b2c45aa9a69790744cc1e04/4e2f590f997b4f7a82249f4860d403f6.html
+  - api: External Approval API for Sourcing and Supplier Management (v2)
+    scope: per-application
+    window: hour
+    limit: 12000
+    source: https://help.sap.com/docs/ARIBA_APIS/24f8a40d8b2c45aa9a69790744cc1e04/4e2f590f997b4f7a82249f4860d403f6.html
+  - api: External Approval API for Sourcing and Supplier Management (v2)
+    scope: per-application
+    window: day
+    limit: 40000
+    source: https://help.sap.com/docs/ARIBA_APIS/24f8a40d8b2c45aa9a69790744cc1e04/4e2f590f997b4f7a82249f4860d403f6.html
+  - api: Forms Asynchronous Reporting API (SAP Ariba Custom Forms)
+    scope: per-application
+    window: second
     limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Ariba Network API
-      - Ariba Procurement API
-      - Ariba Sourcing API
-      - Ariba Contracts API
-      - Ariba Supplier API
-      - Ariba Analytics API
-      - Operational Reporting API for Procurement
-      - Operational Reporting API for Strategic Sourcing
-      - Analytical Reporting API for Strategic and Operational Procurement
-      - Supplier Data API with Pagination
-      - Supplier Data API
-      - Supplier Data Extraction API
-      - Supplier Information API
-      - Supplier Invite API
-      - Ariba Network Supplier Profile API
-      - Contract Workspace Management APIs
-      - Contract Workspace Retrieval API
-      - Contract Terms Management API
-      - Contract Compliance API
-      - Document Approval API
-      - Ariba Network Purchase Orders API
-      - Purchase Orders Supplier API
-      - Order Change Requests API for Buyers
-      - Order Change Requests API for Suppliers
-      - Ariba Network Invoice Header Data Extraction API
-      - Ship Notice API for Buyers
-      - Ship Notice API for Suppliers
-      - Sourcing Project Management API
-      - Surrogate Bid API
-      - Discovery RFx Publication TO External Marketplace API
-      - Discovery RFx Publication FROM External Marketplace API
-      - External Approval API for Sourcing and Supplier Management
-      - Flow Extension API
-      - SAP Ariba Catalog Content API
-      - Catalog Connectivity Service API
-      - Internal Catalogs Shop API
-      - Public Catalogs Shop API
-      - Network Catalog Management API
-      - Content Lookup API
-      - Create Procurement Workspace API
-      - Dynamic Lookup Table API
-      - Risk Exposure API
-      - Risk Category Information API for Supplier Risk Exposure
-      - Supplier Risk Engagements API
-      - Engagement Risk Assessment External Response Import API
-      - Finding and Event Collaboration Integration API for Supplier Risk
-      - Pricing API for Product Sourcing Price Information
-      - Audit Search API
-      - Master Data Retrieval API for Procurement
-      - Master Data Retrieval API for Sourcing
-      - Master Data Integration Job Status API for Operational Procurement
-      - Proof of Service API for Buyers
-      - Proof of Service API for Suppliers
-      - Asset Management API
-      - Bill of Materials Import API
-      - Materials and BOM Tag Management API
-      - Item Volume Import API
-      - Product Hierarchy Management API
-      - User Qualification API
-      - SAP Ariba Custom Forms API
-      - SAP Ariba SCIM API
-      - Event Management API
-      - Integration Event Monitoring Query API for Procurement
-      - Integration Monitoring API for Procurement
-      - Integration Monitoring API for Strategic Sourcing
-      - Transaction Monitoring API
-      - Asynchronous Requests Management API
-      - Configuration Parameter Review API
-      - Data Replication Status for Multi-ERP Configurations
-      - Trading Partner Profile Certification API
-      - Cost Breakdown Data Extraction API
-      - NDA Data Export API
-      - Public Procurement Notices Export API
-      - Guided Buying Functional Documents API
-      - Planning Collaboration Buyer API
-      - Planning Collaboration Supplier API
-      - Project Document Management API
-      - ETendering Notice Management API
-      - SAP Build Work Zone CDM Content API for Sourcing
-      - SAP Build Work Zone CDM Content API for Procurement
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Ariba Network API
-      - Ariba Procurement API
-      - Ariba Sourcing API
-      - Ariba Contracts API
-      - Ariba Supplier API
-      - Ariba Analytics API
-      - Operational Reporting API for Procurement
-      - Operational Reporting API for Strategic Sourcing
-      - Analytical Reporting API for Strategic and Operational Procurement
-      - Supplier Data API with Pagination
-      - Supplier Data API
-      - Supplier Data Extraction API
-      - Supplier Information API
-      - Supplier Invite API
-      - Ariba Network Supplier Profile API
-      - Contract Workspace Management APIs
-      - Contract Workspace Retrieval API
-      - Contract Terms Management API
-      - Contract Compliance API
-      - Document Approval API
-      - Ariba Network Purchase Orders API
-      - Purchase Orders Supplier API
-      - Order Change Requests API for Buyers
-      - Order Change Requests API for Suppliers
-      - Ariba Network Invoice Header Data Extraction API
-      - Ship Notice API for Buyers
-      - Ship Notice API for Suppliers
-      - Sourcing Project Management API
-      - Surrogate Bid API
-      - Discovery RFx Publication TO External Marketplace API
-      - Discovery RFx Publication FROM External Marketplace API
-      - External Approval API for Sourcing and Supplier Management
-      - Flow Extension API
-      - SAP Ariba Catalog Content API
-      - Catalog Connectivity Service API
-      - Internal Catalogs Shop API
-      - Public Catalogs Shop API
-      - Network Catalog Management API
-      - Content Lookup API
-      - Create Procurement Workspace API
-      - Dynamic Lookup Table API
-      - Risk Exposure API
-      - Risk Category Information API for Supplier Risk Exposure
-      - Supplier Risk Engagements API
-      - Engagement Risk Assessment External Response Import API
-      - Finding and Event Collaboration Integration API for Supplier Risk
-      - Pricing API for Product Sourcing Price Information
-      - Audit Search API
-      - Master Data Retrieval API for Procurement
-      - Master Data Retrieval API for Sourcing
-      - Master Data Integration Job Status API for Operational Procurement
-      - Proof of Service API for Buyers
-      - Proof of Service API for Suppliers
-      - Asset Management API
-      - Bill of Materials Import API
-      - Materials and BOM Tag Management API
-      - Item Volume Import API
-      - Product Hierarchy Management API
-      - User Qualification API
-      - SAP Ariba Custom Forms API
-      - SAP Ariba SCIM API
-      - Event Management API
-      - Integration Event Monitoring Query API for Procurement
-      - Integration Monitoring API for Procurement
-      - Integration Monitoring API for Strategic Sourcing
-      - Transaction Monitoring API
-      - Asynchronous Requests Management API
-      - Configuration Parameter Review API
-      - Data Replication Status for Multi-ERP Configurations
-      - Trading Partner Profile Certification API
-      - Cost Breakdown Data Extraction API
-      - NDA Data Export API
-      - Public Procurement Notices Export API
-      - Guided Buying Functional Documents API
-      - Planning Collaboration Buyer API
-      - Planning Collaboration Supplier API
-      - Project Document Management API
-      - ETendering Notice Management API
-      - SAP Build Work Zone CDM Content API for Sourcing
-      - SAP Build Work Zone CDM Content API for Procurement
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
+    source: https://help.sap.com/docs/ARIBA_APIS/1aaba5294b3e4663973fbcc33e8ea1ca/9d12d6d063944d2f849a1c6a5df07061.html
+  - api: Forms Asynchronous Reporting API (SAP Ariba Custom Forms)
+    scope: per-application
+    window: minute
+    limit: 50
+    source: https://help.sap.com/docs/ARIBA_APIS/1aaba5294b3e4663973fbcc33e8ea1ca/9d12d6d063944d2f849a1c6a5df07061.html
+  - api: Forms Asynchronous Reporting API (SAP Ariba Custom Forms)
+    scope: per-application
+    window: hour
     limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Ariba Network API
-      - Ariba Procurement API
-      - Ariba Sourcing API
-      - Ariba Contracts API
-      - Ariba Supplier API
-      - Ariba Analytics API
-      - Operational Reporting API for Procurement
-      - Operational Reporting API for Strategic Sourcing
-      - Analytical Reporting API for Strategic and Operational Procurement
-      - Supplier Data API with Pagination
-      - Supplier Data API
-      - Supplier Data Extraction API
-      - Supplier Information API
-      - Supplier Invite API
-      - Ariba Network Supplier Profile API
-      - Contract Workspace Management APIs
-      - Contract Workspace Retrieval API
-      - Contract Terms Management API
-      - Contract Compliance API
-      - Document Approval API
-      - Ariba Network Purchase Orders API
-      - Purchase Orders Supplier API
-      - Order Change Requests API for Buyers
-      - Order Change Requests API for Suppliers
-      - Ariba Network Invoice Header Data Extraction API
-      - Ship Notice API for Buyers
-      - Ship Notice API for Suppliers
-      - Sourcing Project Management API
-      - Surrogate Bid API
-      - Discovery RFx Publication TO External Marketplace API
-      - Discovery RFx Publication FROM External Marketplace API
-      - External Approval API for Sourcing and Supplier Management
-      - Flow Extension API
-      - SAP Ariba Catalog Content API
-      - Catalog Connectivity Service API
-      - Internal Catalogs Shop API
-      - Public Catalogs Shop API
-      - Network Catalog Management API
-      - Content Lookup API
-      - Create Procurement Workspace API
-      - Dynamic Lookup Table API
-      - Risk Exposure API
-      - Risk Category Information API for Supplier Risk Exposure
-      - Supplier Risk Engagements API
-      - Engagement Risk Assessment External Response Import API
-      - Finding and Event Collaboration Integration API for Supplier Risk
-      - Pricing API for Product Sourcing Price Information
-      - Audit Search API
-      - Master Data Retrieval API for Procurement
-      - Master Data Retrieval API for Sourcing
-      - Master Data Integration Job Status API for Operational Procurement
-      - Proof of Service API for Buyers
-      - Proof of Service API for Suppliers
-      - Asset Management API
-      - Bill of Materials Import API
-      - Materials and BOM Tag Management API
-      - Item Volume Import API
-      - Product Hierarchy Management API
-      - User Qualification API
-      - SAP Ariba Custom Forms API
-      - SAP Ariba SCIM API
-      - Event Management API
-      - Integration Event Monitoring Query API for Procurement
-      - Integration Monitoring API for Procurement
-      - Integration Monitoring API for Strategic Sourcing
-      - Transaction Monitoring API
-      - Asynchronous Requests Management API
-      - Configuration Parameter Review API
-      - Data Replication Status for Multi-ERP Configurations
-      - Trading Partner Profile Certification API
-      - Cost Breakdown Data Extraction API
-      - NDA Data Export API
-      - Public Procurement Notices Export API
-      - Guided Buying Functional Documents API
-      - Planning Collaboration Buyer API
-      - Planning Collaboration Supplier API
-      - Project Document Management API
-      - ETendering Notice Management API
-      - SAP Build Work Zone CDM Content API for Sourcing
-      - SAP Build Work Zone CDM Content API for Procurement
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Ariba Network API
-      - Ariba Procurement API
-      - Ariba Sourcing API
-      - Ariba Contracts API
-      - Ariba Supplier API
-      - Ariba Analytics API
-      - Operational Reporting API for Procurement
-      - Operational Reporting API for Strategic Sourcing
-      - Analytical Reporting API for Strategic and Operational Procurement
-      - Supplier Data API with Pagination
-      - Supplier Data API
-      - Supplier Data Extraction API
-      - Supplier Information API
-      - Supplier Invite API
-      - Ariba Network Supplier Profile API
-      - Contract Workspace Management APIs
-      - Contract Workspace Retrieval API
-      - Contract Terms Management API
-      - Contract Compliance API
-      - Document Approval API
-      - Ariba Network Purchase Orders API
-      - Purchase Orders Supplier API
-      - Order Change Requests API for Buyers
-      - Order Change Requests API for Suppliers
-      - Ariba Network Invoice Header Data Extraction API
-      - Ship Notice API for Buyers
-      - Ship Notice API for Suppliers
-      - Sourcing Project Management API
-      - Surrogate Bid API
-      - Discovery RFx Publication TO External Marketplace API
-      - Discovery RFx Publication FROM External Marketplace API
-      - External Approval API for Sourcing and Supplier Management
-      - Flow Extension API
-      - SAP Ariba Catalog Content API
-      - Catalog Connectivity Service API
-      - Internal Catalogs Shop API
-      - Public Catalogs Shop API
-      - Network Catalog Management API
-      - Content Lookup API
-      - Create Procurement Workspace API
-      - Dynamic Lookup Table API
-      - Risk Exposure API
-      - Risk Category Information API for Supplier Risk Exposure
-      - Supplier Risk Engagements API
-      - Engagement Risk Assessment External Response Import API
-      - Finding and Event Collaboration Integration API for Supplier Risk
-      - Pricing API for Product Sourcing Price Information
-      - Audit Search API
-      - Master Data Retrieval API for Procurement
-      - Master Data Retrieval API for Sourcing
-      - Master Data Integration Job Status API for Operational Procurement
-      - Proof of Service API for Buyers
-      - Proof of Service API for Suppliers
-      - Asset Management API
-      - Bill of Materials Import API
-      - Materials and BOM Tag Management API
-      - Item Volume Import API
-      - Product Hierarchy Management API
-      - User Qualification API
-      - SAP Ariba Custom Forms API
-      - SAP Ariba SCIM API
-      - Event Management API
-      - Integration Event Monitoring Query API for Procurement
-      - Integration Monitoring API for Procurement
-      - Integration Monitoring API for Strategic Sourcing
-      - Transaction Monitoring API
-      - Asynchronous Requests Management API
-      - Configuration Parameter Review API
-      - Data Replication Status for Multi-ERP Configurations
-      - Trading Partner Profile Certification API
-      - Cost Breakdown Data Extraction API
-      - NDA Data Export API
-      - Public Procurement Notices Export API
-      - Guided Buying Functional Documents API
-      - Planning Collaboration Buyer API
-      - Planning Collaboration Supplier API
-      - Project Document Management API
-      - ETendering Notice Management API
-      - SAP Build Work Zone CDM Content API for Sourcing
-      - SAP Build Work Zone CDM Content API for Procurement
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Ariba Network API
-      - Ariba Procurement API
-      - Ariba Sourcing API
-      - Ariba Contracts API
-      - Ariba Supplier API
-      - Ariba Analytics API
-      - Operational Reporting API for Procurement
-      - Operational Reporting API for Strategic Sourcing
-      - Analytical Reporting API for Strategic and Operational Procurement
-      - Supplier Data API with Pagination
-      - Supplier Data API
-      - Supplier Data Extraction API
-      - Supplier Information API
-      - Supplier Invite API
-      - Ariba Network Supplier Profile API
-      - Contract Workspace Management APIs
-      - Contract Workspace Retrieval API
-      - Contract Terms Management API
-      - Contract Compliance API
-      - Document Approval API
-      - Ariba Network Purchase Orders API
-      - Purchase Orders Supplier API
-      - Order Change Requests API for Buyers
-      - Order Change Requests API for Suppliers
-      - Ariba Network Invoice Header Data Extraction API
-      - Ship Notice API for Buyers
-      - Ship Notice API for Suppliers
-      - Sourcing Project Management API
-      - Surrogate Bid API
-      - Discovery RFx Publication TO External Marketplace API
-      - Discovery RFx Publication FROM External Marketplace API
-      - External Approval API for Sourcing and Supplier Management
-      - Flow Extension API
-      - SAP Ariba Catalog Content API
-      - Catalog Connectivity Service API
-      - Internal Catalogs Shop API
-      - Public Catalogs Shop API
-      - Network Catalog Management API
-      - Content Lookup API
-      - Create Procurement Workspace API
-      - Dynamic Lookup Table API
-      - Risk Exposure API
-      - Risk Category Information API for Supplier Risk Exposure
-      - Supplier Risk Engagements API
-      - Engagement Risk Assessment External Response Import API
-      - Finding and Event Collaboration Integration API for Supplier Risk
-      - Pricing API for Product Sourcing Price Information
-      - Audit Search API
-      - Master Data Retrieval API for Procurement
-      - Master Data Retrieval API for Sourcing
-      - Master Data Integration Job Status API for Operational Procurement
-      - Proof of Service API for Buyers
-      - Proof of Service API for Suppliers
-      - Asset Management API
-      - Bill of Materials Import API
-      - Materials and BOM Tag Management API
-      - Item Volume Import API
-      - Product Hierarchy Management API
-      - User Qualification API
-      - SAP Ariba Custom Forms API
-      - SAP Ariba SCIM API
-      - Event Management API
-      - Integration Event Monitoring Query API for Procurement
-      - Integration Monitoring API for Procurement
-      - Integration Monitoring API for Strategic Sourcing
-      - Transaction Monitoring API
-      - Asynchronous Requests Management API
-      - Configuration Parameter Review API
-      - Data Replication Status for Multi-ERP Configurations
-      - Trading Partner Profile Certification API
-      - Cost Breakdown Data Extraction API
-      - NDA Data Export API
-      - Public Procurement Notices Export API
-      - Guided Buying Functional Documents API
-      - Planning Collaboration Buyer API
-      - Planning Collaboration Supplier API
-      - Project Document Management API
-      - ETendering Notice Management API
-      - SAP Build Work Zone CDM Content API for Sourcing
-      - SAP Build Work Zone CDM Content API for Procurement
+    source: https://help.sap.com/docs/ARIBA_APIS/1aaba5294b3e4663973fbcc33e8ea1ca/9d12d6d063944d2f849a1c6a5df07061.html
+  - api: Forms Asynchronous Reporting API (SAP Ariba Custom Forms)
+    scope: per-user
+    window: hour
+    limit: 2
+    unit: report jobs
+    note: >-
+      A resource quota layered on top of the request rate limit - the total number of
+      report jobs a single user can create in an hour is 2.
+    source: https://help.sap.com/docs/ARIBA_APIS/1aaba5294b3e4663973fbcc33e8ea1ca/9d12d6d063944d2f849a1c6a5df07061.html
+  - api: Operational Reporting API for Procurement
+    scope: per-request
+    window: null
+    limit: 10000
+    unit: records
+    note: >-
+      Result-size ceiling rather than a call rate: maximum 10,000 records returned, or
+      10 files of 1,000 records each; maximum 40 records per page; asynchronous result
+      files expire after 48 hours.
+    source: https://help.sap.com/docs/ARIBA_APIS/42cb9e6fb65a4fa7b03f5e0ec7d406f9/c19908a846a74562831f70b1035e13cd.html
+  - api: Operational Reporting API for Strategic Sourcing
+    scope: per-request
+    window: null
+    limit: 10000
+    unit: records
+    note: >-
+      Maximum 10,000 records, or 10 files of 1,000 records; maximum 50 records per
+      page; asynchronous result files expire after 48 hours.
+    source: https://help.sap.com/docs/ARIBA_APIS/c4f46b9331834a0b970f834c20c9c73b/06f4c4c7b36f48249377bf4222865d14.html
+  - api: SAP Ariba SCIM API
+    scope: per-request
+    window: null
+    limit: 8000
+    unit: users or groups
+    note: >-
+      "The SAP Ariba SCIM API supports a maximum of 8000 users or groups in a single
+      group for API calls." SAP directs integrators to the developer portal SCIM API
+      page for the request-rate limit itself, which is not published anonymously.
+    source: https://help.sap.com/docs/ARIBA_APIS/b3330550673e4208a0300f524f5b8104/8a29ea05c1b24d40b4dc7288fd1b82cb.html
+undocumented_note: >-
+  For the remaining ~110 REST APIs the public help set says only "Refer to the
+  developer portal discovery page for this API for the applicable query rates."
+  Those pages sit behind the developer-portal login, so the numeric limits for most
+  of the surface are not publicly readable. That is the honest state, not a gap in
+  this probe.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Client-side tracking
+    description: >-
+      SAP's stated best practice is for the client to store the rate-limit header
+      values after every call and compare them, because the API returns no reset
+      timestamp: "You can use the rate limit headers to track your API rate limit usage
+      by storing the current rate limit values after every API call."
+    source: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/962cc344f5e443ffaae9e8aaa15cf34e.html
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

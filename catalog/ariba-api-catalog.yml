@@ -1,0 +1,619 @@
+generated: '2026-08-29'
+method: searched
+source: "https://api.sap.com/odata/1.0/catalog.svc/ContentEntities.ContentPackages('SAPAribaOpenAPIs')/Artifacts?$format=json"
+provider: Ariba
+providerId: ariba
+description: >-
+  The authoritative, machine-readable inventory of every REST API SAP publishes for
+  Ariba, harvested unauthenticated from the SAP Business Accelerator Hub OData
+  catalogue (HTTP 200, application/json). 114 API artifacts with name, display name,
+  version, sub-type and SAP's own one-line description.
+  CONTRACT DISCOVERY OUTCOME: the catalogue is anonymous, the SPECS ARE NOT. Every
+  artifact's $value download and every api.sap.com/api/{name}/overview page redirects
+  to https://sappubliccatalog.authentication.eu10.hana.ondemand.com (SAP ID login),
+  and developer.ariba.com serves an Angular shell for every path including
+  /openapi.json. So SAP publishes 114 OpenAPI documents for Ariba and releases none
+  of them anonymously. That is why openapi/ in this repo is empty - not because the
+  contracts do not exist.
+ownership_note: >-
+  SAP acquired Ariba in 2012 and the surface is branded SAP Ariba throughout. The
+  catalogue package is literally named SAPAribaOpenAPIs, every artifact description
+  names an Ariba or SAP Business Network product, and the runtime gateway is
+  openapi.ariba.com - an ariba.com host. Same company.
+gateway: https://openapi.ariba.com
+api_count: 114
+probes:
+  - url: "https://api.sap.com/odata/1.0/catalog.svc/ContentEntities.ContentPackages('SAPAribaOpenAPIs')/Artifacts?$format=json"
+    status: 200
+    result: 114 artifacts, metadata only
+  - url: "https://api.sap.com/odata/1.0/catalog.svc/Artifacts(Name='sourcing_event_bid',Type='API')/$value"
+    status: 200
+    result: HTML login redirect to sappubliccatalog.authentication.eu10.hana.ondemand.com - spec not served anonymously
+  - url: https://developer.ariba.com/api/network/openapi.json
+    status: 200
+    result: Angular SPA shell (4,196 bytes, identical to every other path on the host) - not a spec
+  - url: https://openapi.ariba.com/openapi.json
+    status: 403
+    result: '{"message":"The service requested is not available"} - gateway rejects unauthenticated'
+apis:
+- name: sourcing_event_bid
+  title: Surrogate Bidding API
+  version: 1.0.0
+  subtype: REST
+  description: Submit surrogate bids on behalf of participants in SAP Ariba Sourcing events
+- name: guided_buying_functional_documents
+  title: Guided Buying Functional Documents API
+  version: 1.0.0
+  subtype: REST
+  description: Enables your application to update or get details of functional documents
+- name: download_contract_line_item_document
+  title: Contract Line Item Document Download API
+  version: 1.0.0
+  subtype: REST
+  description: Extracts line items document in standard excel format
+- name: risk_engagement_v2
+  title: Supplier Risk Engagements API
+  version: 2.0.0
+  subtype: REST
+  description: Retrieves Supplier Risk engagement data.
+- name: supplierdatapagination_v2
+  title: Supplier Data API With Pagination
+  version: 2.0.0
+  subtype: REST
+  description: Extracts Supplier data
+- name: customforms
+  title: Custom Forms API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieves information about form designs created in the forms builder and data from submitted
+    form documents.
+- name: sourcing_reporting_details
+  title: Operational Reporting for Sourcing - Synchronous API
+  version: 1.0.0
+  subtype: REST
+  description: Report on the transactional data for sourcing decisions (synchronous usage).
+- name: contract_compliance
+  title: Contract Compliance API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve contract and contractRequest documents and update contract accumulators
+- name: procurement_reporting_view_v2
+  title: Operational Reporting for Procurement - View Management API
+  version: 2.0.0
+  subtype: REST
+  description: Enables your application to manipulate view templates for Procurement requests.
+- name: proof_of_service_buyer
+  title: Proof of Service API for buyers
+  version: 1.0.0
+  subtype: REST
+  description: Manage proof of service documents.
+- name: audit_search
+  title: Audit Search API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve published audit data both synchronously and asynchronously
+- name: procurement_integration_event_monitor
+  title: Integration Event Monitoring Query API for Procurement
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve the integration event status information
+- name: product_tags
+  title: Tag Management API for Materials and Bills of Materials
+  version: 1.0.0
+  subtype: REST
+  description: Manage tags to materials and bills of materials.
+- name: externaltaxdocservice
+  title: External Tax Doc API
+  version: 1.0.0
+  subtype: REST
+  description: Post external tax documents to SAP Business Network.
+- name: sourcing_config_parameter
+  title: Configuration Parameter Review API for Sourcing
+  version: 1.0.0
+  subtype: REST
+  description: Review current and default values of Sourcing and Buying configuration parameters
+- name: risk_exposure
+  title: Risk Exposure API
+  version: 1.0.0
+  subtype: REST
+  description: Get the overall and category risk exposure for your suppliers.
+- name: user_qualification
+  title: User Qualification API
+  version: 1.0.0
+  subtype: REST
+  description: Configures user values for the user qualification feature.
+- name: risk_findings_integration
+  title: Finding and Event Collaboration Integration API for Supplier Risk
+  version: 1.0.0
+  subtype: REST
+  description: Transfer data between SAP Supplier Risk and Finding and Event Collaboration.
+- name: proof_of_service_supplier
+  title: Proof of Service API for suppliers
+  version: 1.0.0
+  subtype: REST
+  description: Manage proof of service documents.
+- name: analytics_reporting_job
+  title: Analytical Reporting - Job Submission API
+  version: 1.0.0
+  subtype: REST
+  description: Submit jobs to the Analytical Reporting API (asynchronous usage).
+- name: supplierdatapagination_v3
+  title: Supplier Data API With Pagination
+  version: 3.0.0
+  subtype: REST
+  description: Extracts Supplier data
+- name: bizmonservice_v2
+  title: Transaction Monitoring API
+  version: 2.0.0
+  subtype: REST
+  description: Enables monitoring of Supply Chain Collaboration transactions in Ariba Network.
+- name: customforms_v2
+  title: Custom Forms API
+  version: 2.0.0
+  subtype: REST
+  description: Retrieves information about form designs created in the forms builder and data from submitted
+    form documents.
+- name: audit_search_v2
+  title: Audit Search API
+  version: 2.0.0
+  subtype: REST
+  description: Retrieve published audit data both synchronously and asynchronously
+- name: sourcing_approval_v2
+  title: External Approval API for Sourcing and Supplier Management
+  version: 2.0.0
+  subtype: REST
+  description: Process external approvals for supplier and sourcing management tasks
+- name: sourcing_event_v2
+  title: Event Management API
+  version: 2.0.0
+  subtype: REST
+  description: Publish and manage SAP Ariba Sourcing events.
+- name: state_change_contract_workspaces
+  title: Contract Workspace State Change API
+  version: 1.0.0
+  subtype: REST
+  description: Update contract workspace status
+- name: risk_category_information
+  title: Risk Category Information API for Supplier Risk Exposure
+  version: 1.0.0
+  subtype: REST
+  description: Add supplier level data to suppliers monitored in SAP Ariba Supplier Risk.
+- name: connectivity_service
+  title: Catalog Connectivity Service API
+  version: 1.0.0
+  subtype: REST
+  description: Facilitates PunchIn to Ariba Guided Buying via Secure OCI
+- name: ship_notices_buyer
+  title: Ariba Network SCC Ship Notices API for Buyers
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve ship notice header and item details
+- name: supplier_custom_fields
+  title: Risk Category Information API
+  version: 1.0.0
+  subtype: REST
+  description: Enables admin users to assign values to preconfigured supplier custom fields.
+- name: etendering_notice_management
+  title: ETendering Notice Management
+  version: 1.0.0
+  subtype: REST
+  description: This API to outsource the portal integration to a third party.
+- name: contract_terms_management
+  title: Contract Terms Management API
+  version: 1.0.0
+  subtype: REST
+  description: Create and retrieve contract terms documents and compliance contract requests.
+- name: sourcing_event_public_notice_v2
+  title: Public Procurement Notices Export API
+  version: 2.0.0
+  subtype: REST
+  description: Retrieves the list and details of public procurement notices related to an event
+- name: supplier_extraction
+  title: Supplier Data Extraction
+  version: 1.0.0
+  subtype: REST
+  description: Gets data about a specific set of suppliers from a specific realm.
+- name: strategicsourcing_eventstatus_v2
+  title: Integration Monitoring API for Strategic Sourcing
+  version: 2.0.0
+  subtype: REST
+  description: Monitor the status of SAP Ariba integration events for strategic sourcing
+- name: retrieve_project_document
+  title: Project Document Management Retrieval API
+  version: 1.0.0
+  subtype: REST
+  description: Gets document properties, also allows document search using different filters.
+- name: procurement_reporting_details_v2
+  title: Operational Reporting for Procurement - Synchronous API
+  version: 2.0.0
+  subtype: REST
+  description: Report on the transactional data for operational decisions (synchronous usage).
+- name: certification
+  title: Trading Partner Profile Certification
+  version: 1.0.0
+  subtype: REST
+  description: Enable customer to fetch supplier certifications details and files.
+- name: procurement_transfer_ownership
+  title: Procurement Transfer of Ownership API
+  version: 1.0.0
+  subtype: REST
+  description: Manage the transfer of purchase requisitions from one user to another
+- name: product_hierarchy_v2
+  title: Product Hierarchy Management API
+  version: 2.0.0
+  subtype: REST
+  description: Get product questionnaires responded to by a supplier and export the responses
+- name: customforms_v3
+  title: Custom Forms API
+  version: 3.0.0
+  subtype: REST
+  description: This API set enables your application to get information about form designs created in
+    the forms builder and data from submitted form documents
+- name: sourcing_reporting_job
+  title: Operational Reporting for Sourcing - Job Submission API
+  version: 1.0.0
+  subtype: REST
+  description: Submit jobs to Operational Reporting API for Sourcing (asynchronous usage).
+- name: discoverymarketplace
+  title: Discovery RFX Publication from External Marketplace API
+  version: 1.0.0
+  subtype: REST
+  description: Allows a customer organization in an external marketplace to publish an RFx event on SAP
+    Ariba Discovery and use SSO to view supplier responses and grant awards.
+- name: risk_external_assessment_submission
+  title: Engagement Risk Assessment External Response Import API
+  version: 1.0.0
+  subtype: REST
+  description: Checks assessment status, imports supplier responses from a third-party system.
+- name: supplierdataaccess
+  title: Supplier Data API
+  version: 1.0.0
+  subtype: REST
+  description: Kept for backward compatibility only. For new developments, please use latest version of
+    Supplier Data API With Pagination
+- name: procurement_eventstatus
+  title: Integration monitoring API for Procurement
+  version: 1.0.0
+  subtype: REST
+  description: Allows customers to import or export master and transaction data to and from their ERP
+    system.
+- name: modify_contract_workspaces
+  title: Contract Workspace Modification API
+  version: 1.0.0
+  subtype: REST
+  description: Create, update and delete contract workspaces.
+- name: asset_management
+  title: Asset Management API
+  version: 1.0.0
+  subtype: REST
+  description: Assigns unique values to requisition line items before POs are generated
+- name: procurement_reporting_jobresult_v2
+  title: Operational Reporting for Procurement - Job Results API
+  version: 2.0.0
+  subtype: REST
+  description: View the results of jobs previously submitted(asynchronous usage).
+- name: procurement_config_parameter
+  title: Configuration Parameter Review API for Procurement
+  version: 1.0.0
+  subtype: REST
+  description: Review the current and default values of SAP Ariba Sourcing and SAP Ariba Buying configuration
+    parameters.
+- name: catalogcontent
+  title: Catalog Content API
+  version: 1.0.0
+  subtype: REST
+  description: Enables application to retrieve catalog item data from the SAP Ariba solution.
+- name: invoice_extraction
+  title: Ariba Network Invoice Header Data Extraction API
+  version: 1.0.0
+  subtype: REST
+  description: Get the header information for one or more invoices.
+- name: flowextension
+  title: Flow Extension API
+  version: 1.0.0
+  subtype: REST
+  description: Intercept a document at specific points within its normal document flow.
+- name: customforms_v4
+  title: Custom Forms API
+  version: 4.0.0
+  subtype: REST
+  description: This API set enables get information about form designs and submitted documents
+- name: mds_search
+  title: Master Data Retrieval API for Procurement
+  version: 1.0.0
+  subtype: REST
+  description: Search master data stored in Hana
+- name: retrieve_contract_workspaces
+  title: Contract Workspace Retrieval API
+  version: 1.0.0
+  subtype: REST
+  description: Search for and retrieve contract workspaces.
+- name: procurement_reporting_attachments
+  title: Operational Reporting for Procurement - Attachment API
+  version: 1.0.0
+  subtype: REST
+  description: Download attachments of procurement documents
+- name: sourcing_mds_search
+  title: Master Data Retrieval API for Sourcing
+  version: 1.0.0
+  subtype: REST
+  description: Search master data stored in Hana
+- name: network_catalog_mgmt
+  title: Network Catalog Management
+  version: 1.0.0
+  subtype: REST
+  description: Enables suppliers to manage network catalog and retrieve product information.
+- name: sourcing_approval
+  title: External Approval API for Sourcing and Supplier Management
+  version: 1.0.0
+  subtype: REST
+  description: Processes external approvals for supplier and sourcing management tasks.
+- name: analytics_reporting_jobresult
+  title: Analytical Reporting - Job Results API
+  version: 1.0.0
+  subtype: REST
+  description: View the results of jobs previously submitted(asynchronous usage).
+- name: retrieve_contract_line_item_document
+  title: Contract Line Item Document Retrieval API
+  version: 1.0.0
+  subtype: REST
+  description: Extracts line item document metadata in json format
+- name: approval_v2
+  title: Document Approval API
+  version: 2.0.0
+  subtype: REST
+  description: Get requisitions, invoices, change approval status, get attachments, approvers.
+- name: approval
+  title: Document Approval API
+  version: 1.0.0
+  subtype: REST
+  description: Get requisitions, invoices, change approval status, get attachments, approvers.
+- name: risk_engagement
+  title: Supplier Risk Engagements API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieves Supplier Risk engagement data.
+- name: pricing
+  title: Pricing API for Product Sourcing Price Information
+  version: 1.0.0
+  subtype: REST
+  description: API for extracting the price information from Direct Material Sourcing (DMS)
+- name: nda_export
+  title: NDA Export
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve, filter, and export NDA transactional data.
+- name: analytics_reporting_view
+  title: Analytical Reporting - View Management API
+  version: 1.0.0
+  subtype: REST
+  description: Create and query view templates
+- name: lookup_table
+  title: Dynamic Lookup Table API
+  version: 1.0.0
+  subtype: REST
+  description: Upload lookup table for product sourcing and view the upload status
+- name: supplier_management_v2
+  title: Ariba Network Supplier Profile API
+  version: 2.0.0
+  subtype: REST
+  description: Retrieve supplier information for Ariba Network buyers
+- name: sourcing_event_public_notice
+  title: Public Procurement Notices Export API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieves the list and details of public procurement notices related to an event
+- name: ariba_catalog_provider
+  title: Internal Catalogs Shop API
+  version: 1.0.0
+  subtype: REST
+  description: Provides catalog search functionality.
+- name: modify_project_document
+  title: Project Document Management Modification API
+  version: 1.0.0
+  subtype: REST
+  description: Modifies folders and project documents in a Contract Workspace (Procurement).
+- name: cost_breakdown
+  title: Cost Breakdown Data Extraction API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve cost group documents IDs, cost components, and cost group terms.
+- name: planning_supplier
+  title: Planning Collaboration Supplier API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve forecast, inventory, and supplier-managed inventory information
+- name: mds
+  title: SCIM API for User and Group Master Data
+  version: 1.0.0
+  subtype: REST
+  description: This API can be used to ingest User and Group data using SCIM Protocol.
+- name: procurement_eventstatus_v2
+  title: Integration monitoring API for Procurement
+  version: 2.0.0
+  subtype: REST
+  description: Monitor the status of SAP Ariba integration events for procurement
+- name: bom_management
+  title: Bill of materials import API
+  version: 1.0.0
+  subtype: REST
+  description: API for importing bill of materials (BOM) in CSV format.
+- name: mxseller_catalog_provider
+  title: Public Catalogs Shop API
+  version: 1.0.0
+  subtype: REST
+  description: Provides catalog search functionality.
+- name: sourcing_project_management
+  title: Sourcing Project Management API
+  version: 1.0.0
+  subtype: REST
+  description: Manage project team user lists.
+- name: sourcing_reporting_jobresult
+  title: Operational Reporting for Sourcing - Job Results API
+  version: 1.0.0
+  subtype: REST
+  description: View the results of jobs previously submitted(asynchronous usage).
+- name: async_request_management
+  title: Asynchronous Requests Management
+  version: 1.0.0
+  subtype: REST
+  description: User can retrieve status and download file generated during asynchronous call.
+- name: discoveryrfx
+  title: Discovery RFX Publication to External Marketplace API
+  version: 1.0.0
+  subtype: REST
+  description: Enables you to post SAP Ariba Sourcing RFx events on external marketplaces.
+- name: procurement_reporting_job_v2
+  title: Operational Reporting for Procurement - Job Submission API
+  version: 2.0.0
+  subtype: REST
+  description: Submit jobs to Operational Reporting API for Procurement (asynchronous usage).
+- name: purchase_orders_supplier
+  title: Ariba Network Purchase Orders Supplier API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve purchase order header and item details
+- name: supplier_information
+  title: Ariba Network Supplier Information API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve relationship status of a given buyer, supplier, and collaboration type
+- name: procurement_workspace
+  title: Create Procurement Workspace API
+  version: 1.0.0
+  subtype: REST
+  description: Create Procurement Workspace using the given header information.
+- name: analytics_reporting_details
+  title: Analytical Reporting - Synchronous API
+  version: 1.0.0
+  subtype: REST
+  description: Extracts reporting data from reporting facts and dimensions(synchronous usage).
+- name: project_document_state_change
+  title: Project Document Management State Change API
+  version: 1.0.0
+  subtype: REST
+  description: Change the state of project documents in a Procurement Contract Workspace.
+- name: sourcing_project_management_v2
+  title: Sourcing Project Management API
+  version: 2.0.0
+  subtype: REST
+  description: Manage project team user lists.
+- name: supplier_invite_v2
+  title: Ariba Network Supplier Invite API
+  version: 2.0.0
+  subtype: REST
+  description: Invite supplier to establish an Ariba Network relationship
+- name: sourcing_event
+  title: Event Management API
+  version: 1.0.0
+  subtype: REST
+  description: Publish and manage SAP Ariba Sourcing events.
+- name: replication
+  title: Data Replication Status for multi-ERP configurations
+  version: 1.0.0
+  subtype: REST
+  description: Allow user to intercept a document at specific points within its normal flow
+- name: supplierdatapagination_v4
+  title: Supplier Data API With Pagination
+  version: 4.0.0
+  subtype: REST
+  description: Extracts Supplier data
+- name: supplier_invite
+  title: Ariba Network Supplier Invite API
+  version: 1.0.0
+  subtype: REST
+  description: API allows Buyers to invite supplier to establish an Ariba Network relationship
+- name: planning
+  title: Planning Collaboration Buyer API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve data about your suppliers from Ariba Network
+- name: purchase_orders
+  title: Ariba Network Purchase Orders Buyer API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve purchase order header and item infomation
+- name: mrp_exceptions_buyer
+  title: Order Change Requests API for Buyers
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve change request and change request response details
+- name: dms_file_upload
+  title: Direct Material Sourcing File Upload API for Product Sourcing
+  version: 1.0.0
+  subtype: REST
+  description: File Upload for Direct Material Sourcing
+- name: product_hierarchy
+  title: Product Hierarchy Management API
+  version: 1.0.0
+  subtype: REST
+  description: Get product questionnaires responded to by a supplier and export the responses
+- name: sourcing_reporting_view
+  title: Operational Reporting for Sourcing - View Management API
+  version: 1.0.0
+  subtype: REST
+  description: Enables your application to manipulate view templates for Sourcing requests.
+- name: create_project_document
+  title: Project Document Management Creation API
+  version: 1.0.0
+  subtype: REST
+  description: Creates folders or project documents in a Contract Workspace (Procurement)
+- name: modify_contract_line_item_document
+  title: Contract Line Item Document Modification API
+  version: 1.0.0
+  subtype: REST
+  description: Create contract Line Item Document and update the metadata.
+- name: ship_notices_supplier
+  title: Ariba Network SCC Ship Notices API for Suppliers
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve ship notice header and item details
+- name: import_contract_line_item_document
+  title: Contract Line Item Document Import API
+  version: 1.0.0
+  subtype: REST
+  description: Create, update and import contract Line Item Document.
+- name: mds_integration_job
+  title: Master Data Integration Job Status API for Operational Procurement
+  version: 1.0.0
+  subtype: REST
+  description: Allows external ERP System to query the status of master data integration job
+- name: risk_exposure_v2
+  title: Risk Exposure API
+  version: 2.0.0
+  subtype: REST
+  description: Get the overall and category risk exposure for your suppliers.
+- name: risk_exposure_v3
+  title: Risk Exposure API
+  version: 3.0.0
+  subtype: REST
+  description: Get the overall and category risk exposure for your suppliers.
+- name: supplier_management
+  title: Ariba Network Supplier Profile API
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve supplier information for Ariba Network buyers
+- name: strategicsourcing_eventstatus
+  title: Integration Monitoring API for Strategic Sourcing
+  version: 1.0.0
+  subtype: REST
+  description: Allows customers to import and export transaction data to and from ERP system
+- name: contentlookup
+  title: Content Lookup API
+  version: 1.0.0
+  subtype: REST
+  description: Enables your application to upload lookup files to Ariba Content Management System (CMS).
+- name: mrp_exceptions_supplier
+  title: Order Change Requests API for Suppliers
+  version: 1.0.0
+  subtype: REST
+  description: Retrieve change request and change request response details
+- name: download_project_document
+  title: Project Document Management Download API
+  version: 1.0.0
+  subtype: REST
+  description: Gets document file from a Procurement Contract Workspace.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

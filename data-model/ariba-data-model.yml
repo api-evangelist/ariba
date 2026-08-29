@@ -1,0 +1,225 @@
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/docs/ARIBA_APIS (per-API endpoint and workflow pages)
+provider: Ariba
+providerId: ariba
+description: >-
+  Entity graph for the SAP Ariba API surface. Normally this would be derived from
+  OpenAPI $ref links; SAP publishes no anonymous spec, so every entity and edge below
+  is read from a documented endpoint path or a documented request/response field on a
+  cited SAP help page. Entities SAP does not name in the anonymous docs are not
+  invented.
+grounding: documentation
+entities:
+  - name: Realm
+    aka: [site]
+    description: >-
+      The customer tenant. Required as a ?realm= query parameter on nearly every call
+      and enforced as an authorization boundary.
+    identifier: realm (site name)
+    root: true
+  - name: User
+    api: SAP Ariba SCIM API
+    endpoints: ['GET /Users', 'POST /Users', 'PUT /Users/{UserId}', 'PATCH /Users/{UserId}', 'DELETE /Users/{UserId}']
+    identifier: UserId
+    schema_standard: SCIM 2.0
+  - name: Group
+    api: SAP Ariba SCIM API
+    endpoints: ['GET /Groups', 'POST /Groups']
+    identifier: groupId
+    schema_standard: SCIM 2.0
+  - name: Supplier
+    aka: [vendor, trading partner]
+    api: Supplier Data API with Pagination / Ariba Network Supplier Profile API
+    identifier: ANID (SAP Business Network ID) / supplier uniqueName
+  - name: SupplierProcess
+    api: Supplier Data API with Pagination
+    endpoints: ['processes', 'processTypes', 'processCreateRequests', 'processCancellationRequest', 'modularQuestionnairesRequests', 'vendorDataRequests', 'workspaces', 'jobs']
+    identifier: process id
+  - name: Requisition
+    api: Asset Management API / Operational Reporting for Procurement
+    endpoints: ['GET /requisitions', 'GET /requisitions/$count', 'POST /requisitions/batch/assets']
+    states: [Composing, Submitted, Approved, Denied, Ordering, Ordered, Receiving, Received, Canceling, Canceled, Collaborating, Collaboration Completed, Invalid]
+  - name: PurchaseOrder
+    api: Ariba Network Purchase Orders Buyer/Supplier API
+    identifier: document_id (e.g. PO37529)
+  - name: OrderChangeRequest
+    api: Order Change Requests API for Buyers / for Suppliers
+  - name: ShipNotice
+    api: Ariba Network SCC Ship Notices API for Buyers / for Suppliers
+  - name: Invoice
+    api: Ariba Network Invoice Header Data Extraction API
+    fields_documented: [X-ARIBA-NETWORK-ID, includeInvoiceProfile, limit, '$top']
+  - name: ServiceSheet
+    api: Proof of Service API for Buyers / for Suppliers
+  - name: AdvancePayment
+    api: SAP Ariba Web Services (SOAP)
+  - name: ContractWorkspace
+    api: Contract Workspace Retrieval / Modification / State Change API
+    endpoints: ['GET /contractworkspaces', 'GET /contractworkspaces/$id']
+  - name: ContractLineItemDocument
+    aka: [CLID]
+    api: Contract Line Item Document Import / Retrieval / Modification / Download API
+  - name: ContractTerms
+    api: Contract Terms Management API
+  - name: SourcingEvent
+    aka: [RFx, RFP, auction]
+    api: Event Management API
+    fields_documented: [eventTypeName, status, currency, isTest]
+    states: [Draft]
+  - name: Bid
+    api: Surrogate Bidding API
+  - name: Scenario
+    api: Event Management API
+    description: Award scenarios, including split awards and optimization.
+  - name: Award
+    api: Event Management API / AwardDownload (SOAP)
+  - name: SourcingProject
+    api: Sourcing Project Management API
+  - name: ProjectDocument
+    api: Project Document Management API (Creation / Retrieval / Modification / Download / State Change)
+  - name: Catalog
+    api: SAP Ariba Catalog Content API
+    endpoints: ['GET /catalogs']
+  - name: CatalogSubscription
+    api: SAP Ariba Catalog Content API
+    fields_documented: [subcriptionName, SupplierId, date, showAll, showAdditionalFields]
+  - name: RiskExposure
+    api: Risk Exposure API
+  - name: RiskEngagement
+    api: Supplier Risk Engagements API
+  - name: RiskFinding
+    api: Finding and Event Collaboration Integration API for Supplier Risk
+    endpoints: ['POST /invites']
+  - name: Assessment
+    api: Engagement Risk Assessment External Response Import API
+    endpoints: ['/assessment', 'POST /questionnaireResponses']
+  - name: Material
+    api: Bill of Materials Import API / Item Volume Import API / Tag Management API
+  - name: ProductHierarchy
+    api: Product Hierarchy Management API
+    endpoints: ['/producthierarchy/attachments']
+  - name: CustomForm
+    api: SAP Ariba Custom Forms API
+  - name: FlowExtension
+    api: Flow Extension API
+    identifier: flowExtensionId
+  - name: FlowExtensionEvent
+    api: Flow Extension API
+    identifier: eventId
+  - name: Job
+    api: Asynchronous Requests Management API / Event Management API / Dynamic Lookup Table API
+    endpoints: ['POST /jobs', 'GET /jobs/{jobID}']
+    fields_documented: [resourceType, actionName, actionBody]
+  - name: LookupTable
+    api: Dynamic Lookup Table API
+  - name: Approvable
+    api: Document Approval API
+    endpoints: ['GET /{approvableType}']
+    identifier: uniqueName
+relationships:
+  - from: Realm
+    to: User
+    type: has_many
+    via: realm query parameter
+  - from: Group
+    to: User
+    type: has_many
+    via: SCIM group members
+    note: Maximum 8,000 users or groups in a single group per API call.
+  - from: Supplier
+    to: SupplierProcess
+    type: has_many
+    via: supplier uniqueName
+  - from: Requisition
+    to: PurchaseOrder
+    type: has_many
+    via: follow-on document (PurchaseOrderItemHistoryNotification)
+  - from: PurchaseOrder
+    to: OrderChangeRequest
+    type: has_many
+    via: document_id
+  - from: PurchaseOrder
+    to: ShipNotice
+    type: has_many
+    via: document_id
+  - from: PurchaseOrder
+    to: Invoice
+    type: has_many
+    via: correlation_id / document_id
+  - from: PurchaseOrder
+    to: ServiceSheet
+    type: has_many
+    via: document_id
+  - from: ContractWorkspace
+    to: ContractLineItemDocument
+    type: has_many
+  - from: ContractWorkspace
+    to: ContractTerms
+    type: has_one
+  - from: SourcingProject
+    to: SourcingEvent
+    type: has_many
+  - from: SourcingEvent
+    to: Bid
+    type: has_many
+  - from: SourcingEvent
+    to: Scenario
+    type: has_many
+  - from: Scenario
+    to: Award
+    type: has_many
+  - from: SourcingEvent
+    to: ContractWorkspace
+    type: has_one
+    via: predecessor event information on the contract
+  - from: SourcingProject
+    to: ProjectDocument
+    type: has_many
+  - from: Catalog
+    to: CatalogSubscription
+    type: has_many
+    via: subcriptionName + SupplierId
+  - from: Supplier
+    to: RiskExposure
+    type: has_one
+  - from: Supplier
+    to: RiskEngagement
+    type: has_many
+  - from: RiskEngagement
+    to: Assessment
+    type: has_many
+  - from: RiskFinding
+    to: Supplier
+    type: belongs_to
+    via: POST /invites (supplier contacts)
+  - from: FlowExtension
+    to: FlowExtensionEvent
+    type: has_many
+    via: flowExtensionId
+  - from: Job
+    to: SourcingEvent
+    type: belongs_to
+    via: 'resourceType: EVENT'
+  - from: ProductHierarchy
+    to: Material
+    type: has_many
+identifier_note: >-
+  SAP Ariba does not use typed, prefixed object IDs (there is no ari_ / po_ prefix
+  scheme). Identity is carried by uniqueName strings, document_id strings, the
+  network-wide ANID for trading partners, and per-API job IDs. An agent cannot infer
+  an object's type from its identifier.
+reference_style:
+  style: externalRef URL
+  example: 'https://openapi.ariba.com/api/mds/v1/prod/entityTypes/groups'
+  note: >-
+    The Master Data Retrieval APIs return an externalRef absolute URL for related
+    entities rather than embedding them, with isRef/isNullable flags on the property.
+  source: https://help.sap.com/docs/ARIBA_APIS/b62431d654644850ab1ca6ba6a4c532e/290572537e7449b583b35ebdbb52d104.html
+gaps:
+  - No published JSON Schema or OpenAPI components.schemas anonymously, so field-level types are not machine-readable.
+  - Entity coverage here is what the anonymous help set names; the logged-in discovery pages carry more.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

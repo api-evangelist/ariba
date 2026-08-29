@@ -1,0 +1,204 @@
+generated: '2026-08-29'
+method: probed
+source: live GET of /.well-known/* on every apis.yml + documented API host
+provider: Ariba
+providerId: ariba
+description: >-
+  Live probe of the RFC 8615 /.well-known/ namespace across every host SAP Ariba
+  publishes or documents. One real document was served: an RFC 9116 security.txt
+  on ariba.com (and www.ariba.com), pointing at SAP's central vulnerability
+  report form. Everything else is absent. Two hosts return misleading 200s and
+  are recorded as misses: developer.ariba.com is an Angular single-page app whose
+  catch-all route answers 200 with the same 4,196-byte HTML shell for every path,
+  and api.sap.com / help.sap.com answer 200 with a login-redirect or portal shell.
+  openapi.ariba.com, the real API gateway, answers 403 with a JSON gateway message
+  for every unauthenticated path.
+hosts:
+  - host: ariba.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/plain
+        file: ariba-security.txt
+        note: >-
+          RFC 9116 security.txt served. Contact is https://www.sap.com/report-a-vulnerability.
+          NOTE the Expires field is 2026-01-30T18:29:00.000Z, which is in the past as of this
+          probe (2026-08-29) - RFC 9116 says a security.txt past its Expires date should not
+          be relied upon, so the document is served but stale.
+      - path: /.well-known/openid-configuration
+        status: 403
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+        file: null
+      - path: /.well-known/api-catalog
+        status: 403
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 403
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 403
+        file: null
+      - path: /.well-known/agent.json
+        status: 403
+        file: null
+  - host: www.ariba.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/plain
+        file: ariba-security.txt
+        note: Identical document to the apex host.
+      - path: /.well-known/openid-configuration
+        status: 403
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+        file: null
+      - path: /.well-known/api-catalog
+        status: 403
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 403
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 403
+        file: null
+      - path: /.well-known/agent.json
+        status: 403
+        file: null
+  - host: developer.ariba.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/html
+        file: null
+        note: >-
+          NOT a document. The SAP Ariba APIs Portal is an Angular SPA with a catch-all
+          route; every path under this host returns the identical 4,196-byte HTML shell,
+          including paths that do not exist. Treated as a miss.
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: text/html
+        file: null
+        note: SPA shell, not a document.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: text/html
+        file: null
+        note: SPA shell, not a document.
+      - path: /.well-known/api-catalog
+        status: 200
+        content_type: text/html
+        file: null
+        note: SPA shell, not a document.
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        content_type: text/html
+        file: null
+        note: SPA shell, not a document.
+      - path: /.well-known/agent-card.json
+        status: 200
+        content_type: text/html
+        file: null
+        note: SPA shell, not an AgentCard. Rejected per the A2A probe rules.
+      - path: /.well-known/agent.json
+        status: 200
+        content_type: text/html
+        file: null
+        note: SPA shell, not an AgentCard. Rejected per the A2A probe rules.
+  - host: openapi.ariba.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        file: null
+        note: 'Gateway answers every unauthenticated path with {"message":"The service requested is not available"}.'
+      - path: /.well-known/openid-configuration
+        status: 403
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+        file: null
+      - path: /.well-known/api-catalog
+        status: 403
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 403
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 403
+        file: null
+      - path: /.well-known/agent.json
+        status: 403
+        file: null
+  - host: api.sap.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/html
+        file: null
+        note: SAP Business Accelerator Hub SPA shell, not a document.
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: text/html
+        file: null
+        note: HTML login-redirect stub, not a document.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: text/html
+        file: null
+        note: HTML login-redirect stub, not a document.
+      - path: /.well-known/api-catalog
+        status: 200
+        content_type: text/html
+        file: null
+        note: HTML login-redirect stub, not a document.
+      - path: /.well-known/agent-card.json
+        status: 200
+        content_type: text/html
+        file: null
+        note: HTML login-redirect stub, not an AgentCard.
+      - path: /.well-known/agent.json
+        status: 200
+        content_type: text/html
+        file: null
+        note: HTML login-redirect stub, not an AgentCard.
+  - host: help.sap.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/plain
+        file: null
+        note: >-
+          SAP-wide security.txt, identical body to the ariba.com document. Not saved
+          separately; recorded here so the SAP-wide policy surface is visible.
+      - path: /.well-known/api-catalog
+        status: 200
+        content_type: text/html
+        file: null
+        note: SAP Help Portal SPA shell, not a document.
+      - path: /.well-known/agent-card.json
+        status: 200
+        content_type: text/html
+        file: null
+        note: SPA shell, not an AgentCard.
+      - path: /.well-known/agent.json
+        status: 200
+        content_type: text/html
+        file: null
+        note: SPA shell, not an AgentCard.
+summary:
+  hosts_probed: 6
+  paths_probed: 40
+  real_documents: 1
+  security_txt: true
+  api_catalog: false
+  openid_configuration: false
+  oauth_authorization_server: false
+  ai_plugin: false
+  agent_card: false
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

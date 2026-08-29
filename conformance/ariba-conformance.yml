@@ -1,0 +1,167 @@
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/docs/ARIBA_APIS
+provider: Ariba
+providerId: ariba
+description: >-
+  Standards conformance for the SAP Ariba API surface, asserted only where SAP's own
+  documentation or a live probe supports it. The headline is the domain standard:
+  cXML - Commerce XML - is the procurement interchange format Ariba itself authored,
+  still published at cxml.org, and still named in SAP's own API docs as the payload
+  format for Discovery RFx. The DTD's version-control header
+  ("$Id: //ariba/cxml/modules/Common.mod#6 $") is Ariba's own Perforce path, which is
+  about as direct an ownership proof as a standard can carry.
+standards:
+  - id: oauth2
+    name: OAuth 2.0 (RFC 6749) - client credentials
+    conforms: true
+    evidence:
+      - >-
+        "The APIs on the SAP Ariba Developer Portal are protected by the API Gateway and
+        OAuth authentication... We further support the two-legged OAuth protocol or
+        Client Credentials authorization flow."
+      - Token endpoint path {oauth_server_url_prefix}/v2/oauth/token; refresh tokens issued.
+    url: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/99ef1f190ff647df8cffd681264c24d0.html
+  - id: oidc
+    name: OpenID Connect
+    conforms: false
+    evidence:
+      - No /.well-known/openid-configuration served on any Ariba host (probed 2026-08-29, all 403 or SPA shell).
+      - SAP documents no ID token or userinfo endpoint for this API surface.
+  - id: mutual-tls
+    name: Mutual TLS client authentication
+    conforms: true
+    evidence:
+      - SAP publishes "Managing Security Certificates for Mutual Authentication" in the developer-portal authentication help set.
+    url: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/c61ddbd093c1498aae76e42ffaf37e21.html
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence:
+      - 'Error envelope is a proprietary { "error": { "code", "message" } }, content type application/json, no type URI.'
+    url: errors/ariba-error-codes.yml
+  - id: rfc8594
+    name: RFC 8594 Sunset HTTP header
+    conforms: false
+    evidence:
+      - >-
+        SAP signals deprecation at runtime with a proprietary X-API-Warn header rather
+        than the Deprecation/Sunset headers. A real deprecation signal, but not the
+        standard one.
+    url: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/792a3139e5c04f0cbbcbbd404506bc04.html
+  - id: rfc9116
+    name: RFC 9116 security.txt
+    conforms: partial
+    evidence:
+      - Served at https://ariba.com/.well-known/security.txt with a Contact field.
+      - Expires field reads 2026-01-30T18:29:00.000Z, which had already passed at probe time (2026-08-29).
+    url: well-known/ariba-security.txt
+  - id: rate-limit-headers
+    name: IETF RateLimit header fields (draft)
+    conforms: false
+    evidence:
+      - >-
+        Uses window-suffixed proprietary headers (X-RateLimit-Limit-minute etc.) and no
+        Retry-After. A client written to the draft standard reads nothing.
+    url: rate-limits/ariba-rate-limits.yml
+  - id: odata
+    name: OData
+    conforms: partial
+    evidence:
+      - >-
+        OData query grammar ($top, $skip, $count, $filter) is used by several APIs, and
+        SAP Business Accelerator Hub itself serves the Ariba API catalogue over an OData
+        v2 endpoint (catalog.svc).
+      - >-
+        But no $metadata document is published for any Ariba API and the payloads are
+        not OData entity sets - this is OData-flavoured querying on a plain REST API.
+    url: https://help.sap.com/docs/ARIBA_APIS/f9cd5fe02da34e5a9c0ddd8161ee04d1/4897841579c9406c8725a619ea829ad1.html
+  - id: rsql
+    name: RSQL / FIQL filter grammar
+    conforms: true
+    evidence:
+      - 'Monitoring APIs accept rsqlfilter=(document_id==PO37529) and return a documented 400 "Invalid fields in RSQL filter".'
+    url: https://help.sap.com/docs/ARIBA_APIS/6283732683584b1baa62d0cdf51c4188/cb11409fc63a4988af70cce338a62627.html
+  - id: soap-wsdl
+    name: SOAP 1.1 / WSDL 1.1
+    conforms: true
+    evidence:
+      - 144 SAP Ariba web services published with wsdl-viewer-rendered WSDL documentation on help.sap.com.
+      - 'Endpoint shape https://s1.ariba.com/Sourcing/soap/{partition}/{ServiceName}; ?wsdl generates a WSDL per partition.'
+    url: wsdl/ariba-soap-services.yml
+  - id: pagination
+    name: Documented pagination
+    conforms: true
+    evidence:
+      - Four distinct pagination grammars documented across the surface (offset/limit, $top/$skip, pageLimit, PageSize/Offset header).
+    url: conventions/ariba-conventions.yml
+  - id: idempotency
+    name: Idempotent writes / idempotency keys
+    conforms: false
+    evidence:
+      - No idempotency key, safe-retry contract or exactly-once guarantee published for any write endpoint.
+    url: conventions/ariba-conventions.yml
+domain_standards:
+  - id: cxml
+    name: cXML (Commerce XML)
+    version: current
+    conforms: true
+    role: author-and-maintainer
+    market: business-to-business procurement / PunchOut
+    evidence:
+      - >-
+        The cXML DTD is published anonymously at http://xml.cxml.org/current/cXML.dtd
+        (HTTP 200, application/xml-dtd, 401,067 bytes, fetched 2026-08-29) and its
+        header carries Ariba's own source-control identifier
+        "$Id: //ariba/cxml/modules/Common.mod#6 $" plus a licence pointer to
+        http://www.cxml.org/home/license.asp.
+      - >-
+        SAP's own API documentation names cXML as the payload: "Post quote request cXML
+        to create an event on SAP Business Network Discovery. For details about using
+        cXML for quote request, see cXML Reference Guide."
+      - >-
+        cXML is the interchange standard the wider procurement market speaks - PunchOut,
+        OrderRequest, ConfirmationRequest, InvoiceDetailRequest - so a buyer or supplier
+        already speaking cXML integrates with SAP Business Network with no bespoke
+        connector.
+    spec_location: http://xml.cxml.org/current/cXML.dtd
+    docs: https://help.sap.com/docs/ARIBA_APIS/44701939b67f4c8c8a8b1c235a13180a/6012f0cfbc0c4206b758881fe81c207e.html
+  - id: scim2
+    name: SCIM 2.0 (RFC 7643 / RFC 7644)
+    conforms: true
+    role: implementer
+    market: enterprise identity provisioning
+    evidence:
+      - >-
+        SAP ships the SAP Ariba SCIM API (Hub artifact name "mds", DisplayName "SCIM API
+        for User and Group Master Data") with the canonical SCIM endpoint set:
+        GET/POST /Users, PUT/PATCH/DELETE /Users/{UserId}, GET/POST /Groups.
+      - >-
+        The request body carries the SCIM "schemas" array - "A comma-separated list of
+        SCIM schemas. This is a required field." - which is the RFC 7643 schema-URN
+        discriminator, i.e. the standard is declared in the contract, not just in
+        marketing prose.
+      - PATCH semantics use the SCIM add|replace|remove operation vocabulary.
+      - Supports a maximum of 8,000 users or groups in a single group per call.
+    docs: https://help.sap.com/docs/ARIBA_APIS/b3330550673e4208a0300f524f5b8104/8a29ea05c1b24d40b4dc7288fd1b82cb.html
+    endpoints_doc: https://help.sap.com/docs/ARIBA_APIS/b3330550673e4208a0300f524f5b8104/246370d594954d78bb289179f82ad7de.html
+compliance:
+  certifications_published: false
+  trust_center: null
+  probes:
+    - url: https://www.sap.com/about/trust-center.html
+      status: 403
+      note: >-
+        SAP's trust centre exists but is behind an Akamai bot policy for our crawler;
+        no certification list could be read, so none is claimed. Not evidence of
+        absence - evidence that we could not read it.
+    - url: https://trust.sap.com
+      status: NXDOMAIN
+  note: >-
+    No Compliance pointer is emitted in apis.yml, because no certification list was
+    actually read. SAP Ariba certifications are asserted in customer-facing contract
+    material rather than on an anonymously readable page.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

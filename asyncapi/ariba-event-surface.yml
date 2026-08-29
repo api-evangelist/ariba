@@ -1,0 +1,88 @@
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/docs/ARIBA_APIS/f4a746536ece4089a22fd3326fed063c/5e40c66a9d1a49d4bd84f76070b6f85f.html
+provider: Ariba
+providerId: ariba
+description: >-
+  Event and asynchronous-integration surface for SAP Ariba. There is NO AsyncAPI
+  document - SAP publishes none for this surface and none was fabricated. What SAP
+  does publish is a real event-notification contract in the Flow Extension API, a
+  large asynchronous push/pull SOAP layer, and a set of monitoring APIs for tracking
+  events after the fact. This artifact records that surface honestly, including the
+  part SAP does not publish: how the outbound notification is delivered.
+asyncapi_spec:
+  published: false
+  probes:
+    - url: https://developer.ariba.com/asyncapi.yaml
+      status: 200
+      note: Angular SPA shell, not a spec.
+    - url: https://api.sap.com/package/SAPAribaOpenAPIs/overview
+      status: 200
+      note: Login redirect. The Hub catalogue lists 114 REST and 113 SOAP artifacts and zero AsyncAPI/event artifacts.
+  note: NEVER fabricate. No AsyncAPI is written for this provider.
+event_surfaces:
+  - name: Flow Extension API
+    kind: notification-then-callback
+    description: >-
+      SAP Business Network notifies a registered external party that a document has
+      reached a flow-extension point; the external application then retrieves the event
+      and its data, and calls back to acknowledge, resume, or halt the document flow.
+      This is a genuine two-way event contract, not a poll-only feed.
+    operations:
+      - 'GET /flowextensions/{flowExtensionId}/events/{eventId} - retrieve a specific event the external party was notified of'
+      - 'GET /flowextensions/{flowExtensionId}/events/{eventId}/eventdata - retrieve the document data for that event'
+      - 'POST /actions/flowextensions/{flowExtensionId}/events/acknowledge - acknowledge receipt of a retrieved event'
+      - 'POST /action/flowextensions/{flowExtensionId}/events/{eventId}/resume - let the normal document flow resume'
+      - 'POST /action/flowextensions/{flowExtensionId}/events/{eventId}/halt - complete the flow extension and reject the document'
+    delivery_mechanism_published: false
+    delivery_note: >-
+      SAP's docs say the external party "has received a notification for" an event, and
+      the configuration is done through a back-end XML configuration file keyed on the
+      flow-extension ID - but the anonymous help set does NOT publish the callback URL
+      registration, the payload of the outbound notification, retry/backoff behaviour, or
+      any signature scheme. So: an event surface exists and is documented; the webhook
+      delivery contract itself is not anonymously readable. Recorded as-is rather than
+      inferred.
+    docs: https://help.sap.com/docs/ARIBA_APIS/f4a746536ece4089a22fd3326fed063c/5e40c66a9d1a49d4bd84f76070b6f85f.html
+    config_docs: https://help.sap.com/docs/ARIBA_APIS/f4a746536ece4089a22fd3326fed063c/1392abae874546039d670ef033527180.html
+  - name: SAP Ariba Web Services asynchronous push/pull layer
+    kind: soap-async
+    description: >-
+      A large part of the 144-service SOAP catalogue is explicitly asynchronous, split
+      into Export (SAP pushes to the external system) and ImportPull (SAP pulls a status
+      response back). Examples from SAP's own service index: AdvancePaymentAsyncExport,
+      AdvancePaymentAsyncImportPull, AssetRequisitionAsyncExport, PurchaseOrderCancelAsyncExport,
+      ServiceSheetStatusAsyncResponsePull, ReceiptAsyncImportPull,
+      CancelAdvancePaymentAsyncExport, CancelAdvancePaymentAsyncImport.
+    docs: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/ws_index.htm
+    inventory: wsdl/ariba-soap-services.yml
+  - name: Event Management API (Sourcing)
+    kind: job-and-state
+    description: >-
+      Sourcing events are managed through an asynchronous job API - POST /jobs with a
+      resourceType and actionName (CREATE, CANCEL, ...) - so state changes on an event
+      are themselves asynchronous work items with their own status.
+    docs: https://help.sap.com/docs/ARIBA_APIS/0414af6b17164879920cf26608ae643d/71096e41bfe340a88c3d6ea1c4edccb2.html
+  - name: Monitoring APIs
+    kind: query
+    description: >-
+      Integration Event Monitoring Query API, Integration Monitoring API (Procurement and
+      Strategic Sourcing), and the Transaction Monitoring API let a client query the
+      event stream after the fact by correlation_id, document_id, sender and epoch time
+      range using RSQL. This is observability over the event flow, not subscription to it.
+    docs: https://help.sap.com/docs/ARIBA_APIS/6283732683584b1baa62d0cdf51c4188/7d1097e043c1493dadba6730f45800c8.html
+  - name: cXML document exchange
+    kind: document-post
+    description: >-
+      The Business Network's native asynchronous integration is cXML document POST -
+      PunchOut, OrderRequest, quote requests to Discovery. The DTD is published at
+      cxml.org. See conformance/ariba-conformance.yml.
+    docs: https://help.sap.com/docs/ARIBA_APIS/44701939b67f4c8c8a8b1c235a13180a/6012f0cfbc0c4206b758881fe81c207e.html
+gaps:
+  - No AsyncAPI document for any event surface.
+  - No published outbound webhook payload schema, retry policy, or signing scheme.
+  - No event catalogue with stable event type names an agent could subscribe to.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

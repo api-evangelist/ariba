@@ -1,0 +1,223 @@
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/docs/ARIBA_APIS
+provider: Ariba
+providerId: ariba
+description: >-
+  Cross-cutting runtime semantics for the SAP Ariba API surface - the rules an agent
+  or an integrator has to know before the first call, and which SAP scatters across
+  ~114 per-API help sets rather than stating once. Everything here is transcribed
+  from a cited SAP help page; no OpenAPI exists anonymously to derive from.
+auth:
+  style: dual-credential
+  summary: >-
+    apiKey header (application key) AND Authorization Bearer (OAuth 2.0 client
+    credentials) on every call. Tokens live 1,440 seconds. See
+    authentication/ariba-authentication.yml.
+  tenancy:
+    parameter: realm
+    location: query
+    required: true
+    description: >-
+      Nearly every endpoint requires ?realm={site name}. The realm is an authorization
+      boundary, not just routing - a client id not granted that realm gets a 401. Some
+      Business Network endpoints use the X-Realm or X-ARIBA-NETWORK-ID header instead.
+base_url:
+  gateway: https://openapi.ariba.com
+  pattern: 'https://openapi.ariba.com/api/{api-name}/v{n}/{environment}'
+  environments: [prod, test]
+  confirmed_examples:
+    - url: https://openapi.ariba.com/api/bizmonservice/v2/prod
+      api: Transaction Monitoring API
+      source: https://help.sap.com/docs/ARIBA_APIS/6283732683584b1baa62d0cdf51c4188/7d1097e043c1493dadba6730f45800c8.html
+    - url: https://openapi.ariba.com/api/mds/v1/prod
+      api: Master Data Retrieval API
+      source: https://help.sap.com/docs/ARIBA_APIS/b62431d654644850ab1ca6ba6a4c532e/290572537e7449b583b35ebdbb52d104.html
+    - url: https://openapi.ariba.com/api/approval
+      api: Document Approval API
+      source: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/583fd26833af47f4b38cfe7d5443f243.html
+    - url: https://openapi.ariba.com/api/externalDocuments
+      api: Guided Buying Functional Documents API
+      source: https://help.sap.com/docs/ARIBA_APIS/785da2184c984d8eb2e1064071ac7309/512d18f120fd4117ac41d1576b1f72b3.html
+  caveat: >-
+    SAP writes the base as {{runtime_url}} throughout the docs and tells the reader to
+    take the real value from the "Environment Details" table on that API's discovery
+    page in the developer portal, which requires a login, "because the runtime URL
+    varies based on your data center". openapi.ariba.com is the documented global
+    gateway host and answers 403 with a JSON gateway message to unauthenticated
+    callers, confirming it is live. Per-API runtime URLs beyond the four confirmed
+    above are NOT recorded, because guessing one would be fabrication.
+pagination:
+  styles:
+    - name: offset-limit
+      params: [offset, limit, needTotal]
+      response_headers: [X-Total-Count, X-Start-Index, X-Page-Size]
+      note: >-
+        Used by the approval / document APIs. "limit defines the maximum page size. The
+        API ignores this parameter if the value is less than 10." needTotal=true asks
+        the API to compute X-Total-Count, which is expensive and off by default.
+      source: https://help.sap.com/docs/ARIBA_APIS/24f8a40d8b2c45aa9a69790744cc1e04/5f0420d064654d91a8c3f2634fce4835.html
+    - name: odata-style
+      params: ['$top', '$skip', '$count', '$filter']
+      note: >-
+        Used by the Document Approval, Asset Management and Invoice Extraction APIs.
+        "$skip=20 and so on. The default value varies based on endpoint." A $count
+        endpoint variant exists (GET /requisitions/$count) so a client can size a job
+        before paging it. This is OData query grammar layered on a non-OData API - there
+        is no $metadata document.
+      source: https://help.sap.com/docs/ARIBA_APIS/f9cd5fe02da34e5a9c0ddd8161ee04d1/4897841579c9406c8725a619ea829ad1.html
+    - name: page-limit
+      params: [pageLimit, pageToken]
+      note: 'Supplier Data API with Pagination: pageLimit is a number between 1 and 50.'
+      source: https://help.sap.com/docs/ARIBA_APIS/60ec8b8bb9344dbe8dcf15e2a1edc85b/f00820a7c45942bc914aafc4426ae4b4.html
+    - name: pagesize-offset
+      params: [PageSize, Offset]
+      note: Transaction Monitoring API uses HTTP header parameters PageSize and Offset.
+      source: https://help.sap.com/docs/ARIBA_APIS/6283732683584b1baa62d0cdf51c4188/7d1097e043c1493dadba6730f45800c8.html
+  consistency: low
+  consistency_note: >-
+    Four different pagination grammars across one provider's surface. An agent cannot
+    write one pager for SAP Ariba; it needs a per-API strategy. This is the single
+    largest integration tax on the surface.
+filtering:
+  - name: RSQL
+    param: rsqlfilter
+    example: 'rsqlfilter=(document_id==PO37529)'
+    note: >-
+      Used by the monitoring APIs. Invalid RSQL is a documented 400
+      ("Invalid fields in RSQL filter").
+    source: https://help.sap.com/docs/ARIBA_APIS/6283732683584b1baa62d0cdf51c4188/cb11409fc63a4988af70cce338a62627.html
+  - name: OData $filter
+    param: '$filter'
+    note: 'Used by the Document Approval API: GET /{approvableType} with $filter on uniqueName.'
+    source: https://help.sap.com/docs/ARIBA_APIS/f9cd5fe02da34e5a9c0ddd8161ee04d1/4897841579c9406c8725a619ea829ad1.html
+versioning:
+  style: path segment (/v1, /v2 ...)
+  deprecation_header: X-API-Warn
+  see: lifecycle/ariba-lifecycle.yml
+rate_limit_signaling:
+  headers: [X-RateLimit-Limit-second, X-RateLimit-Limit-minute, X-RateLimit-Limit-hour, X-RateLimit-Limit-day, X-RateLimit-Remaining-second, X-RateLimit-Remaining-minute, X-RateLimit-Remaining-hour, X-RateLimit-Remaining-day, LastCallMade]
+  exhausted_status: 429
+  retry_after: false
+  see: rate-limits/ariba-rate-limits.yml
+error_envelope:
+  shape: '{ "error": { "code": <int>, "message": "<string>" } }'
+  rfc9457: false
+  see: errors/ariba-error-codes.yml
+request_id_tracing:
+  documented: false
+  note: >-
+    No correlation/request-id response header is documented for the REST gateway. The
+    Transaction Monitoring API exposes a business-level correlation_id for documents
+    flowing through the network, which is a different thing: it correlates purchase
+    orders and invoices, not HTTP calls.
+idempotency:
+  supported: unknown
+  documented: false
+  header: null
+  note: >-
+    SAP publishes no idempotency key, no safe-retry contract and no exactly-once
+    guarantee for any write endpoint in the anonymous help set. Several write surfaces
+    are asynchronous job submissions (POST /jobs returning a job ID) where re-posting
+    creates a second job. An agent should treat every POST here as at-most-once and
+    dedupe on its own side. Recorded as undocumented rather than absent - a portal
+    login may reveal more, and no Idempotency pointer is emitted in apis.yml because
+    nothing public supports the claim.
+dry_run_mode:
+  supported: partial
+  note: >-
+    Not a general dry-run. The Event Management API supports an "isTest" flag on event
+    creation, and SAP provides a separate test realm and test runtime URL per API, so
+    rehearsal happens by pointing at a test environment rather than by a dry-run
+    parameter. See sandbox/ariba-sandbox.yml.
+  source: https://help.sap.com/docs/ARIBA_APIS/0414af6b17164879920cf26608ae643d/1949ee9bf6bc4025ab281c48a4b36f8a.html
+reversibility:
+  grade: documented
+  applicable: true
+  summary: >-
+    This is a write-heavy transactional surface - purchase orders, invoices, sourcing
+    events, contract workspaces, supplier processes - and SAP does publish reversal
+    operations for the main flows. What it does not publish anywhere in the anonymous
+    help set is a WINDOW: no "cancel before X", no "reverse within N days". Graded
+    `documented` rather than `verified` on exactly that basis. No window is asserted
+    here, because inventing one on a purchase-order surface could cost a buyer real
+    money.
+  operations:
+    - surface: Event Management API
+      action: Cancel an event
+      call: 'POST /jobs with "resourceType":"EVENT" and "actionName":"CANCEL"'
+      reversal_of_reversal: >-
+        SAP also documents "Undo event cancelation" - the cancellation itself is
+        reversible.
+      window: null
+      window_documented: false
+      source: https://help.sap.com/docs/ARIBA_APIS/0414af6b17164879920cf26608ae643d/71096e41bfe340a88c3d6ea1c4edccb2.html
+    - surface: Supplier Data API with Pagination
+      action: Cancel an in-progress supplier process
+      call: POST processCancellationRequest
+      note: >-
+        "The request cancels a specific process that is in In Progress status for a
+        specific supplier from an external system." Reversal is conditioned on STATE
+        (In Progress), not on elapsed time - which is a stronger guarantee than a clock
+        but still not a stated window.
+      window: null
+      window_documented: false
+      condition: process must be in "In Progress" status
+      source: https://help.sap.com/docs/ARIBA_APIS/60ec8b8bb9344dbe8dcf15e2a1edc85b/256596a8ac89459ca4b2edfaafaa13b7.html
+    - surface: Flow Extension API
+      action: Halt or resume a document flow
+      call: 'POST /action/flowextensions/{flowExtensionId}/events/{eventId}/halt ; /resume'
+      note: >-
+        The halt use case rejects the document and stops the approval flow; the resume
+        endpoint puts it back. A genuine two-way control on an in-flight approval.
+      window: null
+      window_documented: false
+      source: https://help.sap.com/docs/ARIBA_APIS/f4a746536ece4089a22fd3326fed063c/5e40c66a9d1a49d4bd84f76070b6f85f.html
+    - surface: SAP Ariba Web Services (SOAP)
+      action: Cancel purchase orders and advance payments
+      call: 'PurchaseOrderCancelAsyncExport ; CancelAdvancePaymentRealTimeExport ; CancelAdvancePaymentAsyncExport'
+      note: >-
+        Explicit cancel services in the SOAP catalogue, both real-time and asynchronous.
+      window: null
+      window_documented: false
+      source: https://help.sap.com/doc/631084d43b6a4216b391ec37ce94733b/cloud/en-US/ws_index.htm
+    - surface: Project Document Management API
+      action: State change on a project document
+      call: project_document_state_change
+      note: State transitions are exposed as an API, which is the substrate reversal runs on.
+      window: null
+      window_documented: false
+      source: https://help.sap.com/docs/ARIBA_APIS/
+  gap: >-
+    No published retention or reversal window on ANY write surface. For an agent this
+    means: a cancel may or may not still be possible, and the only way to find out is
+    to attempt it and read the state error.
+expansion_and_sparse_fields:
+  supported: partial
+  note: >-
+    The Master Data Retrieval APIs return externalRef pointers between entities
+    (e.g. "externalRef": "https://openapi.ariba.com/api/mds/v1/prod/entityTypes/groups")
+    rather than embedding them, and the Flow Extension configuration lets an integrator
+    define an XML response template selecting which parts of a document come back. There
+    is no general ?expand= or ?fields= parameter.
+  source: https://help.sap.com/docs/ARIBA_APIS/b62431d654644850ab1ca6ba6a4c532e/290572537e7449b583b35ebdbb52d104.html
+asynchronous_jobs:
+  pattern: submit-poll-download
+  description: >-
+    The reporting and bulk APIs are three-legged: POST a job, poll a job-status
+    endpoint, then download result files. Result files expire after 48 hours. The
+    Asynchronous Requests Management API and the Master Data Integration Job Status API
+    exist purely to service this pattern.
+  file_expiry_hours: 48
+  source: https://help.sap.com/docs/ARIBA_APIS/42cb9e6fb65a4fa7b03f5e0ec7d406f9/c19908a846a74562831f70b1035e13cd.html
+cross_links:
+  errors: errors/ariba-error-codes.yml
+  lifecycle: lifecycle/ariba-lifecycle.yml
+  authentication: authentication/ariba-authentication.yml
+  rate_limits: rate-limits/ariba-rate-limits.yml
+  sandbox: sandbox/ariba-sandbox.yml
+  conformance: conformance/ariba-conformance.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

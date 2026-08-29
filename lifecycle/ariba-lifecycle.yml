@@ -1,0 +1,123 @@
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/792a3139e5c04f0cbbcbbd404506bc04.html
+provider: Ariba
+providerId: ariba
+description: >-
+  Versioning, deprecation and operational-lifecycle posture for the SAP Ariba API
+  surface, read from SAP's published policy pages and per-API version-history
+  tables. SAP runs a genuinely disciplined lifecycle here: a written versioning and
+  deprecation policy, a runtime deprecation header, and a dated version-history
+  table for every API - which is more than most enterprise providers publish.
+versioning:
+  scheme: path
+  pattern: 'https://openapi.ariba.com/api/{api-name}/v{n}/{environment}'
+  examples:
+    - https://openapi.ariba.com/api/hypothetical_api/v1/prod
+    - https://openapi.ariba.com/api/hypothetical_api/v2/prod
+    - https://openapi.ariba.com/api/bizmonservice/v2/prod
+    - https://openapi.ariba.com/api/mds/v1/prod
+  policy: >-
+    "When a new version of an API is released, the previous version is deprecated; a
+    single SAP Ariba Developer Portal discovery page hosts" all versions of that API.
+    Only one version of an API is Active at a time; every earlier version moves to
+    Deprecated and may be decommissioned later.
+  docs: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/792a3139e5c04f0cbbcbbd404506bc04.html
+deprecation:
+  policy_published: true
+  policy_url: https://help.sap.com/docs/ARIBA_APIS/b61dd8c7e22c4fe489f191f66b4c48d6/792a3139e5c04f0cbbcbbd404506bc04.html
+  runtime_signal:
+    header: X-API-Warn
+    rfc8594_compliant: false
+    description: >-
+      "If you call a deprecated API, the response includes an X-API-Warn header
+      indicating that the version is deprecated and identifying the active version."
+      This is a real runtime deprecation signal, but it is a proprietary header - SAP
+      does not emit the RFC 8594 Deprecation or Sunset headers, so a generic client
+      that watches for those sees nothing.
+  sunset_date_published: false
+  sunset_note: >-
+    SAP's language is "Previous versions are deprecated and might be decommissioned
+    at a later date." No decommission date is committed to in the public help set, so
+    a deprecated version has an open-ended tail.
+  release_train: >-
+    Deprecation is pinned to SAP Ariba's numbered release train (YYMM), e.g. 2602,
+    2502, 2408, 2306, 2208, 2202, 2111, 2102, 2008, 2002.
+  version_history_published: true
+  version_history_note: >-
+    Each API ships its own "Version History for the <API>" page with a table of
+    version, status (Active/Deprecated/Enhanced) and the release it changed in.
+  deprecated_versions_observed:
+    - api: Supplier Data API with Pagination
+      active: '4'
+      deprecated: ['3', '2', '1']
+      as_of: 2008 (Q3 2020)
+      source: https://help.sap.com/docs/ARIBA_APIS/60ec8b8bb9344dbe8dcf15e2a1edc85b/54e59f9676014fe9a5b4a2b752a3e12e.html
+    - api: Risk Exposure API
+      active: v3
+      deprecated: [v2, v1]
+      as_of: SAP Ariba 2602
+      source: https://help.sap.com/docs/ARIBA_APIS/2e493ebf33de4b2bb813c8de0fb9ed9b/06e8fcf958594ffb860647a4c6c8ea6d.html
+    - api: SAP Ariba Custom Forms API
+      active: v4
+      deprecated: [v3, v2, v1]
+      as_of: 2306 (June 2023)
+      source: https://help.sap.com/docs/ARIBA_APIS/1aaba5294b3e4663973fbcc33e8ea1ca/f069e5fcbd2f4f2b8c38a7560399089e.html
+    - api: Ariba Network Supplier Profile API
+      active: '2'
+      deprecated: ['1']
+      as_of: 2111 (Q4 2021)
+      source: https://help.sap.com/docs/ARIBA_APIS/bba3a69a443a46ee80382c8d8c0610ae/00cded693f6b4f669d18ea27f71ea2d7.html
+    - api: Sourcing Project Management API
+      active: '2.0'
+      deprecated: ['1.0']
+      as_of: 2208 (August 2022)
+      source: https://help.sap.com/docs/ARIBA_APIS/4f4056d3846a477d902603266522af43/360a8f86c7c94dfa98fdf00240307143.html
+    - api: Event Management API
+      active: v2
+      deprecated: [v1]
+      as_of: 2202 (February 2022)
+      source: https://help.sap.com/docs/ARIBA_APIS/0414af6b17164879920cf26608ae643d/8175368aca1c4b06a66f1586a92bb81e.html
+    - api: Questionnaires API
+      active: null
+      deprecated: [all]
+      as_of: 2002 (Q1 2020)
+      note: Replaced by the Supplier Data API with Pagination. Only ever available in some data centres.
+      source: https://help.sap.com/docs/ARIBA_APIS/60ec8b8bb9344dbe8dcf15e2a1edc85b/54e59f9676014fe9a5b4a2b752a3e12e.html
+  multi_version_apis_in_catalog: 16
+  multi_version_note: >-
+    The SAP Business Accelerator Hub catalogue for the SAP Ariba Open APIs package
+    lists 114 API artifacts, of which 16 carry an explicit _v2/_v3/_v4 sibling -
+    approval, audit_search, bizmonservice, customforms (v2/v3/v4), procurement_eventstatus,
+    product_hierarchy, risk_engagement, risk_exposure (v2/v3), sourcing_approval,
+    sourcing_event, sourcing_event_public_notice, sourcing_project_management,
+    strategicsourcing_eventstatus, supplier_invite, supplier_management,
+    supplierdatapagination (v2/v3/v4).
+status_page:
+  published: false
+  probes:
+    - url: https://status.ariba.com
+      status: NXDOMAIN
+      note: >-
+        The status.ariba.com pointer previously carried in apis.yml does not resolve in
+        DNS at all. Removed rather than left as a false claim.
+    - url: https://status.sap.com
+      status: TLS-mismatch
+      note: Certificate does not match the hostname; not a served SAP status surface.
+  note: >-
+    SAP Ariba operational status for customers is delivered through SAP Ariba Connect
+    (support.ariba.com / connect.ariba.com, both of which now redirect to
+    help.ariba.com) behind a customer login. No anonymous status page was found, so no
+    StatusPage pointer is emitted.
+sla:
+  published: false
+  note: >-
+    Service levels are contracted through the customer's SAP Ariba subscription; SAP
+    does not publish an anonymous API SLA for this surface.
+support:
+  channel: https://help.ariba.com/
+  community: https://community.sap.com/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

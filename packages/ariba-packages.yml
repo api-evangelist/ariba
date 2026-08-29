@@ -1,0 +1,129 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  registry.npmjs.org search + package metadata endpoints, pypi.org JSON API,
+  api.github.com repository search, and the SAP Ariba developer documentation
+provider: Ariba
+providerId: ariba
+description: >-
+  First-party client library search for the SAP Ariba API surface. The headline
+  finding is an absence: SAP publishes 114 REST APIs and 144 SOAP web services for
+  Ariba and ships NO first-party client SDK for any of them in npm, PyPI, Maven
+  Central, NuGet, RubyGems, crates.io or pkg.go.dev. Integrators are expected to
+  call the OAuth-protected gateway at openapi.ariba.com directly, or to use SAP
+  Integration Suite / Cloud Integration content. The packages SAP does publish
+  under the Ariba name are UI frameworks and sample code, not API clients - and the
+  Ariba UI framework has not shipped a release since 2018.
+sdk_summary:
+  first_party_api_clients: 0
+  first_party_other_packages: 3
+  community_packages_seen: many
+  note: >-
+    A search of npm for "ariba" returns mostly unrelated packages published by
+    individuals whose given name is Ariba. Only the entries below were verified as
+    SAP-published or SAP-sourced.
+packages:
+  - name: '@aribaui/core'
+    registry: npm
+    url: https://www.npmjs.com/package/@aribaui/core
+    official: true
+    api_client: false
+    kind: ui-framework
+    language: typescript
+    version: 6.2.1
+    published: '2018-10-23'
+    source_repo: https://github.com/SAP/angular-metaui
+    description: Ariba UI core module providing basic set of API and services.
+    note: >-
+      First-party: the package homepage in the npm registry metadata is
+      github.com/SAP/angular-metaui, an SAP-owned repository. This is the Ariba UI
+      (MetaUI) Angular framework for building Ariba application screens - it is NOT a
+      client for any SAP Ariba REST API. Last published 2018-10-23, nearly eight years
+      before this probe; every REST API in the SAP Ariba catalog post-dates or has been
+      re-versioned since. Treat as abandoned.
+  - name: '@aribaui/components'
+    registry: npm
+    url: https://www.npmjs.com/package/@aribaui/components
+    official: true
+    api_client: false
+    kind: ui-components
+    language: typescript
+    version: 6.2.1
+    published: '2018-10-23'
+    source_repo: https://github.com/SAP/angular-metaui
+    description: Ariba UI widgets and layouts based on primeng.
+    note: Same release train and same abandonment signal as '@aribaui/core'.
+  - name: '@sapui5/sap.fe.ariba'
+    registry: npm
+    url: https://www.npmjs.com/package/@sapui5/sap.fe.ariba
+    official: true
+    api_client: false
+    kind: ui-library
+    language: javascript
+    version: 1.151.0
+    published: '2026-08-06'
+    description: SAPUI5 Library sap.fe.ariba.
+    note: >-
+      First-party SAP, actively maintained, but it is a SAPUI5 Fiori Elements library
+      for rendering Ariba screens inside SAP UI applications - not an SDK for calling
+      the Ariba REST APIs.
+sample_code:
+  - name: SAP-samples/ariba-extensibility-samples
+    url: https://github.com/SAP-samples/ariba-extensibility-samples
+    official: true
+    kind: samples
+    stars: 33
+    last_pushed: '2026-05-25'
+    version: null
+    published: null
+    note: >-
+      SAP-published sample applications for extending SAP Ariba. Not a registry
+      package - there is no published artifact, so version/published are null by
+      necessity rather than by omission.
+  - name: SAP-samples/btp-procurement-data-extractor
+    url: https://github.com/SAP-samples/btp-procurement-data-extractor
+    official: true
+    kind: samples
+    stars: 9
+    last_pushed: '2026-07-28'
+    version: null
+    published: null
+    note: >-
+      SAP-published SAP BTP application that extracts SAP Ariba data via the
+      Analytical and Operational Reporting APIs. The closest thing SAP ships to a
+      reference client, but it is an application, not a library.
+  - name: SAP-archive/cloud-ariba-simple-requisition-ext
+    url: https://github.com/SAP-archive/cloud-ariba-simple-requisition-ext
+    official: true
+    kind: samples
+    archived: true
+    last_pushed: '2024-06-03'
+    version: null
+    published: null
+    note: Archived by SAP. Demonstrated consumption of Ariba APIs from SAP Cloud Platform.
+  - name: SAP-archive/cloud-ariba-discovery-rfx-to-external-marketplace-ext
+    url: https://github.com/SAP-archive/cloud-ariba-discovery-rfx-to-external-marketplace-ext
+    official: true
+    kind: samples
+    archived: true
+    last_pushed: '2024-06-03'
+    version: null
+    published: null
+    note: Archived by SAP. Sample extension for the Discovery RFx Publication API.
+registries_checked:
+  - registry: npm
+    endpoint: https://registry.npmjs.org/-/v1/search?text=ariba
+    status: 200
+    first_party_api_client_found: false
+  - registry: pypi
+    endpoint: https://pypi.org/pypi/sap-ariba/json
+    status: 404
+    first_party_api_client_found: false
+  - registry: github
+    endpoint: https://api.github.com/search/repositories?q=ariba
+    status: 200
+    first_party_api_client_found: false
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com

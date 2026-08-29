@@ -1,0 +1,131 @@
+generated: '2026-08-29'
+method: searched
+source: https://help.sap.com/docs/ARIBA_APIS (per-API "Error Messages Returned by ..." pages)
+provider: Ariba
+providerId: ariba
+description: >-
+  Error catalogue for the SAP Ariba API surface. SAP does not publish one central
+  error registry; instead nearly every API in the catalogue ships its own
+  "Error Messages Returned by <API>" or "Response Codes for <API>" page. The
+  cross-cutting envelope and the status-code semantics below are common to the
+  gateway; the per-API tables layer product-specific codes on top. Derived from the
+  cited documentation pages, not from a spec - SAP publishes no anonymous OpenAPI
+  for these APIs.
+format: proprietary
+rfc9457: false
+envelope:
+  shape: |
+    { "error": { "code": 400, "message": "The API requires either the ITK display name or the Internal Event Name." } }
+  fields:
+    - name: error.code
+      type: integer
+      description: Mirrors the HTTP status code.
+    - name: error.message
+      type: string
+      description: Human-readable message. Not stable across versions; do not branch on it.
+  content_type: application/json
+  note: >-
+    This is NOT application/problem+json. There is no type URI, no title/detail split
+    and no instance - an agent cannot dereference an error to a documented problem
+    type. Several APIs (Asset Management, Materials and BOM Tag Management, the SCIM
+    API) additionally return a product-specific string code such as
+    containsLargeNumberOfRecords, featureNotEnabled, missingRequiredBody or reqNotFound
+    alongside the HTTP status.
+  source: https://help.sap.com/docs/ARIBA_APIS/4a02653030b44d628d8b0d1d423cf58f/fd9ec9f53df844608c458efb3347c2de.html
+status_codes:
+  - status: 200
+    meaning: Success.
+  - status: 201
+    meaning: Created. Returned by POST on APIs that create a resource.
+  - status: 204
+    meaning: >-
+      No content. On the Asynchronous Job Requests API this specifically means
+      "Error file not found for this job ID".
+  - status: 400
+    meaning: Bad request - malformed parameters, unparseable JSON, or a schema violation.
+    common_causes:
+      - The API key passed in the request is not valid.
+      - Required identifying parameters are missing (e.g. ITK display name or Internal Event Name).
+      - Invalid RSQL filter expression.
+    remediation: Correct the request; do not retry unchanged.
+  - status: 401
+    meaning: Unauthorized - authentication failed.
+    common_causes:
+      - Token not found - the OAuth token is invalid or missing.
+      - The bearer token has expired (tokens live 1,440 seconds).
+      - The API key passed in the query headers does not match the API key in the OAuth token.
+      - 'This client id: {ID} is not authorized to access the realm: {realm} for this API.'
+      - The token scopes are not supported by the API.
+      - Confirm your ANID and shared secret (on Basic-auth Business Network APIs).
+    remediation: >-
+      Refresh the access token and retry once. If the failure is realm- or
+      scope-shaped, retrying will not help - the application's API-access grant is
+      wrong and needs an administrator.
+    source: https://help.sap.com/docs/ARIBA_APIS/c1aedced5c044a41b84be5312db93fc1/0607784ed86d45eeb137aab8470c096e.html
+  - status: 403
+    meaning: Forbidden - the query attempts to access a resource for which it does not have permission.
+    remediation: Not retryable. The user or application lacks the entitlement.
+  - status: 404
+    meaning: Not found - the requested resource or job ID does not exist.
+  - status: 429
+    meaning: Rate limit error - "You have exceeded the maximum permitted query rate."
+    remediation: >-
+      Back off. There is no Retry-After header; use the X-RateLimit-Remaining-* headers
+      and LastCallMade to compute the wait. See rate-limits/ariba-rate-limits.yml.
+    retryable: true
+  - status: 500
+    meaning: Internal server error.
+    common_causes:
+      - 'Failed to authenticate, OAUTH server down - the OAuth server is unreachable.'
+      - Exceptions encountered during JSON generation.
+    retryable: true
+  - status: 504
+    meaning: Gateway time-out. The request took longer than the gateway allows.
+    retryable: true
+per_api_catalogues:
+  count: 40
+  note: >-
+    A representative sample of the per-API error pages, each of which carries its own
+    code/message/description table. There are more; SAP ships one for most of the 114
+    REST APIs.
+  examples:
+    - api: Contract Compliance API
+      url: https://help.sap.com/docs/ARIBA_APIS/3ef7b70c268149288e4d59f43a94b68b/4311b0869b6845c2a405e20309bae853.html
+    - api: Contract Workspace Retrieval API
+      url: https://help.sap.com/docs/ARIBA_APIS/d7a9abefbafa4a8ea8713480808d2480/64d9e5831856409e87b29a52cca612be.html
+    - api: Asset Management API
+      url: https://help.sap.com/docs/ARIBA_APIS/5645dc5f68874981b978828f2c1adc8a/a25a06bcf6974b8cac600c719103c8e5.html
+    - api: Transaction Monitoring API
+      url: https://help.sap.com/docs/ARIBA_APIS/6283732683584b1baa62d0cdf51c4188/a7765d591c784963a531ab1f65390cc0.html
+    - api: Integration Monitoring API for Procurement
+      url: https://help.sap.com/docs/ARIBA_APIS/4a02653030b44d628d8b0d1d423cf58f/fd9ec9f53df844608c458efb3347c2de.html
+    - api: Integration Monitoring API for Strategic Sourcing
+      url: https://help.sap.com/docs/ARIBA_APIS/4f20fd7c13ee4f4e949b2fec7cc8be23/8165785cd73645a5bc632f7afa613ff5.html
+    - api: Integration Event Monitoring Query API
+      url: https://help.sap.com/docs/ARIBA_APIS/8a57b3627ef648018c5a75a9d3a67a60/52e39ba829b24ba48199a712c2d3698f.html
+    - api: SAP Ariba SCIM API
+      url: https://help.sap.com/docs/ARIBA_APIS/b3330550673e4208a0300f524f5b8104/4145979decf24fdf9ba84ba1ec6027f2.html
+    - api: Flow Extension API
+      url: https://help.sap.com/docs/ARIBA_APIS/f4a746536ece4089a22fd3326fed063c/b5b00f096432449f90bf6f9bff588519.html
+    - api: Catalog Connectivity Service API
+      url: https://help.sap.com/docs/ARIBA_APIS/1e4613d909f64d87b4e163a40981ef74/e7096c9a667e4f4f8b8f08cec872579e.html
+    - api: Materials and BOM Tag Management API
+      url: https://help.sap.com/docs/ARIBA_APIS/b45a2ddde63b44a19ec1de0c16840c4e/27ab6f2ed7ba4468bbbba1e93e8a95aa.html
+    - api: Pricing API for Product Sourcing Price Information
+      url: https://help.sap.com/docs/ARIBA_APIS/b5e7b0ae3aac460da4d920510689ffca/526219b1f9474a97a2e45ef2f30d2e8a.html
+    - api: Configuration Parameter Review API
+      url: https://help.sap.com/docs/ARIBA_APIS/c1aedced5c044a41b84be5312db93fc1/0607784ed86d45eeb137aab8470c096e.html
+    - api: Asynchronous Job Requests API
+      url: https://help.sap.com/docs/ARIBA_APIS/0caab0f832e2447dbe8c01cea1e7a7b8/40f9900a1a674ed08b9dd76b08d47542.html
+    - api: Master Data Integration Job Status API for Operational Procurement
+      url: https://help.sap.com/docs/ARIBA_APIS/58510c970aae47328a67cd0c765f9c0a/123fff97cdcc4ba899ebc935a31ea620.html
+    - api: SAP Build Work Zone CDM Content API for Sourcing
+      url: https://help.sap.com/docs/ARIBA_APIS/9e6cd311d2f44ab9b0686a7e698d403b/4e1c391961064d4a82831498bf331069.html
+agent_guidance:
+  - Branch on the HTTP status and on the product-specific string code where one is present. Never branch on error.message.
+  - 401 is ambiguous here - it covers expired token, wrong apiKey, wrong realm and missing scope. Only the expired-token case is worth an automatic retry.
+  - 429 carries no Retry-After. Read the four X-RateLimit-Remaining-* counters instead.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
