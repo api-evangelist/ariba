@@ -31,7 +31,7 @@ accessModel:
   - plans
   generated: '2026-07-22'
   method: derived
-image: https://www.ariba.com/ariba-logo.png
+image: ''
 url: https://developer.ariba.com/api/home
 created: '2024-01-01'
 modified: '2026-08-29'
