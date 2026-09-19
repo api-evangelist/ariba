@@ -147,6 +147,11 @@ apis:
   humanURL: https://api.sap.com/api/supplier_management/overview
   tags:
   - Ariba Network
+  - Certification
+  - Profiles
+  - Suppliers
+  tags_raw:
+  - Ariba Network
   - Certifications
   - Profiles
   - Suppliers
@@ -380,7 +385,7 @@ apis:
     catalogs.
   humanURL: https://help.sap.com/docs/ariba-apis
   tags:
-  - Catalogs
+  - Catalog
   - Content Management
   - Product
   tags_raw:
@@ -394,6 +399,10 @@ apis:
   description: Enables connectivity to external catalog systems for punchout and roundtrip catalog integration.
   humanURL: https://help.sap.com/docs/ariba-apis
   tags:
+  - Catalog
+  - Integration
+  - Punchout
+  tags_raw:
   - Catalogs
   - Integration
   - Punchout
@@ -405,6 +414,10 @@ apis:
     and select items.
   humanURL: https://help.sap.com/docs/ariba-apis
   tags:
+  - Catalog
+  - Procurement
+  - Shopping
+  tags_raw:
   - Catalogs
   - Procurement
   - Shopping
@@ -416,6 +429,10 @@ apis:
     from public supplier catalogs.
   humanURL: https://help.sap.com/docs/ariba-apis
   tags:
+  - Catalog
+  - Public Catalogs
+  - Shopping
+  tags_raw:
   - Catalogs
   - Public Catalogs
   - Shopping
@@ -427,6 +444,10 @@ apis:
     lifecycle management.
   humanURL: https://help.sap.com/docs/ariba-apis
   tags:
+  - Ariba Network
+  - Catalog Management
+  - Catalog
+  tags_raw:
   - Ariba Network
   - Catalog Management
   - Catalogs
@@ -448,6 +469,10 @@ apis:
     and activities.
   humanURL: https://help.sap.com/docs/ariba-apis
   tags:
+  - Procurement
+  - Project Management
+  - Workspace
+  tags_raw:
   - Procurement
   - Project Management
   - Workspaces
@@ -502,6 +527,10 @@ apis:
     evaluations.
   humanURL: https://help.sap.com/docs/ariba-apis
   tags:
+  - Assessment
+  - External Data
+  - Risk Management
+  tags_raw:
   - Assessments
   - External Data
   - Risk Management
