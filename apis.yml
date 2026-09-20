@@ -37,6 +37,9 @@ url: https://developer.ariba.com/api/home
 created: '2024-01-01'
 modified: '2026-08-29'
 specificationVersion: '0.23'
+x-docs-platform: swagger-ui
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-19
 apis:
 - name: Operational Reporting API for Procurement
   description: Provides synchronous and asynchronous access to operational procurement data including
