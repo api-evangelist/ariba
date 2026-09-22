@@ -975,6 +975,404 @@ apis:
   properties:
   - type: Documentation
     url: https://help.sap.com/docs/ariba-apis
+- name: Ariba Network Purchase Orders Buyer API
+  description: Allows buyers to create, manage, and track purchase orders across the SAP Ariba Network.
+  image: https://api.ariba.com/po-buyer-icon.png
+  humanURL: https://api.sap.com/api/purchase_orders/overview
+  baseURL: https://openapi.ariba.com/api/purchase-orders-buyer
+  tags:
+  - Ariba Network
+  - Buyers
+  - Purchase Orders
+  properties:
+  - type: Documentation
+    url: https://api.sap.com/api/purchase_orders/overview
+  - type: Hub
+    url: https://api.sap.com/api/purchase_orders/overview
+  aid: ariba:network-purchase-orders-buyer
+- name: Ariba Network Purchase Orders Supplier API
+  description: Enables suppliers to retrieve purchase order and line item information from buyers on the
+    SAP Business Network.
+  image: https://api.ariba.com/po-supplier-icon.png
+  humanURL: https://api.sap.com/api/purchase_orders_supplier/overview
+  baseURL: https://openapi.ariba.com/api/purchase-orders-supplier
+  tags:
+  - Ariba Network
+  - Purchase Orders
+  - Suppliers
+  properties:
+  - type: Documentation
+    url: https://api.sap.com/api/purchase_orders_supplier/overview
+  - type: Documentation
+    url: https://help.sap.com/doc/3b0b2f4faaa242dda9004b9f337592bf/cloud/en-US/purchase_order_supplier_api.pdf
+  - type: Hub
+    url: https://api.sap.com/api/purchase_orders_supplier/overview
+  aid: ariba:network-purchase-orders-supplier
+- name: Ariba Risk Category Information API
+  description: Provides risk classification and category details for supplier risk exposure analysis.
+  image: https://api.ariba.com/risk-category-icon.png
+  humanURL: https://help.sap.com/docs/ariba-apis
+  baseURL: https://openapi.ariba.com/api/risk-category
+  tags:
+  - Categories
+  - Classification
+  - Risk Management
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  aid: ariba:risk-category-information
+- name: Ariba Catalog Content API
+  description: Enables applications to manage catalog content and get faceted catalog data based on specific
+    attributes.
+  image: https://api.ariba.com/catalog-content-icon.png
+  humanURL: https://help.sap.com/docs/ariba-apis
+  baseURL: https://openapi.ariba.com/api/catalog-content
+  tags:
+  - Catalog
+  - Content Management
+  - Product
+  tags_raw:
+  - Catalogs
+  - Content Management
+  - Products
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  aid: ariba:catalog-content
+- name: Ariba Pricing API for Product Sourcing
+  description: Extracts and manages pricing data for product sourcing price information.
+  image: https://api.ariba.com/pricing-icon.png
+  humanURL: https://help.sap.com/docs/ariba-apis
+  baseURL: https://openapi.ariba.com/api/pricing
+  tags:
+  - Pricing
+  - Product
+  - Sourcing
+  tags_raw:
+  - Pricing
+  - Products
+  - Sourcing
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  aid: ariba:pricing-for-product-sourcing
+- name: Ariba SCIM API
+  description: Implements System for Cross-domain Identity Management for user provisioning and management.
+  image: https://api.ariba.com/scim-icon.png
+  humanURL: https://help.sap.com/docs/ariba-apis
+  baseURL: https://openapi.ariba.com/api/scim
+  tags:
+  - Identity
+  - Provisioning
+  - SCIM
+  - User Management
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  aid: ariba:scim
+- name: Ariba Custom Forms API
+  description: Creates and manages custom form definitions for procurement and sourcing workflows.
+  image: https://api.ariba.com/custom-forms-icon.png
+  humanURL: https://help.sap.com/docs/ariba-apis
+  baseURL: https://openapi.ariba.com/api/custom-forms
+  tags:
+  - Customization
+  - Forms
+  - Workflows
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  aid: ariba:custom-forms
+- name: Ariba Data Replication Status API
+  description: Monitors data replication status across multi-ERP configurations.
+  image: https://api.ariba.com/replication-status-icon.png
+  humanURL: https://help.sap.com/docs/ariba-apis
+  baseURL: https://openapi.ariba.com/api/data-replication-status
+  tags:
+  - Integration
+  - Multi-ERP
+  - Replication
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  aid: ariba:data-replication-status
+- name: Ariba Master Data Integration Job Status API
+  description: Tracks master data synchronization job status for operational procurement.
+  image: https://api.ariba.com/master-data-job-icon.png
+  humanURL: https://help.sap.com/docs/ariba-apis
+  baseURL: https://openapi.ariba.com/api/master-data-job-status
+  tags:
+  - Integration
+  - Job
+  - Master Data
+  tags_raw:
+  - Integration
+  - Jobs
+  - Master Data
+  properties:
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  aid: ariba:master-data-integration-job-status
+- aid: ariba:sap-ariba-invoices-api
+  name: Ariba Invoices API
+  description: Process and manage invoices including creation, approval workflows, status tracking, and
+    payment reconciliation.
+  humanURL: https://developer.ariba.com/api/procurement
+  baseURL: https://openapi.ariba.com/api/procurement
+  tags:
+  - Invoices
+  properties:
+  - type: OpenAPI
+    url: openapi/sap-ariba-invoices-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/procurement/overview
+  - type: JSONSchema
+    url: json-schema/sap-ariba-purchase-order-schema.json
+  - type: JSONLD
+    url: json-ld/sap-ariba-context.jsonld
+  - type: Authentication
+    url: https://developer.ariba.com/api/authentication
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/sourcing/overview
+  - type: Sandbox
+    url: https://sandbox.ariba.com/api/sourcing
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/supplier/overview
+  - type: PostmanCollection
+    url: https://developer.ariba.com/api/supplier/postman
+  - type: Hub
+    url: https://api.sap.com/api/supplier_management/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/contracts/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/analytics/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/analytics/query-guide
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/invoices/overview
+- aid: ariba:sap-ariba-purchase-order-line-items-api
+  name: Ariba Purchase Order Line Items API
+  description: Manage individual line items within purchase orders including quantities, pricing, delivery
+    schedules, and accounting assignments.
+  humanURL: https://developer.ariba.com/api/procurement
+  baseURL: https://openapi.ariba.com/api/procurement
+  tags:
+  - Purchase Order Line Items
+  properties:
+  - type: OpenAPI
+    url: openapi/sap-ariba-purchase-order-line-items-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/procurement/overview
+  - type: JSONSchema
+    url: json-schema/sap-ariba-purchase-order-schema.json
+  - type: JSONLD
+    url: json-ld/sap-ariba-context.jsonld
+  - type: Authentication
+    url: https://developer.ariba.com/api/authentication
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/sourcing/overview
+  - type: Sandbox
+    url: https://sandbox.ariba.com/api/sourcing
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/supplier/overview
+  - type: PostmanCollection
+    url: https://developer.ariba.com/api/supplier/postman
+  - type: Hub
+    url: https://api.sap.com/api/supplier_management/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/contracts/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/analytics/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/analytics/query-guide
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/invoices/overview
+- aid: ariba:sap-ariba-purchase-orders-api
+  name: Ariba Purchase Orders API
+  description: Create, retrieve, update, and manage purchase orders across the SAP Ariba Network. Supports
+    standard and service purchase orders including new, change, cancel, and close operations.
+  humanURL: https://developer.ariba.com/api/procurement
+  baseURL: https://openapi.ariba.com/api/procurement
+  tags:
+  - Purchase Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/sap-ariba-purchase-orders-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/procurement/overview
+  - type: JSONSchema
+    url: json-schema/sap-ariba-purchase-order-schema.json
+  - type: JSONLD
+    url: json-ld/sap-ariba-context.jsonld
+  - type: Authentication
+    url: https://developer.ariba.com/api/authentication
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/sourcing/overview
+  - type: Sandbox
+    url: https://sandbox.ariba.com/api/sourcing
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/supplier/overview
+  - type: PostmanCollection
+    url: https://developer.ariba.com/api/supplier/postman
+  - type: Hub
+    url: https://api.sap.com/api/supplier_management/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/contracts/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/analytics/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/analytics/query-guide
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/invoices/overview
+- aid: ariba:sap-ariba-receipts-api
+  name: Ariba Receipts API
+  description: Record goods receipts and service confirmations against purchase orders to support three-way
+    matching.
+  humanURL: https://developer.ariba.com/api/procurement
+  baseURL: https://openapi.ariba.com/api/procurement
+  tags:
+  - Receipts
+  properties:
+  - type: OpenAPI
+    url: openapi/sap-ariba-receipts-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/procurement/overview
+  - type: JSONSchema
+    url: json-schema/sap-ariba-purchase-order-schema.json
+  - type: JSONLD
+    url: json-ld/sap-ariba-context.jsonld
+  - type: Authentication
+    url: https://developer.ariba.com/api/authentication
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/sourcing/overview
+  - type: Sandbox
+    url: https://sandbox.ariba.com/api/sourcing
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/supplier/overview
+  - type: PostmanCollection
+    url: https://developer.ariba.com/api/supplier/postman
+  - type: Hub
+    url: https://api.sap.com/api/supplier_management/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/contracts/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/analytics/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/analytics/query-guide
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/invoices/overview
+- aid: ariba:sap-ariba-requisitions-api
+  name: Ariba Requisitions API
+  description: Create and manage purchase requisitions that initiate the procurement process and flow
+    into purchase orders upon approval.
+  humanURL: https://developer.ariba.com/api/procurement
+  baseURL: https://openapi.ariba.com/api/procurement
+  tags:
+  - Requisitions
+  properties:
+  - type: OpenAPI
+    url: openapi/sap-ariba-requisitions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/procurement/overview
+  - type: JSONSchema
+    url: json-schema/sap-ariba-purchase-order-schema.json
+  - type: JSONLD
+    url: json-ld/sap-ariba-context.jsonld
+  - type: Authentication
+    url: https://developer.ariba.com/api/authentication
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/sourcing/overview
+  - type: Sandbox
+    url: https://sandbox.ariba.com/api/sourcing
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/supplier/overview
+  - type: PostmanCollection
+    url: https://developer.ariba.com/api/supplier/postman
+  - type: Hub
+    url: https://api.sap.com/api/supplier_management/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/contracts/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/analytics/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/analytics/query-guide
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/invoices/overview
+- aid: ariba:sap-ariba-suppliers-api
+  name: Ariba Suppliers API
+  description: Access and manage supplier profiles, onboarding, qualifications, performance, and risk
+    assessments on the SAP Ariba Network.
+  humanURL: https://developer.ariba.com/api/procurement
+  baseURL: https://openapi.ariba.com/api/procurement
+  tags:
+  - Suppliers
+  properties:
+  - type: OpenAPI
+    url: openapi/sap-ariba-suppliers-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/procurement/overview
+  - type: JSONSchema
+    url: json-schema/sap-ariba-purchase-order-schema.json
+  - type: JSONLD
+    url: json-ld/sap-ariba-context.jsonld
+  - type: Authentication
+    url: https://developer.ariba.com/api/authentication
+  - type: Hub
+    url: https://api.sap.com/package/SAPAribaOpenAPIs/rest
+  - type: Documentation
+    url: https://help.sap.com/docs/ariba-apis
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/sourcing/overview
+  - type: Sandbox
+    url: https://sandbox.ariba.com/api/sourcing
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/supplier/overview
+  - type: PostmanCollection
+    url: https://developer.ariba.com/api/supplier/postman
+  - type: Hub
+    url: https://api.sap.com/api/supplier_management/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/contracts/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/analytics/overview
+  - type: Documentation
+    url: https://developer.ariba.com/api/analytics/query-guide
+  - type: Documentation
+    url: https://developer.ariba.com/api/apis/invoices/overview
 common:
 - type: Website
   url: https://www.ariba.com/
