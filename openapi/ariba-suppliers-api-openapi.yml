@@ -131,6 +131,18 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid parameters or malformed request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Unauthorized - invalid or missing authentication credentials
       content:
@@ -154,46 +166,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid parameters or malformed request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    CommodityCode:
-      type: object
-      description: UNSPSC commodity classification code
-      required:
-      - code
-      properties:
-        code:
-          type: string
-          description: UNSPSC commodity code
-          examples:
-          - '43211500'
-        description:
-          type: string
-          description: Commodity description
-          examples:
-          - Computers
-        domain:
-          type: string
-          description: Classification domain identifier
-          default: UNSPSC
-          example: example_value
     ErrorResponse:
       type: object
       description: Standard error response structure
@@ -235,69 +214,6 @@ components:
                     type: string
                     description: SAP module where the error originated
           example: example_value
-    Address:
-      type: object
-      description: Postal address structure used for shipping, billing, and company addresses
-      properties:
-        name:
-          type: string
-          description: Addressee name or attention line
-          example: Example Title
-        lines:
-          type: string
-          description: Street address lines
-          example: example_value
-        city:
-          type: string
-          description: City name
-          example: example_value
-        state:
-          type: string
-          description: State or province
-          example: example_value
-        postalCode:
-          type: string
-          description: Postal or ZIP code
-          example: example_value
-        country:
-          type: string
-          description: Country code (ISO 3166-1 alpha-2)
-          pattern: ^[A-Z]{2}$
-          example: example_value
-        phone:
-          type: string
-          description: Phone number
-          example: example_value
-        email:
-          type: string
-          format: email
-          description: Email address
-          example: user@example.com
-    ContactInfo:
-      type: object
-      description: Contact information for a person or department
-      properties:
-        name:
-          type: string
-          description: Contact person name
-          example: Example Title
-        email:
-          type: string
-          format: email
-          description: Contact email address
-          example: user@example.com
-        phone:
-          type: string
-          description: Contact phone number
-          example: example_value
-        fax:
-          type: string
-          description: Contact fax number
-          example: example_value
-        department:
-          type: string
-          description: Department name
-          example: example_value
     SupplierQualificationStatus:
       type: string
       description: Supplier qualification status on the Ariba Network
@@ -328,6 +244,52 @@ components:
           items:
             $ref: '#/components/schemas/Supplier'
           example: []
+    ContactInfo:
+      type: object
+      description: Contact information for a person or department
+      properties:
+        name:
+          type: string
+          description: Contact person name
+          example: Example Title
+        email:
+          type: string
+          format: email
+          description: Contact email address
+          example: user@example.com
+        phone:
+          type: string
+          description: Contact phone number
+          example: example_value
+        fax:
+          type: string
+          description: Contact fax number
+          example: example_value
+        department:
+          type: string
+          description: Department name
+          example: example_value
+    Money:
+      type: object
+      description: Monetary amount with currency code following ISO 4217
+      required:
+      - amount
+      - currencyCode
+      properties:
+        amount:
+          type: number
+          format: double
+          description: The monetary value
+          examples:
+          - 1250.0
+        currencyCode:
+          type: string
+          description: ISO 4217 currency code
+          pattern: ^[A-Z]{3}$
+          examples:
+          - USD
+          - EUR
+          - GBP
     Supplier:
       type: object
       description: Complete supplier profile on the SAP Ariba Network including company information, classifications, and qualification details
@@ -453,28 +415,76 @@ components:
           format: date-time
           description: Date of last profile update
           example: '2026-01-15T10:30:00Z'
-    Money:
+    Address:
       type: object
-      description: Monetary amount with currency code following ISO 4217
-      required:
-      - amount
-      - currencyCode
+      description: Postal address structure used for shipping, billing, and company addresses
       properties:
-        amount:
-          type: number
-          format: double
-          description: The monetary value
-          examples:
-          - 1250.0
-        currencyCode:
+        name:
           type: string
-          description: ISO 4217 currency code
-          pattern: ^[A-Z]{3}$
+          description: Addressee name or attention line
+          example: Example Title
+        lines:
+          type: string
+          description: Street address lines
+          example: example_value
+        city:
+          type: string
+          description: City name
+          example: example_value
+        state:
+          type: string
+          description: State or province
+          example: example_value
+        postalCode:
+          type: string
+          description: Postal or ZIP code
+          example: example_value
+        country:
+          type: string
+          description: Country code (ISO 3166-1 alpha-2)
+          pattern: ^[A-Z]{2}$
+          example: example_value
+        phone:
+          type: string
+          description: Phone number
+          example: example_value
+        email:
+          type: string
+          format: email
+          description: Email address
+          example: user@example.com
+    CommodityCode:
+      type: object
+      description: UNSPSC commodity classification code
+      required:
+      - code
+      properties:
+        code:
+          type: string
+          description: UNSPSC commodity code
           examples:
-          - USD
-          - EUR
-          - GBP
+          - '43211500'
+        description:
+          type: string
+          description: Commodity description
+          examples:
+          - Computers
+        domain:
+          type: string
+          description: Classification domain identifier
+          default: UNSPSC
+          example: example_value
   parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of records to return per page (default 10, max 100)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
     SkipParam:
       name: skip
       in: query
@@ -491,16 +501,6 @@ components:
       required: true
       schema:
         type: string
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of records to return per page (default 10, max 100)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
   securitySchemes:
     oauth2:
       type: oauth2

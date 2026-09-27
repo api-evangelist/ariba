@@ -1,6 +1,8 @@
+# x-archived-from: sap-ariba-purchase-orders-api-openapi.yml
+# x-archived-on: 2026-09-26
 openapi: 3.2.0
 info:
-  title: SAP Ariba Procurement Requisitions API
+  title: SAP Ariba Procurement Purchase Orders API
   description: Enables integration with SAP Ariba procurement processes including purchase orders, invoices, requisitions, receipts, and supplier management across the SAP Business Network. This API supports the complete procure-to-pay lifecycle from requisition creation through invoice reconciliation and payment processing.
   version: 1.0.0
   contact:
@@ -30,45 +32,71 @@ servers:
 security:
 - oauth2: []
 tags:
-- name: Requisitions
-  description: Create and manage purchase requisitions that initiate the procurement process and flow into purchase orders upon approval.
+- name: Purchase Orders
+  description: Create, retrieve, update, and manage purchase orders across the SAP Ariba Network. Supports standard and service purchase orders including new, change, cancel, and close operations.
 paths:
-  /requisitions:
+  /orders:
     get:
-      operationId: listRequisitions
-      summary: List Requisitions
-      description: Retrieves a paginated list of purchase requisitions. Requisitions are the starting point of the procurement process and flow into purchase orders upon approval.
+      operationId: listPurchaseOrders
+      summary: List Purchase Orders
+      description: Retrieves a paginated list of purchase order headers matching the specified filter criteria. Supports filtering by buyer, supplier, date range, status, and other order attributes. Results are returned with pagination support using skip and limit parameters.
       tags:
-      - Requisitions
+      - Purchase Orders
       parameters:
       - $ref: '#/components/parameters/RealmParam'
       - $ref: '#/components/parameters/SkipParam'
       - $ref: '#/components/parameters/LimitParam'
       - name: filter
         in: query
-        description: OData-style filter expression
+        description: 'OData-style filter expression to narrow results. Supports operators eq, ne, gt, lt, ge, le with the case-sensitive ''and'' operator. Example: orderDate ge ''2025-01-01'' and status eq ''Ordered'''
+        required: false
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: Field name to sort results by, with optional asc or desc direction
+        required: false
+        schema:
+          type: string
+      - name: supplierId
+        in: query
+        description: Filter by supplier AN-ID on the SAP Ariba Network
+        required: false
+        schema:
+          type: string
+      - name: buyerId
+        in: query
+        description: Filter by buyer AN-ID on the SAP Ariba Network
         required: false
         schema:
           type: string
       - name: status
         in: query
-        description: Filter by requisition status
+        description: Filter by purchase order status
         required: false
         schema:
-          $ref: '#/components/schemas/RequisitionStatus'
-      - name: requestor
+          $ref: '#/components/schemas/PurchaseOrderStatus'
+      - name: fromDate
         in: query
-        description: Filter by requestor user ID
+        description: Filter orders created on or after this date (ISO 8601 format YYYY-MM-DD)
         required: false
         schema:
           type: string
+          format: date
+      - name: toDate
+        in: query
+        description: Filter orders created on or before this date (ISO 8601 format YYYY-MM-DD)
+        required: false
+        schema:
+          type: string
+          format: date
       responses:
         '200':
-          description: Successfully retrieved list of requisitions
+          description: Successfully retrieved list of purchase orders
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RequisitionListResponse'
+                $ref: '#/components/schemas/PurchaseOrderListResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -83,11 +111,11 @@ paths:
         delay: 0
         dispatcher: FALLBACK
     post:
-      operationId: createRequisition
-      summary: Create a Requisition
-      description: Creates a new purchase requisition. The requisition enters the approval workflow and upon approval generates one or more purchase orders.
+      operationId: createPurchaseOrder
+      summary: Create a Purchase Order
+      description: Creates a new purchase order in the SAP Ariba system. The order must include header information, at least one line item, supplier details, and shipping address. Upon successful creation, the purchase order is transmitted through the Ariba Network to the designated supplier.
       tags:
-      - Requisitions
+      - Purchase Orders
       parameters:
       - $ref: '#/components/parameters/RealmParam'
       requestBody:
@@ -95,17 +123,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RequisitionCreate'
+              $ref: '#/components/schemas/PurchaseOrderCreate'
       responses:
         '201':
-          description: Requisition created successfully
+          description: Purchase order created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Requisition'
+                $ref: '#/components/schemas/PurchaseOrder'
           headers:
             Location:
-              description: URI of the newly created requisition
+              description: URI of the newly created purchase order
               schema:
                 type: string
                 format: uri
@@ -115,8 +143,14 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '409':
+          description: Conflict - duplicate order number or business rule violation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '422':
-          description: Unprocessable entity - validation error
+          description: Unprocessable entity - validation error in order data
           content:
             application/json:
               schema:
@@ -128,28 +162,23 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
-  /requisitions/{requisitionId}:
+  /orders/{orderId}:
     get:
-      operationId: getRequisition
-      summary: Get a Requisition
-      description: Retrieves the complete details of a specific purchase requisition including line items, approval status, and linked purchase orders.
+      operationId: getPurchaseOrder
+      summary: Get a Purchase Order
+      description: Retrieves the complete details of a specific purchase order including header information, all line items, accounting assignments, shipping addresses, and current status. The orderId corresponds to the unique purchase order identifier (UniqueName) in SAP Ariba.
       tags:
-      - Requisitions
+      - Purchase Orders
       parameters:
       - $ref: '#/components/parameters/RealmParam'
-      - name: requisitionId
-        in: path
-        description: Unique identifier for the requisition
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/OrderIdParam'
       responses:
         '200':
-          description: Successfully retrieved requisition details
+          description: Successfully retrieved purchase order details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Requisition'
+                $ref: '#/components/schemas/PurchaseOrder'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -163,8 +192,124 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+    patch:
+      operationId: updatePurchaseOrder
+      summary: Update a Purchase Order
+      description: Updates an existing purchase order with change request information. Supports modifications to line items, quantities, prices, delivery dates, and shipping addresses. Creates a new version of the purchase order and increments the version number. Change requests are transmitted to the supplier through the Ariba Network.
+      tags:
+      - Purchase Orders
+      parameters:
+      - $ref: '#/components/parameters/RealmParam'
+      - $ref: '#/components/parameters/OrderIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrderUpdate'
+      responses:
+        '200':
+          description: Purchase order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Conflict - order is in a state that does not allow modification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable entity - validation error in update data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orders/{orderId}/cancel:
+    post:
+      operationId: cancelPurchaseOrder
+      summary: Cancel a Purchase Order
+      description: Cancels an existing purchase order and notifies the supplier through the Ariba Network. Only orders in Ordered or Confirmed status can be cancelled. Cancellation creates a new version with cancelled status.
+      tags:
+      - Purchase Orders
+      parameters:
+      - $ref: '#/components/parameters/RealmParam'
+      - $ref: '#/components/parameters/OrderIdParam'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: Reason for cancellation
+                  maxLength: 1000
+      responses:
+        '200':
+          description: Purchase order cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Conflict - order cannot be cancelled in its current state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
+    PurchaseOrderUpdate:
+      type: object
+      description: Request body for updating an existing purchase order. Only provided fields will be modified.
+      properties:
+        lineItems:
+          type: array
+          description: Updated line items
+          items:
+            $ref: '#/components/schemas/PurchaseOrderLineItem'
+          example: []
+        shipTo:
+          $ref: '#/components/schemas/Address'
+        paymentTerms:
+          $ref: '#/components/schemas/PaymentTerms'
+        comments:
+          type: string
+          description: Change request comments
+          example: example_value
     TaxDetail:
       type: object
       description: Tax calculation details for an invoice or line item
@@ -191,6 +336,25 @@ components:
           type: string
           description: Description of the tax
           example: A sample description.
+    SupplierReference:
+      type: object
+      description: Reference to a supplier on the SAP Ariba Network
+      required:
+      - supplierId
+      properties:
+        supplierId:
+          type: string
+          description: Supplier unique identifier (AN-ID on the Ariba Network or internal supplier number)
+          examples:
+          - AN01000000001
+        name:
+          type: string
+          description: Supplier company name
+          example: Example Title
+        erpSupplierId:
+          type: string
+          description: Supplier number in the ERP system
+          example: '500123'
     PurchaseOrderLineItem:
       type: object
       description: A line item within a purchase order representing a specific good or service being procured
@@ -347,102 +511,6 @@ components:
           format: email
           description: Email address
           example: user@example.com
-    RequisitionCreate:
-      type: object
-      description: Request body for creating a new requisition
-      required:
-      - title
-      - lineItems
-      properties:
-        title:
-          type: string
-          example: Example Title
-        needByDate:
-          type: string
-          format: date
-          example: '2026-01-15'
-        companyCode:
-          type: string
-          example: example_value
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/PurchaseOrderLineItem'
-          minItems: 1
-          example: []
-        comments:
-          type: string
-          example: example_value
-    Requisition:
-      type: object
-      description: A purchase requisition requesting procurement of goods or services
-      required:
-      - requisitionId
-      - title
-      - requestor
-      - lineItems
-      properties:
-        requisitionId:
-          type: string
-          description: Unique requisition identifier
-          example: '500123'
-        title:
-          type: string
-          description: Requisition title or name
-          example: Example Title
-        status:
-          $ref: '#/components/schemas/RequisitionStatus'
-        requestor:
-          type: string
-          description: User ID of the person who created the requisition
-          example: example_value
-        requestorName:
-          type: string
-          description: Full name of the requestor
-          example: example_value
-        department:
-          type: string
-          description: Department of the requestor
-          example: example_value
-        companyCode:
-          type: string
-          description: Company code
-          example: example_value
-        needByDate:
-          type: string
-          format: date
-          description: Desired delivery date
-          example: '2026-01-15'
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/PurchaseOrderLineItem'
-          minItems: 1
-          example: []
-        totalAmount:
-          $ref: '#/components/schemas/Money'
-        purchaseOrderIds:
-          type: array
-          description: Purchase order IDs generated from this requisition after approval
-          items:
-            type: string
-          example: []
-        comments:
-          type: string
-          description: Requisition comments
-          example: example_value
-        createdDate:
-          type: string
-          format: date-time
-          example: '2026-01-15T10:30:00Z'
-        lastModifiedDate:
-          type: string
-          format: date-time
-          example: '2026-01-15T10:30:00Z'
-        approvedDate:
-          type: string
-          format: date-time
-          example: '2026-01-15T10:30:00Z'
     ErrorResponse:
       type: object
       description: Standard error response structure
@@ -484,17 +552,179 @@ components:
                     type: string
                     description: SAP module where the error originated
           example: example_value
-    RequisitionStatus:
-      type: string
-      description: Status of a purchase requisition
-      enum:
-      - Composing
-      - Submitted
-      - PendingApproval
-      - Approved
-      - Denied
-      - Ordered
-      - Cancelled
+    BuyerReference:
+      type: object
+      description: Reference to a buyer organization
+      properties:
+        buyerId:
+          type: string
+          description: Buyer AN-ID on the SAP Ariba Network
+          example: '500123'
+        name:
+          type: string
+          description: Buyer organization name
+          example: Example Title
+        erpBuyerId:
+          type: string
+          description: Buyer identifier in the ERP system
+          example: '500123'
+    PurchaseOrderCreate:
+      type: object
+      description: Request body for creating a new purchase order
+      required:
+      - supplier
+      - currency
+      - lineItems
+      properties:
+        erpPONumber:
+          type: string
+          description: ERP system purchase order number
+          example: example_value
+        supplier:
+          $ref: '#/components/schemas/SupplierReference'
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          pattern: ^[A-Z]{3}$
+          example: example_value
+        paymentTerms:
+          $ref: '#/components/schemas/PaymentTerms'
+        purchaseOrg:
+          type: string
+          description: Purchasing organization identifier
+          example: example_value
+        purchaseGroup:
+          type: string
+          description: Purchasing group identifier
+          example: example_value
+        companyCode:
+          type: string
+          description: Company code
+          example: example_value
+        shipTo:
+          $ref: '#/components/schemas/Address'
+        billTo:
+          $ref: '#/components/schemas/Address'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderLineItem'
+          minItems: 1
+          example: []
+        requisitionId:
+          type: string
+          description: Reference to originating requisition
+          example: '500123'
+        contractId:
+          type: string
+          description: Reference to master agreement
+          example: '500123'
+        comments:
+          type: string
+          description: Header-level comments
+          example: example_value
+    PurchaseOrder:
+      type: object
+      description: A complete purchase order document representing a buyer's commitment to purchase goods or services from a supplier through the SAP Ariba Network
+      required:
+      - orderId
+      - orderDate
+      - supplier
+      - currency
+      - lineItems
+      properties:
+        orderId:
+          type: string
+          description: Unique purchase order identifier (UniqueName) including version
+          examples:
+          - PO-2025-001234
+        erpPONumber:
+          type: string
+          description: ERP system purchase order number. Unique ID for every version of the purchase order in the backend ERP system.
+          example: example_value
+        versionNumber:
+          type: integer
+          description: Supplemental version number of the order. Incremented with each change request.
+          minimum: 1
+          example: 10
+        orderDate:
+          type: string
+          format: date-time
+          description: Date and time when the purchase order was created
+          example: '2026-01-15T10:30:00Z'
+        status:
+          $ref: '#/components/schemas/PurchaseOrderStatus'
+        orderMethodCategory:
+          type: string
+          description: Ordering method category indicating how the order was generated (e.g., manual, automatic, blanket release)
+          example: example_value
+        supplier:
+          $ref: '#/components/schemas/SupplierReference'
+        buyer:
+          $ref: '#/components/schemas/BuyerReference'
+        currency:
+          type: string
+          description: ISO 4217 currency code for the order
+          pattern: ^[A-Z]{3}$
+          example: example_value
+        totalAmount:
+          $ref: '#/components/schemas/Money'
+        taxAmount:
+          $ref: '#/components/schemas/Money'
+        shippingAmount:
+          $ref: '#/components/schemas/Money'
+        paymentTerms:
+          $ref: '#/components/schemas/PaymentTerms'
+        purchaseOrg:
+          type: string
+          description: Purchasing organization identifier
+          example: example_value
+        purchaseGroup:
+          type: string
+          description: Purchasing group identifier
+          example: example_value
+        companyCode:
+          type: string
+          description: Company code for the buying entity
+          example: example_value
+        shipTo:
+          $ref: '#/components/schemas/Address'
+        billTo:
+          $ref: '#/components/schemas/Address'
+        lineItems:
+          type: array
+          description: Line items contained in the purchase order
+          items:
+            $ref: '#/components/schemas/PurchaseOrderLineItem'
+          minItems: 1
+          example: []
+        requisitionId:
+          type: string
+          description: Reference to the originating purchase requisition
+          example: '500123'
+        contractId:
+          type: string
+          description: Reference to a master agreement or contract
+          example: '500123'
+        comments:
+          type: string
+          description: Header-level comments on the purchase order
+          example: example_value
+        createdDate:
+          type: string
+          format: date-time
+          description: Timestamp when the order was first created
+          example: '2026-01-15T10:30:00Z'
+        lastModifiedDate:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent modification
+          example: '2026-01-15T10:30:00Z'
+        closedDate:
+          type: string
+          format: date-time
+          description: Timestamp when the order was closed
+          example: '2026-01-15T10:30:00Z'
     Money:
       type: object
       description: Monetary amount with currency code following ISO 4217
@@ -557,24 +787,55 @@ components:
           type: string
           description: Account assignment category code for the line item expenditure
           example: example_value
-    RequisitionListResponse:
+    PurchaseOrderListResponse:
       type: object
-      description: Paginated list of requisitions
+      description: Paginated list of purchase orders
       properties:
         totalCount:
           type: integer
+          description: Total number of matching records
           example: 10
         skip:
           type: integer
+          description: Number of records skipped
           example: 10
         limit:
           type: integer
+          description: Maximum records per page
           example: 10
-        requisitions:
+        orders:
           type: array
           items:
-            $ref: '#/components/schemas/Requisition'
+            $ref: '#/components/schemas/PurchaseOrder'
           example: []
+    PaymentTerms:
+      type: object
+      description: Payment terms governing when and how invoices should be paid
+      properties:
+        code:
+          type: string
+          description: Payment terms code
+          examples:
+          - NET30
+          - NET60
+          - 2/10NET30
+        description:
+          type: string
+          description: Human-readable payment terms description
+          example: A sample description.
+        netDays:
+          type: integer
+          description: Number of days until payment is due
+          example: 10
+        discountPercent:
+          type: number
+          format: double
+          description: Early payment discount percentage
+          example: 42.5
+        discountDays:
+          type: integer
+          description: Number of days within which discount applies
+          example: 10
     UnitOfMeasure:
       type: object
       description: Unit of measure specification following UN/ECE Recommendation 20 standard codes
@@ -597,6 +858,21 @@ components:
           - Kilogram
           - Piece
           - Hour
+    PurchaseOrderStatus:
+      type: string
+      description: Status of a purchase order in the procurement lifecycle
+      enum:
+      - Draft
+      - Submitted
+      - Ordered
+      - Confirmed
+      - PartiallyReceived
+      - Received
+      - PartiallyInvoiced
+      - Invoiced
+      - Cancelled
+      - Closed
+      - Rejected
   responses:
     Forbidden:
       description: Forbidden - insufficient permissions for the requested operation
@@ -654,6 +930,13 @@ components:
       name: realm
       in: query
       description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
+      required: true
+      schema:
+        type: string
+    OrderIdParam:
+      name: orderId
+      in: path
+      description: Unique purchase order identifier (UniqueName). This is the purchase order number with its version, or the ERP PO number (ERPPONumber).
       required: true
       schema:
         type: string

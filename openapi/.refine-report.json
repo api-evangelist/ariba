@@ -1,0 +1,33 @@
+{
+  "provider": "ariba",
+  "sources": [
+    "sap-ariba-invoices-api-openapi.yml",
+    "sap-ariba-purchase-order-line-items-api-openapi.yml",
+    "sap-ariba-purchase-orders-api-openapi.yml",
+    "sap-ariba-receipts-api-openapi.yml",
+    "sap-ariba-requisitions-api-openapi.yml",
+    "sap-ariba-suppliers-api-openapi.yml"
+  ],
+  "outputs": [
+    "ariba-invoices-api-openapi.yml",
+    "ariba-purchase-order-line-items-api-openapi.yml",
+    "ariba-purchase-orders-api-openapi.yml",
+    "ariba-receipts-api-openapi.yml",
+    "ariba-requisitions-api-openapi.yml",
+    "ariba-suppliers-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/sap-ariba-invoices-api-openapi.yml",
+    "archived openapi/sap-ariba-purchase-order-line-items-api-openapi.yml",
+    "archived openapi/sap-ariba-purchase-orders-api-openapi.yml",
+    "archived openapi/sap-ariba-receipts-api-openapi.yml",
+    "archived openapi/sap-ariba-requisitions-api-openapi.yml",
+    "archived openapi/sap-ariba-suppliers-api-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "apis.yml register: written (+6 apis, 89 total)"
+  ],
+  "skipped": []
+}
