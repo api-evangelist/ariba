@@ -130,120 +130,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid parameters or malformed request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - invalid or missing authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    TooManyRequests:
-      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before retrying
-          schema:
-            type: integer
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden - insufficient permissions for the requested operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
-      type: object
-      description: Standard error response structure
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-              examples:
-              - INVALID_REQUEST
-              - RESOURCE_NOT_FOUND
-              - UNAUTHORIZED
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: array
-              description: Additional error details
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                    description: Field name that caused the error (for validation errors)
-                  message:
-                    type: string
-                    description: Detail message for this specific issue
-                  errorNumber:
-                    type: string
-                    description: SAP error number
-                  errorModule:
-                    type: string
-                    description: SAP module where the error originated
-          example: example_value
-    SupplierQualificationStatus:
-      type: string
-      description: Supplier qualification status on the Ariba Network
-      enum:
-      - Qualified
-      - Conditional
-      - NotQualified
-      - PendingReview
-      - Expired
-    SupplierListResponse:
-      type: object
-      description: Paginated list of suppliers
-      properties:
-        totalCount:
-          type: integer
-          description: Total number of matching suppliers
-          example: 10
-        skip:
-          type: integer
-          description: Number of records skipped
-          example: 10
-        limit:
-          type: integer
-          description: Maximum records per page
-          example: 10
-        suppliers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Supplier'
-          example: []
     ContactInfo:
       type: object
       description: Contact information for a person or department
@@ -453,6 +340,77 @@ components:
           format: email
           description: Email address
           example: user@example.com
+    SupplierListResponse:
+      type: object
+      description: Paginated list of suppliers
+      properties:
+        totalCount:
+          type: integer
+          description: Total number of matching suppliers
+          example: 10
+        skip:
+          type: integer
+          description: Number of records skipped
+          example: 10
+        limit:
+          type: integer
+          description: Maximum records per page
+          example: 10
+        suppliers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Supplier'
+          example: []
+    ErrorResponse:
+      type: object
+      description: Standard error response structure
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+              examples:
+              - INVALID_REQUEST
+              - RESOURCE_NOT_FOUND
+              - UNAUTHORIZED
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: array
+              description: Additional error details
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    description: Field name that caused the error (for validation errors)
+                  message:
+                    type: string
+                    description: Detail message for this specific issue
+                  errorNumber:
+                    type: string
+                    description: SAP error number
+                  errorModule:
+                    type: string
+                    description: SAP module where the error originated
+          example: example_value
+    SupplierQualificationStatus:
+      type: string
+      description: Supplier qualification status on the Ariba Network
+      enum:
+      - Qualified
+      - Conditional
+      - NotQualified
+      - PendingReview
+      - Expired
     CommodityCode:
       type: object
       description: UNSPSC commodity classification code
@@ -474,17 +432,49 @@ components:
           description: Classification domain identifier
           default: UNSPSC
           example: example_value
+  responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden - insufficient permissions for the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before retrying
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid parameters or malformed request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - invalid or missing authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of records to return per page (default 10, max 100)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
     SkipParam:
       name: skip
       in: query
@@ -501,6 +491,16 @@ components:
       required: true
       schema:
         type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of records to return per page (default 10, max 100)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
   securitySchemes:
     oauth2:
       type: oauth2
