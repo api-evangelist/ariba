@@ -164,115 +164,116 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden - insufficient permissions for the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before retrying
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid parameters or malformed request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - invalid or missing authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    Requisition:
+    ErrorResponse:
       type: object
-      description: A purchase requisition requesting procurement of goods or services
+      description: Standard error response structure
       required:
-      - requisitionId
-      - title
-      - requestor
-      - lineItems
+      - error
       properties:
-        requisitionId:
-          type: string
-          description: Unique requisition identifier
-          example: '500123'
-        title:
-          type: string
-          description: Requisition title or name
-          example: Example Title
-        status:
-          $ref: '#/components/schemas/RequisitionStatus'
-        requestor:
-          type: string
-          description: User ID of the person who created the requisition
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+              examples:
+              - INVALID_REQUEST
+              - RESOURCE_NOT_FOUND
+              - UNAUTHORIZED
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: array
+              description: Additional error details
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    description: Field name that caused the error (for validation errors)
+                  message:
+                    type: string
+                    description: Detail message for this specific issue
+                  errorNumber:
+                    type: string
+                    description: SAP error number
+                  errorModule:
+                    type: string
+                    description: SAP module where the error originated
           example: example_value
-        requestorName:
-          type: string
-          description: Full name of the requestor
-          example: example_value
-        department:
-          type: string
-          description: Department of the requestor
-          example: example_value
-        companyCode:
-          type: string
-          description: Company code
-          example: example_value
-        needByDate:
-          type: string
-          format: date
-          description: Desired delivery date
-          example: '2026-01-15'
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/PurchaseOrderLineItem'
-          minItems: 1
-          example: []
-        totalAmount:
-          $ref: '#/components/schemas/Money'
-        purchaseOrderIds:
-          type: array
-          description: Purchase order IDs generated from this requisition after approval
-          items:
-            type: string
-          example: []
-        comments:
-          type: string
-          description: Requisition comments
-          example: example_value
-        createdDate:
-          type: string
-          format: date-time
-          example: '2026-01-15T10:30:00Z'
-        lastModifiedDate:
-          type: string
-          format: date-time
-          example: '2026-01-15T10:30:00Z'
-        approvedDate:
-          type: string
-          format: date-time
-          example: '2026-01-15T10:30:00Z'
-    Address:
+    TaxDetail:
       type: object
-      description: Postal address structure used for shipping, billing, and company addresses
+      description: Tax calculation details for an invoice or line item
       properties:
-        name:
+        taxCode:
           type: string
-          description: Addressee name or attention line
-          example: Example Title
-        lines:
-          type: string
-          description: Street address lines
+          description: Tax code identifier
           example: example_value
-        city:
+        taxCategory:
           type: string
-          description: City name
+          description: Tax category (e.g., VAT, GST, Sales Tax)
           example: example_value
-        state:
+        taxRate:
+          type: number
+          format: double
+          description: Tax rate as a percentage
+          minimum: 0
+          example: 42.5
+        taxAmount:
+          $ref: '#/components/schemas/Money'
+        taxableAmount:
+          $ref: '#/components/schemas/Money'
+        description:
           type: string
-          description: State or province
-          example: example_value
-        postalCode:
-          type: string
-          description: Postal or ZIP code
-          example: example_value
-        country:
-          type: string
-          description: Country code (ISO 3166-1 alpha-2)
-          pattern: ^[A-Z]{2}$
-          example: example_value
-        phone:
-          type: string
-          description: Phone number
-          example: example_value
-        email:
-          type: string
-          format: email
-          description: Email address
-          example: user@example.com
+          description: Description of the tax
+          example: A sample description.
     PurchaseOrderLineItem:
       type: object
       description: A line item within a purchase order representing a specific good or service being procured
@@ -370,28 +371,211 @@ components:
           type: string
           description: Additional comments or notes on the line item
           example: example_value
-    UnitOfMeasure:
+    Money:
       type: object
-      description: Unit of measure specification following UN/ECE Recommendation 20 standard codes
+      description: Monetary amount with currency code following ISO 4217
+      required:
+      - amount
+      - currencyCode
+      properties:
+        amount:
+          type: number
+          format: double
+          description: The monetary value
+          examples:
+          - 1250.0
+        currencyCode:
+          type: string
+          description: ISO 4217 currency code
+          pattern: ^[A-Z]{3}$
+          examples:
+          - USD
+          - EUR
+          - GBP
+    Requisition:
+      type: object
+      description: A purchase requisition requesting procurement of goods or services
+      required:
+      - requisitionId
+      - title
+      - requestor
+      - lineItems
+      properties:
+        requisitionId:
+          type: string
+          description: Unique requisition identifier
+          example: '500123'
+        title:
+          type: string
+          description: Requisition title or name
+          example: Example Title
+        status:
+          $ref: '#/components/schemas/RequisitionStatus'
+        requestor:
+          type: string
+          description: User ID of the person who created the requisition
+          example: example_value
+        requestorName:
+          type: string
+          description: Full name of the requestor
+          example: example_value
+        department:
+          type: string
+          description: Department of the requestor
+          example: example_value
+        companyCode:
+          type: string
+          description: Company code
+          example: example_value
+        needByDate:
+          type: string
+          format: date
+          description: Desired delivery date
+          example: '2026-01-15'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderLineItem'
+          minItems: 1
+          example: []
+        totalAmount:
+          $ref: '#/components/schemas/Money'
+        purchaseOrderIds:
+          type: array
+          description: Purchase order IDs generated from this requisition after approval
+          items:
+            type: string
+          example: []
+        comments:
+          type: string
+          description: Requisition comments
+          example: example_value
+        createdDate:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        lastModifiedDate:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        approvedDate:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+    RequisitionCreate:
+      type: object
+      description: Request body for creating a new requisition
+      required:
+      - title
+      - lineItems
+      properties:
+        title:
+          type: string
+          example: Example Title
+        needByDate:
+          type: string
+          format: date
+          example: '2026-01-15'
+        companyCode:
+          type: string
+          example: example_value
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderLineItem'
+          minItems: 1
+          example: []
+        comments:
+          type: string
+          example: example_value
+    RequisitionStatus:
+      type: string
+      description: Status of a purchase requisition
+      enum:
+      - Composing
+      - Submitted
+      - PendingApproval
+      - Approved
+      - Denied
+      - Ordered
+      - Cancelled
+    RequisitionListResponse:
+      type: object
+      description: Paginated list of requisitions
+      properties:
+        totalCount:
+          type: integer
+          example: 10
+        skip:
+          type: integer
+          example: 10
+        limit:
+          type: integer
+          example: 10
+        requisitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Requisition'
+          example: []
+    CommodityCode:
+      type: object
+      description: UNSPSC commodity classification code
       required:
       - code
       properties:
         code:
           type: string
-          description: Unit of measure code (UN/ECE Rec 20 or SAP Ariba internal code)
+          description: UNSPSC commodity code
           examples:
-          - EA
-          - KG
-          - PC
-          - HR
+          - '43211500'
         description:
           type: string
-          description: Human-readable description of the unit
+          description: Commodity description
           examples:
-          - Each
-          - Kilogram
-          - Piece
-          - Hour
+          - Computers
+        domain:
+          type: string
+          description: Classification domain identifier
+          default: UNSPSC
+          example: example_value
+    Address:
+      type: object
+      description: Postal address structure used for shipping, billing, and company addresses
+      properties:
+        name:
+          type: string
+          description: Addressee name or attention line
+          example: Example Title
+        lines:
+          type: string
+          description: Street address lines
+          example: example_value
+        city:
+          type: string
+          description: City name
+          example: example_value
+        state:
+          type: string
+          description: State or province
+          example: example_value
+        postalCode:
+          type: string
+          description: Postal or ZIP code
+          example: example_value
+        country:
+          type: string
+          description: Country code (ISO 3166-1 alpha-2)
+          pattern: ^[A-Z]{2}$
+          example: example_value
+        phone:
+          type: string
+          description: Phone number
+          example: example_value
+        email:
+          type: string
+          format: email
+          description: Email address
+          example: user@example.com
     AccountingInfo:
       type: object
       description: Accounting assignment information for cost allocation on purchase order line items
@@ -433,220 +617,29 @@ components:
           type: string
           description: Account assignment category code for the line item expenditure
           example: example_value
-    RequisitionCreate:
+    UnitOfMeasure:
       type: object
-      description: Request body for creating a new requisition
-      required:
-      - title
-      - lineItems
-      properties:
-        title:
-          type: string
-          example: Example Title
-        needByDate:
-          type: string
-          format: date
-          example: '2026-01-15'
-        companyCode:
-          type: string
-          example: example_value
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/PurchaseOrderLineItem'
-          minItems: 1
-          example: []
-        comments:
-          type: string
-          example: example_value
-    TaxDetail:
-      type: object
-      description: Tax calculation details for an invoice or line item
-      properties:
-        taxCode:
-          type: string
-          description: Tax code identifier
-          example: example_value
-        taxCategory:
-          type: string
-          description: Tax category (e.g., VAT, GST, Sales Tax)
-          example: example_value
-        taxRate:
-          type: number
-          format: double
-          description: Tax rate as a percentage
-          minimum: 0
-          example: 42.5
-        taxAmount:
-          $ref: '#/components/schemas/Money'
-        taxableAmount:
-          $ref: '#/components/schemas/Money'
-        description:
-          type: string
-          description: Description of the tax
-          example: A sample description.
-    ErrorResponse:
-      type: object
-      description: Standard error response structure
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-              examples:
-              - INVALID_REQUEST
-              - RESOURCE_NOT_FOUND
-              - UNAUTHORIZED
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: array
-              description: Additional error details
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                    description: Field name that caused the error (for validation errors)
-                  message:
-                    type: string
-                    description: Detail message for this specific issue
-                  errorNumber:
-                    type: string
-                    description: SAP error number
-                  errorModule:
-                    type: string
-                    description: SAP module where the error originated
-          example: example_value
-    RequisitionListResponse:
-      type: object
-      description: Paginated list of requisitions
-      properties:
-        totalCount:
-          type: integer
-          example: 10
-        skip:
-          type: integer
-          example: 10
-        limit:
-          type: integer
-          example: 10
-        requisitions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Requisition'
-          example: []
-    RequisitionStatus:
-      type: string
-      description: Status of a purchase requisition
-      enum:
-      - Composing
-      - Submitted
-      - PendingApproval
-      - Approved
-      - Denied
-      - Ordered
-      - Cancelled
-    Money:
-      type: object
-      description: Monetary amount with currency code following ISO 4217
-      required:
-      - amount
-      - currencyCode
-      properties:
-        amount:
-          type: number
-          format: double
-          description: The monetary value
-          examples:
-          - 1250.0
-        currencyCode:
-          type: string
-          description: ISO 4217 currency code
-          pattern: ^[A-Z]{3}$
-          examples:
-          - USD
-          - EUR
-          - GBP
-    CommodityCode:
-      type: object
-      description: UNSPSC commodity classification code
+      description: Unit of measure specification following UN/ECE Recommendation 20 standard codes
       required:
       - code
       properties:
         code:
           type: string
-          description: UNSPSC commodity code
+          description: Unit of measure code (UN/ECE Rec 20 or SAP Ariba internal code)
           examples:
-          - '43211500'
+          - EA
+          - KG
+          - PC
+          - HR
         description:
           type: string
-          description: Commodity description
+          description: Human-readable description of the unit
           examples:
-          - Computers
-        domain:
-          type: string
-          description: Classification domain identifier
-          default: UNSPSC
-          example: example_value
-  responses:
-    TooManyRequests:
-      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before retrying
-          schema:
-            type: integer
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden - insufficient permissions for the requested operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid parameters or malformed request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - invalid or missing authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+          - Each
+          - Kilogram
+          - Piece
+          - Hour
   parameters:
-    RealmParam:
-      name: realm
-      in: query
-      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
-      required: true
-      schema:
-        type: string
     SkipParam:
       name: skip
       in: query
@@ -666,6 +659,13 @@ components:
         minimum: 1
         maximum: 100
         default: 10
+    RealmParam:
+      name: realm
+      in: query
+      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
+      required: true
+      schema:
+        type: string
   securitySchemes:
     oauth2:
       type: oauth2

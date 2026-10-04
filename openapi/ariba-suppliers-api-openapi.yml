@@ -130,7 +130,141 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden - insufficient permissions for the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid parameters or malformed request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - invalid or missing authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before retrying
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    CommodityCode:
+      type: object
+      description: UNSPSC commodity classification code
+      required:
+      - code
+      properties:
+        code:
+          type: string
+          description: UNSPSC commodity code
+          examples:
+          - '43211500'
+        description:
+          type: string
+          description: Commodity description
+          examples:
+          - Computers
+        domain:
+          type: string
+          description: Classification domain identifier
+          default: UNSPSC
+          example: example_value
+    SupplierListResponse:
+      type: object
+      description: Paginated list of suppliers
+      properties:
+        totalCount:
+          type: integer
+          description: Total number of matching suppliers
+          example: 10
+        skip:
+          type: integer
+          description: Number of records skipped
+          example: 10
+        limit:
+          type: integer
+          description: Maximum records per page
+          example: 10
+        suppliers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Supplier'
+          example: []
+    ErrorResponse:
+      type: object
+      description: Standard error response structure
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+              examples:
+              - INVALID_REQUEST
+              - RESOURCE_NOT_FOUND
+              - UNAUTHORIZED
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: array
+              description: Additional error details
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    description: Field name that caused the error (for validation errors)
+                  message:
+                    type: string
+                    description: Detail message for this specific issue
+                  errorNumber:
+                    type: string
+                    description: SAP error number
+                  errorModule:
+                    type: string
+                    description: SAP module where the error originated
+          example: example_value
+    SupplierQualificationStatus:
+      type: string
+      description: Supplier qualification status on the Ariba Network
+      enum:
+      - Qualified
+      - Conditional
+      - NotQualified
+      - PendingReview
+      - Expired
     ContactInfo:
       type: object
       description: Contact information for a person or department
@@ -156,6 +290,44 @@ components:
           type: string
           description: Department name
           example: example_value
+    Address:
+      type: object
+      description: Postal address structure used for shipping, billing, and company addresses
+      properties:
+        name:
+          type: string
+          description: Addressee name or attention line
+          example: Example Title
+        lines:
+          type: string
+          description: Street address lines
+          example: example_value
+        city:
+          type: string
+          description: City name
+          example: example_value
+        state:
+          type: string
+          description: State or province
+          example: example_value
+        postalCode:
+          type: string
+          description: Postal or ZIP code
+          example: example_value
+        country:
+          type: string
+          description: Country code (ISO 3166-1 alpha-2)
+          pattern: ^[A-Z]{2}$
+          example: example_value
+        phone:
+          type: string
+          description: Phone number
+          example: example_value
+        email:
+          type: string
+          format: email
+          description: Email address
+          example: user@example.com
     Money:
       type: object
       description: Monetary amount with currency code following ISO 4217
@@ -302,179 +474,14 @@ components:
           format: date-time
           description: Date of last profile update
           example: '2026-01-15T10:30:00Z'
-    Address:
-      type: object
-      description: Postal address structure used for shipping, billing, and company addresses
-      properties:
-        name:
-          type: string
-          description: Addressee name or attention line
-          example: Example Title
-        lines:
-          type: string
-          description: Street address lines
-          example: example_value
-        city:
-          type: string
-          description: City name
-          example: example_value
-        state:
-          type: string
-          description: State or province
-          example: example_value
-        postalCode:
-          type: string
-          description: Postal or ZIP code
-          example: example_value
-        country:
-          type: string
-          description: Country code (ISO 3166-1 alpha-2)
-          pattern: ^[A-Z]{2}$
-          example: example_value
-        phone:
-          type: string
-          description: Phone number
-          example: example_value
-        email:
-          type: string
-          format: email
-          description: Email address
-          example: user@example.com
-    SupplierListResponse:
-      type: object
-      description: Paginated list of suppliers
-      properties:
-        totalCount:
-          type: integer
-          description: Total number of matching suppliers
-          example: 10
-        skip:
-          type: integer
-          description: Number of records skipped
-          example: 10
-        limit:
-          type: integer
-          description: Maximum records per page
-          example: 10
-        suppliers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Supplier'
-          example: []
-    ErrorResponse:
-      type: object
-      description: Standard error response structure
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-              examples:
-              - INVALID_REQUEST
-              - RESOURCE_NOT_FOUND
-              - UNAUTHORIZED
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: array
-              description: Additional error details
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                    description: Field name that caused the error (for validation errors)
-                  message:
-                    type: string
-                    description: Detail message for this specific issue
-                  errorNumber:
-                    type: string
-                    description: SAP error number
-                  errorModule:
-                    type: string
-                    description: SAP module where the error originated
-          example: example_value
-    SupplierQualificationStatus:
-      type: string
-      description: Supplier qualification status on the Ariba Network
-      enum:
-      - Qualified
-      - Conditional
-      - NotQualified
-      - PendingReview
-      - Expired
-    CommodityCode:
-      type: object
-      description: UNSPSC commodity classification code
-      required:
-      - code
-      properties:
-        code:
-          type: string
-          description: UNSPSC commodity code
-          examples:
-          - '43211500'
-        description:
-          type: string
-          description: Commodity description
-          examples:
-          - Computers
-        domain:
-          type: string
-          description: Classification domain identifier
-          default: UNSPSC
-          example: example_value
-  responses:
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden - insufficient permissions for the requested operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    TooManyRequests:
-      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before retrying
-          schema:
-            type: integer
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid parameters or malformed request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - invalid or missing authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
+    RealmParam:
+      name: realm
+      in: query
+      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
+      required: true
+      schema:
+        type: string
     SkipParam:
       name: skip
       in: query
@@ -484,13 +491,6 @@ components:
         type: integer
         minimum: 0
         default: 0
-    RealmParam:
-      name: realm
-      in: query
-      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
-      required: true
-      schema:
-        type: string
     LimitParam:
       name: limit
       in: query

@@ -115,6 +115,48 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden - insufficient permissions for the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request - invalid parameters or malformed request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - invalid or missing authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before retrying
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     Receipt:
       type: object
@@ -189,42 +231,6 @@ components:
           type: string
           description: User who created the receipt
           example: example_value
-    ReceiptCreate:
-      type: object
-      description: Request body for creating a receipt
-      required:
-      - receiptDate
-      - lineItems
-      properties:
-        receiptDate:
-          type: string
-          format: date
-          example: '2026-01-15'
-        receiptType:
-          type: string
-          enum:
-          - GoodsReceipt
-          - ServiceConfirmation
-          - ReturnDelivery
-          default: GoodsReceipt
-          example: GoodsReceipt
-        lineItems:
-          type: array
-          items:
-            type: object
-            required:
-            - poLineNumber
-            - quantityReceived
-            properties:
-              poLineNumber:
-                type: string
-              quantityReceived:
-                type: number
-                format: double
-              comments:
-                type: string
-          minItems: 1
-          example: []
     ErrorResponse:
       type: object
       description: Standard error response structure
@@ -266,6 +272,60 @@ components:
                     type: string
                     description: SAP module where the error originated
           example: example_value
+    ReceiptListResponse:
+      type: object
+      description: Paginated list of receipts
+      properties:
+        totalCount:
+          type: integer
+          example: 10
+        skip:
+          type: integer
+          example: 10
+        limit:
+          type: integer
+          example: 10
+        receipts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receipt'
+          example: []
+    ReceiptCreate:
+      type: object
+      description: Request body for creating a receipt
+      required:
+      - receiptDate
+      - lineItems
+      properties:
+        receiptDate:
+          type: string
+          format: date
+          example: '2026-01-15'
+        receiptType:
+          type: string
+          enum:
+          - GoodsReceipt
+          - ServiceConfirmation
+          - ReturnDelivery
+          default: GoodsReceipt
+          example: GoodsReceipt
+        lineItems:
+          type: array
+          items:
+            type: object
+            required:
+            - poLineNumber
+            - quantityReceived
+            properties:
+              poLineNumber:
+                type: string
+              quantityReceived:
+                type: number
+                format: double
+              comments:
+                type: string
+          minItems: 1
+          example: []
     UnitOfMeasure:
       type: object
       description: Unit of measure specification following UN/ECE Recommendation 20 standard codes
@@ -288,29 +348,18 @@ components:
           - Kilogram
           - Piece
           - Hour
-    ReceiptListResponse:
-      type: object
-      description: Paginated list of receipts
-      properties:
-        totalCount:
-          type: integer
-          example: 10
-        skip:
-          type: integer
-          example: 10
-        limit:
-          type: integer
-          example: 10
-        receipts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Receipt'
-          example: []
   parameters:
     OrderIdParam:
       name: orderId
       in: path
       description: Unique purchase order identifier (UniqueName). This is the purchase order number with its version, or the ERP PO number (ERPPONumber).
+      required: true
+      schema:
+        type: string
+    RealmParam:
+      name: realm
+      in: query
+      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
       required: true
       schema:
         type: string
@@ -323,13 +372,6 @@ components:
         type: integer
         minimum: 0
         default: 0
-    RealmParam:
-      name: realm
-      in: query
-      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
-      required: true
-      schema:
-        type: string
     LimitParam:
       name: limit
       in: query
@@ -340,48 +382,6 @@ components:
         minimum: 1
         maximum: 100
         default: 10
-  responses:
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden - insufficient permissions for the requested operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    TooManyRequests:
-      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before retrying
-          schema:
-            type: integer
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid parameters or malformed request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - invalid or missing authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     oauth2:
       type: oauth2
