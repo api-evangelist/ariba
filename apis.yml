@@ -1436,6 +1436,8 @@ apis:
   - type: Documentation
     url: https://developer.ariba.com/api/apis/invoices/overview
 common:
+- type: FinOps
+  url: finops/ariba-finops.yml
 - type: CapabilityMap
   url: capabilities/ariba-capability-edges.yml
   name: Ariba Business Capability Map
