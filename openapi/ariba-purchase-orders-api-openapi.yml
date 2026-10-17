@@ -289,48 +289,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden - insufficient permissions for the requested operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    TooManyRequests:
-      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before retrying
-          schema:
-            type: integer
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request - invalid parameters or malformed request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - invalid or missing authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     ErrorResponse:
       type: object
@@ -373,6 +331,71 @@ components:
                     type: string
                     description: SAP module where the error originated
           example: example_value
+    PurchaseOrderUpdate:
+      type: object
+      description: Request body for updating an existing purchase order. Only provided fields will be modified.
+      properties:
+        lineItems:
+          type: array
+          description: Updated line items
+          items:
+            $ref: '#/components/schemas/PurchaseOrderLineItem'
+          example: []
+        shipTo:
+          $ref: '#/components/schemas/Address'
+        paymentTerms:
+          $ref: '#/components/schemas/PaymentTerms'
+        comments:
+          type: string
+          description: Change request comments
+          example: example_value
+    TaxDetail:
+      type: object
+      description: Tax calculation details for an invoice or line item
+      properties:
+        taxCode:
+          type: string
+          description: Tax code identifier
+          example: example_value
+        taxCategory:
+          type: string
+          description: Tax category (e.g., VAT, GST, Sales Tax)
+          example: example_value
+        taxRate:
+          type: number
+          format: double
+          description: Tax rate as a percentage
+          minimum: 0
+          example: 42.5
+        taxAmount:
+          $ref: '#/components/schemas/Money'
+        taxableAmount:
+          $ref: '#/components/schemas/Money'
+        description:
+          type: string
+          description: Description of the tax
+          example: A sample description.
+    Money:
+      type: object
+      description: Monetary amount with currency code following ISO 4217
+      required:
+      - amount
+      - currencyCode
+      properties:
+        amount:
+          type: number
+          format: double
+          description: The monetary value
+          examples:
+          - 1250.0
+        currencyCode:
+          type: string
+          description: ISO 4217 currency code
+          pattern: ^[A-Z]{3}$
+          examples:
+          - USD
+          - EUR
+          - GBP
     PurchaseOrder:
       type: object
       description: A complete purchase order document representing a buyer's commitment to purchase goods or services from a supplier through the SAP Ariba Network
@@ -475,50 +498,167 @@ components:
           format: date-time
           description: Timestamp when the order was closed
           example: '2026-01-15T10:30:00Z'
-    TaxDetail:
+    PurchaseOrderCreate:
       type: object
-      description: Tax calculation details for an invoice or line item
+      description: Request body for creating a new purchase order
+      required:
+      - supplier
+      - currency
+      - lineItems
       properties:
-        taxCode:
+        erpPONumber:
           type: string
-          description: Tax code identifier
+          description: ERP system purchase order number
           example: example_value
-        taxCategory:
+        supplier:
+          $ref: '#/components/schemas/SupplierReference'
+        currency:
           type: string
-          description: Tax category (e.g., VAT, GST, Sales Tax)
+          description: ISO 4217 currency code
+          pattern: ^[A-Z]{3}$
           example: example_value
-        taxRate:
-          type: number
-          format: double
-          description: Tax rate as a percentage
-          minimum: 0
-          example: 42.5
-        taxAmount:
-          $ref: '#/components/schemas/Money'
-        taxableAmount:
-          $ref: '#/components/schemas/Money'
-        description:
-          type: string
-          description: Description of the tax
-          example: A sample description.
-    PurchaseOrderUpdate:
-      type: object
-      description: Request body for updating an existing purchase order. Only provided fields will be modified.
-      properties:
-        lineItems:
-          type: array
-          description: Updated line items
-          items:
-            $ref: '#/components/schemas/PurchaseOrderLineItem'
-          example: []
-        shipTo:
-          $ref: '#/components/schemas/Address'
         paymentTerms:
           $ref: '#/components/schemas/PaymentTerms'
+        purchaseOrg:
+          type: string
+          description: Purchasing organization identifier
+          example: example_value
+        purchaseGroup:
+          type: string
+          description: Purchasing group identifier
+          example: example_value
+        companyCode:
+          type: string
+          description: Company code
+          example: example_value
+        shipTo:
+          $ref: '#/components/schemas/Address'
+        billTo:
+          $ref: '#/components/schemas/Address'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderLineItem'
+          minItems: 1
+          example: []
+        requisitionId:
+          type: string
+          description: Reference to originating requisition
+          example: '500123'
+        contractId:
+          type: string
+          description: Reference to master agreement
+          example: '500123'
         comments:
           type: string
-          description: Change request comments
+          description: Header-level comments
           example: example_value
+    Address:
+      type: object
+      description: Postal address structure used for shipping, billing, and company addresses
+      properties:
+        name:
+          type: string
+          description: Addressee name or attention line
+          example: Example Title
+        lines:
+          type: string
+          description: Street address lines
+          example: example_value
+        city:
+          type: string
+          description: City name
+          example: example_value
+        state:
+          type: string
+          description: State or province
+          example: example_value
+        postalCode:
+          type: string
+          description: Postal or ZIP code
+          example: example_value
+        country:
+          type: string
+          description: Country code (ISO 3166-1 alpha-2)
+          pattern: ^[A-Z]{2}$
+          example: example_value
+        phone:
+          type: string
+          description: Phone number
+          example: example_value
+        email:
+          type: string
+          format: email
+          description: Email address
+          example: user@example.com
+    CommodityCode:
+      type: object
+      description: UNSPSC commodity classification code
+      required:
+      - code
+      properties:
+        code:
+          type: string
+          description: UNSPSC commodity code
+          examples:
+          - '43211500'
+        description:
+          type: string
+          description: Commodity description
+          examples:
+          - Computers
+        domain:
+          type: string
+          description: Classification domain identifier
+          default: UNSPSC
+          example: example_value
+    PaymentTerms:
+      type: object
+      description: Payment terms governing when and how invoices should be paid
+      properties:
+        code:
+          type: string
+          description: Payment terms code
+          examples:
+          - NET30
+          - NET60
+          - 2/10NET30
+        description:
+          type: string
+          description: Human-readable payment terms description
+          example: A sample description.
+        netDays:
+          type: integer
+          description: Number of days until payment is due
+          example: 10
+        discountPercent:
+          type: number
+          format: double
+          description: Early payment discount percentage
+          example: 42.5
+        discountDays:
+          type: integer
+          description: Number of days within which discount applies
+          example: 10
+    SupplierReference:
+      type: object
+      description: Reference to a supplier on the SAP Ariba Network
+      required:
+      - supplierId
+      properties:
+        supplierId:
+          type: string
+          description: Supplier unique identifier (AN-ID on the Ariba Network or internal supplier number)
+          examples:
+          - AN01000000001
+        name:
+          type: string
+          description: Supplier company name
+          example: Example Title
+        erpSupplierId:
+          type: string
+          description: Supplier number in the ERP system
+          example: '500123'
     PurchaseOrderListResponse:
       type: object
       description: Paginated list of purchase orders
@@ -637,219 +777,28 @@ components:
           type: string
           description: Additional comments or notes on the line item
           example: example_value
-    Money:
+    UnitOfMeasure:
       type: object
-      description: Monetary amount with currency code following ISO 4217
-      required:
-      - amount
-      - currencyCode
-      properties:
-        amount:
-          type: number
-          format: double
-          description: The monetary value
-          examples:
-          - 1250.0
-        currencyCode:
-          type: string
-          description: ISO 4217 currency code
-          pattern: ^[A-Z]{3}$
-          examples:
-          - USD
-          - EUR
-          - GBP
-    PurchaseOrderCreate:
-      type: object
-      description: Request body for creating a new purchase order
-      required:
-      - supplier
-      - currency
-      - lineItems
-      properties:
-        erpPONumber:
-          type: string
-          description: ERP system purchase order number
-          example: example_value
-        supplier:
-          $ref: '#/components/schemas/SupplierReference'
-        currency:
-          type: string
-          description: ISO 4217 currency code
-          pattern: ^[A-Z]{3}$
-          example: example_value
-        paymentTerms:
-          $ref: '#/components/schemas/PaymentTerms'
-        purchaseOrg:
-          type: string
-          description: Purchasing organization identifier
-          example: example_value
-        purchaseGroup:
-          type: string
-          description: Purchasing group identifier
-          example: example_value
-        companyCode:
-          type: string
-          description: Company code
-          example: example_value
-        shipTo:
-          $ref: '#/components/schemas/Address'
-        billTo:
-          $ref: '#/components/schemas/Address'
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/PurchaseOrderLineItem'
-          minItems: 1
-          example: []
-        requisitionId:
-          type: string
-          description: Reference to originating requisition
-          example: '500123'
-        contractId:
-          type: string
-          description: Reference to master agreement
-          example: '500123'
-        comments:
-          type: string
-          description: Header-level comments
-          example: example_value
-    SupplierReference:
-      type: object
-      description: Reference to a supplier on the SAP Ariba Network
-      required:
-      - supplierId
-      properties:
-        supplierId:
-          type: string
-          description: Supplier unique identifier (AN-ID on the Ariba Network or internal supplier number)
-          examples:
-          - AN01000000001
-        name:
-          type: string
-          description: Supplier company name
-          example: Example Title
-        erpSupplierId:
-          type: string
-          description: Supplier number in the ERP system
-          example: '500123'
-    PurchaseOrderStatus:
-      type: string
-      description: Status of a purchase order in the procurement lifecycle
-      enum:
-      - Draft
-      - Submitted
-      - Ordered
-      - Confirmed
-      - PartiallyReceived
-      - Received
-      - PartiallyInvoiced
-      - Invoiced
-      - Cancelled
-      - Closed
-      - Rejected
-    CommodityCode:
-      type: object
-      description: UNSPSC commodity classification code
+      description: Unit of measure specification following UN/ECE Recommendation 20 standard codes
       required:
       - code
       properties:
         code:
           type: string
-          description: UNSPSC commodity code
+          description: Unit of measure code (UN/ECE Rec 20 or SAP Ariba internal code)
           examples:
-          - '43211500'
+          - EA
+          - KG
+          - PC
+          - HR
         description:
           type: string
-          description: Commodity description
+          description: Human-readable description of the unit
           examples:
-          - Computers
-        domain:
-          type: string
-          description: Classification domain identifier
-          default: UNSPSC
-          example: example_value
-    Address:
-      type: object
-      description: Postal address structure used for shipping, billing, and company addresses
-      properties:
-        name:
-          type: string
-          description: Addressee name or attention line
-          example: Example Title
-        lines:
-          type: string
-          description: Street address lines
-          example: example_value
-        city:
-          type: string
-          description: City name
-          example: example_value
-        state:
-          type: string
-          description: State or province
-          example: example_value
-        postalCode:
-          type: string
-          description: Postal or ZIP code
-          example: example_value
-        country:
-          type: string
-          description: Country code (ISO 3166-1 alpha-2)
-          pattern: ^[A-Z]{2}$
-          example: example_value
-        phone:
-          type: string
-          description: Phone number
-          example: example_value
-        email:
-          type: string
-          format: email
-          description: Email address
-          example: user@example.com
-    PaymentTerms:
-      type: object
-      description: Payment terms governing when and how invoices should be paid
-      properties:
-        code:
-          type: string
-          description: Payment terms code
-          examples:
-          - NET30
-          - NET60
-          - 2/10NET30
-        description:
-          type: string
-          description: Human-readable payment terms description
-          example: A sample description.
-        netDays:
-          type: integer
-          description: Number of days until payment is due
-          example: 10
-        discountPercent:
-          type: number
-          format: double
-          description: Early payment discount percentage
-          example: 42.5
-        discountDays:
-          type: integer
-          description: Number of days within which discount applies
-          example: 10
-    BuyerReference:
-      type: object
-      description: Reference to a buyer organization
-      properties:
-        buyerId:
-          type: string
-          description: Buyer AN-ID on the SAP Ariba Network
-          example: '500123'
-        name:
-          type: string
-          description: Buyer organization name
-          example: Example Title
-        erpBuyerId:
-          type: string
-          description: Buyer identifier in the ERP system
-          example: '500123'
+          - Each
+          - Kilogram
+          - Piece
+          - Hour
     AccountingInfo:
       type: object
       description: Accounting assignment information for cost allocation on purchase order line items
@@ -891,28 +840,79 @@ components:
           type: string
           description: Account assignment category code for the line item expenditure
           example: example_value
-    UnitOfMeasure:
+    BuyerReference:
       type: object
-      description: Unit of measure specification following UN/ECE Recommendation 20 standard codes
-      required:
-      - code
+      description: Reference to a buyer organization
       properties:
-        code:
+        buyerId:
           type: string
-          description: Unit of measure code (UN/ECE Rec 20 or SAP Ariba internal code)
-          examples:
-          - EA
-          - KG
-          - PC
-          - HR
-        description:
+          description: Buyer AN-ID on the SAP Ariba Network
+          example: '500123'
+        name:
           type: string
-          description: Human-readable description of the unit
-          examples:
-          - Each
-          - Kilogram
-          - Piece
-          - Hour
+          description: Buyer organization name
+          example: Example Title
+        erpBuyerId:
+          type: string
+          description: Buyer identifier in the ERP system
+          example: '500123'
+    PurchaseOrderStatus:
+      type: string
+      description: Status of a purchase order in the procurement lifecycle
+      enum:
+      - Draft
+      - Submitted
+      - Ordered
+      - Confirmed
+      - PartiallyReceived
+      - Received
+      - PartiallyInvoiced
+      - Invoiced
+      - Cancelled
+      - Closed
+      - Rejected
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters or malformed request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden - insufficient permissions for the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - invalid or missing authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before retrying
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     SkipParam:
       name: skip
@@ -923,6 +923,13 @@ components:
         type: integer
         minimum: 0
         default: 0
+    RealmParam:
+      name: realm
+      in: query
+      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
+      required: true
+      schema:
+        type: string
     LimitParam:
       name: limit
       in: query
@@ -937,13 +944,6 @@ components:
       name: orderId
       in: path
       description: Unique purchase order identifier (UniqueName). This is the purchase order number with its version, or the ERP PO number (ERPPONumber).
-      required: true
-      schema:
-        type: string
-    RealmParam:
-      name: realm
-      in: query
-      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
       required: true
       schema:
         type: string

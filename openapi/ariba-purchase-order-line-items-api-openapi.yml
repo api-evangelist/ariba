@@ -109,24 +109,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden - insufficient permissions for the requested operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - invalid or missing authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     TooManyRequests:
       description: Rate limit exceeded. Retry after the duration specified in the Retry-After header.
       headers:
@@ -138,28 +120,59 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden - insufficient permissions for the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - invalid or missing authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    SkipParam:
+      name: skip
+      in: query
+      description: Number of records to skip for pagination (default 0)
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    RealmParam:
+      name: realm
+      in: query
+      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
+      required: true
+      schema:
+        type: string
+    OrderIdParam:
+      name: orderId
+      in: path
+      description: Unique purchase order identifier (UniqueName). This is the purchase order number with its version, or the ERP PO number (ERPPONumber).
+      required: true
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of records to return per page (default 10, max 100)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
   schemas:
-    CommodityCode:
-      type: object
-      description: UNSPSC commodity classification code
-      required:
-      - code
-      properties:
-        code:
-          type: string
-          description: UNSPSC commodity code
-          examples:
-          - '43211500'
-        description:
-          type: string
-          description: Commodity description
-          examples:
-          - Computers
-        domain:
-          type: string
-          description: Classification domain identifier
-          default: UNSPSC
-          example: example_value
     ErrorResponse:
       type: object
       description: Standard error response structure
@@ -201,27 +214,47 @@ components:
                     type: string
                     description: SAP module where the error originated
           example: example_value
-    LineItemListResponse:
+    AccountingInfo:
       type: object
-      description: Paginated list of purchase order line items
+      description: Accounting assignment information for cost allocation on purchase order line items
       properties:
-        totalCount:
-          type: integer
-          description: Total number of line items
-          example: 10
-        skip:
-          type: integer
-          description: Number of records skipped
-          example: 10
-        limit:
-          type: integer
-          description: Maximum records per page
-          example: 10
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/PurchaseOrderLineItem'
-          example: []
+        costCenter:
+          type: string
+          description: Cost center identifier for expenditure allocation
+          example: example_value
+        generalLedger:
+          type: string
+          description: General ledger account number
+          example: example_value
+        asset:
+          type: string
+          description: Fixed asset number
+          example: example_value
+        internalOrder:
+          type: string
+          description: Internal order number
+          example: example_value
+        wbsElement:
+          type: string
+          description: Work Breakdown Structure element
+          example: example_value
+        amount:
+          $ref: '#/components/schemas/Money'
+        percentage:
+          type: number
+          format: double
+          description: Percentage of line item amount allocated to this accounting assignment
+          minimum: 0
+          maximum: 100
+          example: 42.5
+        sapDistributionFlag:
+          type: string
+          description: SAP distribution indicator flag
+          example: example_value
+        accountCategory:
+          type: string
+          description: Account assignment category code for the line item expenditure
+          example: example_value
     TaxDetail:
       type: object
       description: Tax calculation details for an invoice or line item
@@ -248,6 +281,27 @@ components:
           type: string
           description: Description of the tax
           example: A sample description.
+    Money:
+      type: object
+      description: Monetary amount with currency code following ISO 4217
+      required:
+      - amount
+      - currencyCode
+      properties:
+        amount:
+          type: number
+          format: double
+          description: The monetary value
+          examples:
+          - 1250.0
+        currencyCode:
+          type: string
+          description: ISO 4217 currency code
+          pattern: ^[A-Z]{3}$
+          examples:
+          - USD
+          - EUR
+          - GBP
     Address:
       type: object
       description: Postal address structure used for shipping, billing, and company addresses
@@ -286,27 +340,27 @@ components:
           format: email
           description: Email address
           example: user@example.com
-    Money:
+    CommodityCode:
       type: object
-      description: Monetary amount with currency code following ISO 4217
+      description: UNSPSC commodity classification code
       required:
-      - amount
-      - currencyCode
+      - code
       properties:
-        amount:
-          type: number
-          format: double
-          description: The monetary value
-          examples:
-          - 1250.0
-        currencyCode:
+        code:
           type: string
-          description: ISO 4217 currency code
-          pattern: ^[A-Z]{3}$
+          description: UNSPSC commodity code
           examples:
-          - USD
-          - EUR
-          - GBP
+          - '43211500'
+        description:
+          type: string
+          description: Commodity description
+          examples:
+          - Computers
+        domain:
+          type: string
+          description: Classification domain identifier
+          default: UNSPSC
+          example: example_value
     PurchaseOrderLineItem:
       type: object
       description: A line item within a purchase order representing a specific good or service being procured
@@ -404,47 +458,27 @@ components:
           type: string
           description: Additional comments or notes on the line item
           example: example_value
-    AccountingInfo:
+    LineItemListResponse:
       type: object
-      description: Accounting assignment information for cost allocation on purchase order line items
+      description: Paginated list of purchase order line items
       properties:
-        costCenter:
-          type: string
-          description: Cost center identifier for expenditure allocation
-          example: example_value
-        generalLedger:
-          type: string
-          description: General ledger account number
-          example: example_value
-        asset:
-          type: string
-          description: Fixed asset number
-          example: example_value
-        internalOrder:
-          type: string
-          description: Internal order number
-          example: example_value
-        wbsElement:
-          type: string
-          description: Work Breakdown Structure element
-          example: example_value
-        amount:
-          $ref: '#/components/schemas/Money'
-        percentage:
-          type: number
-          format: double
-          description: Percentage of line item amount allocated to this accounting assignment
-          minimum: 0
-          maximum: 100
-          example: 42.5
-        sapDistributionFlag:
-          type: string
-          description: SAP distribution indicator flag
-          example: example_value
-        accountCategory:
-          type: string
-          description: Account assignment category code for the line item expenditure
-          example: example_value
+        totalCount:
+          type: integer
+          description: Total number of line items
+          example: 10
+        skip:
+          type: integer
+          description: Number of records skipped
+          example: 10
+        limit:
+          type: integer
+          description: Maximum records per page
+          example: 10
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderLineItem'
+          example: []
     UnitOfMeasure:
       type: object
       description: Unit of measure specification following UN/ECE Recommendation 20 standard codes
@@ -467,40 +501,6 @@ components:
           - Kilogram
           - Piece
           - Hour
-  parameters:
-    OrderIdParam:
-      name: orderId
-      in: path
-      description: Unique purchase order identifier (UniqueName). This is the purchase order number with its version, or the ERP PO number (ERPPONumber).
-      required: true
-      schema:
-        type: string
-    SkipParam:
-      name: skip
-      in: query
-      description: Number of records to skip for pagination (default 0)
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    RealmParam:
-      name: realm
-      in: query
-      description: The SAP Ariba realm identifier for the buyer organization. This is the unique site name assigned during provisioning.
-      required: true
-      schema:
-        type: string
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of records to return per page (default 10, max 100)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
   securitySchemes:
     oauth2:
       type: oauth2
